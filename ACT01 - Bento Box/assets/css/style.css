@@ -248,7 +248,7 @@ button {
 }
 
 h2 {
-    font: 500 1.45rem/1.15 'Manrope', sans-serif;
+    font: 500 1.85rem/1.15 'Manrope', sans-serif;
     color: var(--ink);
     letter-spacing: -.06em;
     margin: 0;
@@ -425,18 +425,6 @@ h3 {
     background: linear-gradient(180deg, rgba(5, 25, 55, .25), rgba(4, 31, 63, .92)), radial-gradient(circle at 85% 30%, rgba(240, 205, 111, .35), transparent 28%);
 }
 
-.photo-shade {
-    position: absolute;
-    width: 65%;
-    height: 135%;
-    right: -15%;
-    bottom: -75%;
-    transform: rotate(-24deg);
-    background: rgba(6, 53, 91, .55);
-    border-radius: 49% 49% 0 0;
-    filter: blur(4px);
-}
-
 .destination-content h2 {
     font-size: clamp(2rem, 3vw, 2.65rem);
     color: #fff;
@@ -560,7 +548,7 @@ h3 {
 
 .timeline p {
     margin: 0;
-    font-size: .75rem;
+    font-size: 0.9rem;
 }
 
 .timeline p strong,
@@ -570,7 +558,7 @@ h3 {
 
 .timeline p small {
     color: #90a0b5;
-    font-size: .6rem;
+    font-size: .75rem;
     margin-top: .3rem;
 }
 
@@ -611,7 +599,7 @@ h3 {
 
 .wish-list li {
     color: var(--ink);
-    font-size: .67rem;
+    font-size: .8rem;
     font-weight: 700;
     line-height: 1.55;
 }
@@ -690,14 +678,14 @@ h3 {
 }
 
 .temperature p {
-    font-size: .78rem;
+    font-size: 0.9rem;
     color: #8a9cb4;
 }
 
 .temperature p b {
     display: block;
     color: var(--ink);
-    font-size: .86rem;
+    font-size: 1rem;
     margin-top: .25rem;
 }
 
@@ -719,11 +707,11 @@ h3 {
 }
 
 .weather-day i {
-    font-size: .94rem;
+    font-size: 1rem;
 }
 
 .weather-day b {
-    font-size: .7rem;
+    font-size: 1.1rem;
 }
 
 .weather-day.chosen {
@@ -749,7 +737,7 @@ h3 {
 
 .flight-route small {
     color: #8498b1;
-    font-size: .6rem;
+    font-size: .8rem;
     margin-top: .4rem;
 }
 
@@ -795,12 +783,12 @@ h3 {
 
 .flight-details small {
     color: #8b9cb2;
-    font-size: .6rem;
+    font-size: .8rem;
     margin-bottom: .25rem;
 }
 
 .flight-details b {
-    font-size: .72rem;
+    font-size: 1.1rem;
 }
 
 .checklist li {
