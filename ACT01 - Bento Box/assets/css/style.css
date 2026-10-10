@@ -30,7 +30,7 @@ button {
     min-height: 100vh;
     overflow: hidden;
     position: relative;
-    background: url('../img/bg 2.png') center / cover no-repeat;
+    background: url('../img/bg 1.png') center / cover no-repeat;
 }
 
 .container-xxl {
