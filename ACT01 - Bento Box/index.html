@@ -1,11 +1,332 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LakBye</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="assets/img/TravelBud_Logo_2.svg">
+    <title>TravelBud | Your travel planner</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
+
 <body>
-    
+    <main class="app-shell">
+        <div class="container-xxl py-4 py-md-5">
+            <header class="glass-panel topbar px-3 px-md-4 py-2 py-md-3 mb-5">
+                <div class="row align-items-center g-3">
+                    <div class="col-7 col-lg-3">
+                        <a class="brand d-inline-flex align-items-center text-decoration-none" href="#">
+                            <span class="brand-mark"></span>
+                            <span><strong>TravelBud</strong><small>Travel planner</small></span>
+                        </a>
+                    </div>
+                    <div class="col-12 col-lg-6 order-3 order-lg-2">
+                        <nav class="nav nav-pills planner-nav justify-content-lg-center gap-1"
+                            aria-label="Main navigation">
+                            <a class="nav-link active" href="#overview">Overview</a>
+                            <a class="nav-link" href="#trips">Trips</a>
+                            <a class="nav-link" href="#explore">Explore</a>
+                            <a class="nav-link" href="#bookings">Bookings</a>
+                        </nav>
+                    </div>
+                    <div class="col-5 col-lg-3 order-2 order-lg-3">
+                        <div class="d-flex align-items-center justify-content-end gap-2">
+                            <div class="text-end greeting d-none d-sm-block"><strong>Hi, Jhody</strong><small>Monday, 13
+                                    Oct</small></div>
+                            <button class="avatar" aria-label="Open profile"><i class="bi bi-person"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <section class="hero-copy mb-4" id="overview">
+                <div class="row align-items-end g-3">
+                    <div class="col-12 col-lg-8">
+                        <p class="eyebrow">Everything in one place</p>
+                        <h1>A clearer way to travel</h1>
+                    </div>
+                    <div class="col-12 col-lg-4">
+                        <p class="hero-description mb-0">From the first idea to your boarding pass, keep the whole
+                            journey beautifully organized.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="glass-panel search-panel p-2 p-md-2 mb-3" aria-label="Trip search">
+                <div class="row g-2 align-items-stretch">
+                    <div class="col-12 col-lg-5"><button class="search-detail text-start w-100"><span
+                                class="yellow-icon"><i class="bi bi-geo-alt"></i></span><span><small>Where
+                                    to?</small><strong>Explore Europe</strong></span></button></div>
+                    <div class="col-12 col-sm-6 col-lg-3"><button class="search-detail text-start w-100"><i
+                                class="bi bi-calendar3 field-icon"></i><span><small>Dates</small><strong>18–29
+                                    Oct</strong></span></button></div>
+                    <div class="col-12 col-sm-6 col-lg-2"><button class="search-detail text-start w-100"><i
+                                class="bi bi-person field-icon"></i><span><small>Travelers</small><strong>2
+                                    guests</strong></span></button></div>
+                    <div class="col-12 col-lg-2"><button class="primary-button w-100 h-100"><i
+                                class="bi bi-search me-2"></i>Search</button></div>
+                </div>
+            </section>
+
+            <section class="row g-3 mb-3" id="trips">
+                <div class="col-12 col-xl-4">
+                    <article class="glass-card calendar-card h-100 p-3">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <div>
+                                <p class="eyebrow mb-1">Your journey</p>
+                                <h2>October 2025</h2>
+                                <p class="trip-note"><span></span>12 day Europe escape</p>
+                            </div>
+                            <div class="d-flex gap-2"><button class="circle-button" aria-label="Previous month"><i
+                                        class="bi bi-chevron-left"></i></button><button class="circle-button"
+                                    aria-label="Next month"><i class="bi bi-chevron-right"></i></button></div>
+                        </div>
+                        <div class="calendar-labels">
+                            <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
+                        </div>
+                        <div class="calendar-grid mb-4" aria-label="October 2025 calendar">
+                            <span class="muted-date">28</span><span class="muted-date">29</span><span
+                                class="muted-date">30</span><span>1</span><span>2</span><span>3</span><span>4</span>
+                            <span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>11</span>
+                            <span>12</span><span>13</span><span>14</span><span>15</span><span>16</span><span>17</span><span
+                                class="selected-date">18</span>
+                            <span class="has-plan">19</span><span class="has-plan">20</span><span
+                                class="has-plan">21</span><span class="has-plan">22</span><span
+                                class="has-plan">23</span><span class="has-plan">24</span><span
+                                class="has-plan">25</span>
+                            <span class="has-plan">26</span><span class="has-plan">27</span><span
+                                class="has-plan">28</span><span
+                                class="has-plan">29</span><span>30</span><span>31</span><span
+                                class="muted-date">1</span>
+                        </div>
+                        <div class="selected-day p-3 mb-2">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="eyebrow mb-1">Selected day</p>
+                                    <h3>October 18</h3>
+                                </div><span class="plan-badge green">3 plans</span>
+                            </div>
+                            <div class="schedule-line"><span>09:15</span><span>Arrive in Paris</span></div>
+                            <div class="schedule-line"><span>15:30</span><span>Seine river walk</span></div>
+                            <div class="schedule-line"><span>19:00</span><span>Dinner in Le Marais</span></div>
+                        </div>
+                        <div class="next-stop p-3">
+                            <p class="eyebrow mb-1">Next stop</p>
+                            <div class="d-flex align-items-end justify-content-between">
+                                <div>
+                                    <h3 class="mb-1">October 19</h3><small>Next
+                                        destination</small><strong>Amsterdam</strong>
+                                </div><button class="mini-arrow" aria-label="Open Amsterdam plans"><i
+                                        class="bi bi-chevron-right"></i></button>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="col-12 col-xl-8">
+                    <div class="row g-3 h-100">
+                        <div class="col-12">
+                            <article class="destination-photo p-3 p-lg-4">
+                                <div class="photo-shade"></div>
+                                <div
+                                    class="destination-content position-relative h-100 d-flex flex-column justify-content-between">
+                                    <div class="d-flex justify-content-between gap-3"><span class="destination-chip"><i
+                                                class="bi bi-circle-fill"></i> Next destination</span><span
+                                            class="countries-chip">Europe · 3 countries</span></div>
+                                    <div>
+                                        <p class="eyebrow text-white-50 mb-1">Beauty across borders</p>
+                                        <h2>Europe, beautifully<br class="d-none d-md-block"> connected.</h2>
+                                        <p class="mb-0">Art-filled streets, Alpine lakes and timeless Italian shores in
+                                            one seamless route.</p>
+                                    </div>
+                                    <div class="route-line"><span><b>1</b> Paris</span><i></i><span><b>2</b>
+                                            Lucerne</span><i></i><span><b>3</b> Lake Como</span></div>
+                                </div>
+                            </article>
+                        </div>
+                        <div class="col-12 col-md-6 col-xxl-4">
+                            <article class="glass-card p-3 h-100 itinerary-card">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <p class="eyebrow mb-1">Day one · Paris</p>
+                                        <h2>Itinerary</h2>
+                                    </div><button class="circle-button"><i class="bi bi-calendar3"></i></button>
+                                </div>
+                                <div class="timeline mt-4">
+                                    <div><span class="time">09:30</span><i></i>
+                                        <p><strong>Louvre courtyard</strong><small>Paris, France</small></p>
+                                    </div>
+                                    <div><span class="time">13:00</span><i></i>
+                                        <p><strong>Left Bank lunch</strong><small>Saint-Germain</small></p>
+                                    </div>
+                                    <div><span class="time">17:45</span><i></i>
+                                        <p><strong>Seine at sunset</strong><small>Pont Alexandre III</small></p>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                        <div class="col-12 col-md-6 col-xxl-4">
+                            <article class="glass-card p-3 h-100 lucerne-card">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <p class="eyebrow mb-1">Next stop · Switzerland</p>
+                                        <h2>Lucerne</h2>
+                                    </div><button class="circle-button"><i class="bi bi-calendar3"></i></button>
+                                </div>
+                                <div class="place-preview mt-3"><span class="image-placeholder"></span>
+                                    <div><span class="plan-badge yellow">Day 5</span><strong>Alpine lake &amp; old
+                                            town</strong><small>Chapel Bridge, Rigi views and lakeside calm</small>
+                                    </div>
+                                </div>
+                                <p class="eyebrow mt-3 mb-1">Look forward to</p>
+                                <ul class="wish-list list-unstyled mb-0">
+                                    <li>Lake Lucerne cruise</li>
+                                    <li>Mount Rigi railway</li>
+                                    <li>Old Town sunset</li>
+                                </ul>
+                            </article>
+                        </div>
+                        <div class="col-12 col-md-6 col-xxl-4">
+                            <article class="glass-card p-3 h-100 route-card">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <p class="eyebrow mb-1">Your route</p>
+                                        <h2>Grand tour</h2>
+                                    </div><button class="circle-button"><i class="bi bi-send"></i></button>
+                                </div>
+                                <div class="route-stops mt-3">
+                                    <div class="route-stop active"><b>1</b>
+                                        <p><strong>Paris</strong><small>France</small></p><time>18 Oct</time>
+                                    </div>
+                                    <div class="route-stop"><b>2</b>
+                                        <p><strong>Lucerne</strong><small>Switzerland</small></p><time>21 Oct</time>
+                                    </div>
+                                    <div class="route-stop"><b>3</b>
+                                        <p><strong>Lake Como</strong><small>Italy</small></p><time>25 Oct</time>
+                                    </div>
+                                    <div class="route-stop"><b>4</b>
+                                        <p><strong>La Sagrada Familia</strong><small>Spain</small></p><time>28
+                                            Oct</time>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="row g-3 mb-5" id="bookings">
+                <div class="col-12 col-md-6 col-xl-4">
+                    <article class="glass-card p-3 h-100 weather-card">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <p class="eyebrow mb-1">Europe weather</p>
+                                <h2>Paris outlook</h2>
+                            </div><button class="circle-button"><i class="bi bi-sun"></i></button>
+                        </div>
+                        <div class="temperature d-flex align-items-end gap-3 mt-3"><strong>18°</strong>
+                            <p class="mb-2">Feels like 17°<b>Clear &amp; crisp</b></p>
+                        </div>
+                        <div class="row row-cols-4 row-cols-sm-7 g-2 mt-1">
+                            <div class="col">
+                                <div class="weather-day"><small>Tue</small><i
+                                        class="bi bi-brightness-high"></i><b>18°</b></div>
+                            </div>
+                            <div class="col">
+                                <div class="weather-day"><small>Wed</small><i class="bi bi-circle-half"></i><b>16°</b>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="weather-day chosen"><small>Thu</small><i class="bi bi-sun"></i><b>19°</b>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="weather-day"><small>Fri</small><i
+                                        class="bi bi-brightness-high"></i><b>17°</b></div>
+                            </div>
+                            <div class="col">
+                                <div class="weather-day"><small>Sat</small><i class="bi bi-circle-half"></i><b>15°</b>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="weather-day"><small>Sun</small><i
+                                        class="bi bi-brightness-high"></i><b>18°</b></div>
+                            </div>
+                            <div class="col">
+                                <div class="weather-day"><small>Mon</small><i class="bi bi-circle-half"></i><b>16°</b>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+                <div class="col-12 col-md-6 col-xl-4">
+                    <article class="glass-card p-3 h-100 flight-card">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <p class="eyebrow mb-1">Upcoming flight</p>
+                                <h2>Paris awaits</h2>
+                            </div><span class="plan-badge green"><i class="bi bi-circle-fill"></i> On time</span>
+                        </div>
+                        <div class="flight-route mt-3">
+                            <div><strong>MNL</strong><small>Manila</small></div>
+                            <div class="plane-line"><i></i><span><img src="assets/img/airplane.svg"
+                                        alt="Airplane"></span><small>14h
+                                    25m</small></div>
+                            <div class="text-end"><strong>PAR</strong><small>Paris</small></div>
+                        </div>
+                        <div class="row flight-details mt-3">
+                            <div class="col-4"><small>Flight</small><b>AF 083</b></div>
+                            <div class="col-4"><small>Boarding</small><b>10:40 PM</b></div>
+                            <div class="col-4"><small>Seat</small><b>37J</b></div>
+                        </div><button class="primary-button w-100 mt-4">View boarding pass <i
+                                class="bi bi-arrow-right ms-2"></i></button>
+                    </article>
+                </div>
+                <div class="col-12 col-md-6 col-xl-4">
+                    <article class="glass-card p-3 h-100 checklist-card">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <p class="eyebrow mb-1">Before you fly</p>
+                                <h2>Trip checklist</h2>
+                            </div><button class="circle-button"><i class="bi bi-check-lg"></i></button>
+                        </div>
+                        <ul class="checklist list-unstyled mt-3 mb-0">
+                            <li class="done"><i class="bi bi-check-lg"></i>Online check-in <b>›</b></li>
+                            <li class="done"><i class="bi bi-check-lg"></i>Download eTravel QR <b>›</b></li>
+                            <li><i></i>Book airport transfer <b>›</b></li>
+                            <li><i></i>Save hotel confirmations <b>›</b></li>
+                            <li><i></i>Printed Documents <b>›</b></li>
+                        </ul>
+                        <div class="progress-label mt-3">
+                            <div class="progress">
+                                <div class="progress-bar" style="width: 50%"></div>
+                            </div><small>2 of 5 complete</small>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <footer class="glass-panel footer-panel px-4 py-3">
+                <div class="row align-items-center g-3">
+                    <div class="col-12 col-md-4"><a class="brand d-inline-flex align-items-center text-decoration-none"
+                            href="#"><span class="brand-mark"></span><span><strong>TravelBud</strong><small>Travel with
+                                    heart.</small></span></a></div>
+                    <p class="col-12 col-md-4 text-center mb-0 footer-copy">Plan less. Experience more. Made for
+                        journeys across the World.</p>
+                    <div class="col-12 col-md-4">
+                        <nav class="d-flex justify-content-md-end justify-content-center gap-4 footer-links"><a
+                                href="#">About</a><a href="#">Support</a><a href="#">Privacy</a></nav>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
 </body>
+
 </html>
