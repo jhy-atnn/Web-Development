@@ -407,6 +407,7 @@ h3 {
 }
 
 .destination-photo {
+    --destination-inset: clamp(1.5rem, 4vw, 3rem);
     min-height: 22rem;
     overflow: hidden;
     position: relative;
@@ -414,6 +415,28 @@ h3 {
     border-radius: 1.9rem;
     background: url('../img/alpine village.jpg') center / cover no-repeat;
     box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .42);
+}
+
+.destination-content {
+    position: static !important;
+    display: block !important;
+    height: auto !important;
+}
+
+.destination-content>div:first-child {
+    position: absolute;
+    z-index: 1;
+    top: var(--destination-inset);
+    right: var(--destination-inset);
+    left: var(--destination-inset);
+}
+
+.destination-content>div:nth-child(2) {
+    position: absolute;
+    z-index: 1;
+    top: clamp(8rem, 26%, 10rem);
+    right: var(--destination-inset);
+    left: var(--destination-inset);
 }
 
 .destination-photo::before {
@@ -464,6 +487,14 @@ h3 {
     color: #fff;
     font-size: .68rem;
     font-weight: 700;
+}
+
+.destination-photo > .route-line {
+    position: absolute;
+    z-index: 1;
+    right: var(--destination-inset);
+    bottom: clamp(1.5rem, 2vw, 2rem);
+    left: var(--destination-inset);
 }
 
 .route-line span {
