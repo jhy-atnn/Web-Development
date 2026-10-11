@@ -868,3 +868,26 @@ a {
 .mini-arrow:hover {
     transform: translateY(-2px);
 }
+
+
+/* UI Enhancement - Smooth Interactions */
+html {
+  scroll-behavior: smooth;
+}
+
+button,
+.nav-link,
+.glass-card,
+.primary-button {
+  transition: all 0.25s ease;
+}
+
+.glass-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+}
+
+button:hover,
+.primary-button:hover {
+  transform: translateY(-2px);
+}
