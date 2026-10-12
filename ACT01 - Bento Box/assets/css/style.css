@@ -110,7 +110,7 @@ button {
 .brand small,
 .greeting small {
     display: block;
-    color: #5d7ca5;
+    color: #3b5b86;
     font-size: .73rem;
     margin-top: .25rem;
 }
@@ -173,7 +173,7 @@ button {
 }
 
 .eyebrow {
-    color: #8295ae;
+    color: #6082af;
     text-transform: uppercase;
     font-size: .66rem;
     font-weight: 800;
@@ -189,7 +189,7 @@ button {
 
 .hero-description {
     max-width: 26rem;
-    color: #58769e;
+    color: #416088;
     font-size: .93rem;
     line-height: 1.55;
 }
@@ -876,7 +876,7 @@ h3 {
 }
 
 .footer-copy {
-    color: #8495aa;
+    color: #6b89af;
     font-size: .65rem;
 }
 
