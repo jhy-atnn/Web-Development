@@ -1,0 +1,224 @@
+{
+  "players": [
+    {
+      "id": "c1-1",
+      "name": "Nikka Sophia Ruth Yandoc",
+      "jerseyNumber": 1,
+      "position": "Setter",
+      "teamId": "capital1",
+      "image": null,
+      "height": "1.61 m",
+      "biography": "Previous School: AdU",
+      "season": "2026"
+    },
+    {
+      "id": "c1-2",
+      "name": "Jasmine Nabor",
+      "jerseyNumber": 2,
+      "position": "Setter",
+      "teamId": "capital1",
+      "image": null,
+      "height": "1.75 m",
+      "biography": "Previous School: NU",
+      "season": "2026"
+    },
+    {
+      "id": "c1-3",
+      "name": "Rachel Jorvina",
+      "jerseyNumber": 3,
+      "position": "Libero",
+      "teamId": "capital1",
+      "image": null,
+      "height": "1.64 m",
+      "biography": "Previous School: MacEwan",
+      "season": "2026"
+    },
+    {
+      "id": "c1-4",
+      "name": "Mhicaela Belen",
+      "jerseyNumber": 4,
+      "position": "Outside Hitter",
+      "teamId": "capital1",
+      "image": null,
+      "height": "1.72 m",
+      "biography": "Previous School: NU",
+      "season": "2026"
+    },
+    {
+      "id": "c1-5",
+      "name": "Ypril Jyrhine Tapia",
+      "jerseyNumber": 5,
+      "position": "Outside Hitter",
+      "teamId": "capital1",
+      "image": null,
+      "height": "1.62 m",
+      "biography": "Previous School: AdU",
+      "season": "2026"
+    },
+    {
+      "id": "c1-6",
+      "name": "Trisha Genesis",
+      "jerseyNumber": 6,
+      "position": "Outside Hitter",
+      "teamId": "capital1",
+      "image": null,
+      "height": "1.70 m",
+      "biography": "Previous School: SSC-R",
+      "season": "2026"
+    },
+    {
+      "id": "c1-8",
+      "name": "Ezra Madrigal",
+      "jerseyNumber": 8,
+      "position": "Middle Blocker",
+      "teamId": "capital1",
+      "image": null,
+      "height": "1.81 m",
+      "biography": "Previous School: FEU",
+      "season": "2026"
+    },
+    {
+      "id": "c1-9",
+      "name": "Pauline Gaston",
+      "jerseyNumber": 9,
+      "position": "Opposite Hitter",
+      "teamId": "capital1",
+      "image": null,
+      "height": "1.79 m",
+      "biography": "Previous School: ADMU",
+      "season": "2026"
+    },
+    {
+      "id": "c1-10",
+      "name": "Iris Tolenada",
+      "jerseyNumber": 10,
+      "position": "Setter",
+      "teamId": "capital1",
+      "image": null,
+      "height": "1.74 m",
+      "biography": "Previous School: SFSU",
+      "season": "2026"
+    },
+    {
+      "id": "c1-11",
+      "name": "Athena Sophia Abbu",
+      "jerseyNumber": 11,
+      "position": "Middle Blocker",
+      "teamId": "capital1",
+      "image": null,
+      "height": "1.78 m",
+      "biography": "Previous School: UST",
+      "season": "2026"
+    },
+    {
+      "id": "c1-12",
+      "name": "Kecelyn Galdones",
+      "jerseyNumber": 12,
+      "position": "Middle Blocker",
+      "teamId": "capital1",
+      "image": null,
+      "height": "1.75 m",
+      "biography": "Previous School: UST",
+      "season": "2026"
+    },
+    {
+      "id": "c1-13",
+      "name": "France Ronquillo",
+      "jerseyNumber": 13,
+      "position": "Opposite Hitter",
+      "teamId": "capital1",
+      "image": null,
+      "height": "1.72 m",
+      "biography": "Previous School: NU",
+      "season": "2026"
+    },
+    {
+      "id": "c1-14",
+      "name": "Jorelle Singh",
+      "jerseyNumber": 14,
+      "position": "Outside Hitter",
+      "teamId": "capital1",
+      "image": null,
+      "height": "1.70 m",
+      "biography": "Previous School: NU",
+      "season": "2026"
+    },
+    {
+      "id": "c1-16",
+      "name": "Sydney Niegos",
+      "jerseyNumber": 16,
+      "position": "Opposite Hitter",
+      "teamId": "capital1",
+      "image": null,
+      "height": "1.72 m",
+      "biography": "Previous School: JRU",
+      "season": "2026"
+    },
+    {
+      "id": "c1-19",
+      "name": "Roma Mae Doromal",
+      "jerseyNumber": 19,
+      "position": "Libero",
+      "teamId": "capital1",
+      "image": null,
+      "height": "1.70 m",
+      "biography": "Previous School: ADMU (Captain)",
+      "season": "2026"
+    },
+    {
+      "id": "c1-21",
+      "name": "Ysa Jimenez",
+      "jerseyNumber": 21,
+      "position": "Opposite Hitter",
+      "teamId": "capital1",
+      "image": null,
+      "height": "1.75 m",
+      "biography": "Previous School: UST",
+      "season": "2026"
+    },
+    {
+      "id": "c1-22",
+      "name": "Leila Cruz",
+      "jerseyNumber": 22,
+      "position": "Opposite Hitter",
+      "teamId": "capital1",
+      "image": null,
+      "height": "1.85 m",
+      "biography": "Previous School: DLSU",
+      "season": "2026"
+    },
+    {
+      "id": "c1-23",
+      "name": "Shaya Adorador",
+      "jerseyNumber": 23,
+      "position": "Outside Hitter",
+      "teamId": "capital1",
+      "image": null,
+      "height": "1.72 m",
+      "biography": "Previous School: UE",
+      "season": "2026"
+    },
+    {
+      "id": "c1-24",
+      "name": "Cherry Nunag",
+      "jerseyNumber": 24,
+      "position": "Middle Blocker",
+      "teamId": "capital1",
+      "image": null,
+      "height": "1.80 m",
+      "biography": "Previous School: DLSU-D",
+      "season": "2026"
+    },
+    {
+      "id": "c1-25",
+      "name": "Rachel Anne Austero",
+      "jerseyNumber": 25,
+      "position": "Middle Blocker",
+      "teamId": "capital1",
+      "image": null,
+      "height": "1.76 m",
+      "biography": "Previous School: DLS-CSB",
+      "season": "2026"
+    }
+  ]
+}
