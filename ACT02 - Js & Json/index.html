@@ -4,26 +4,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Js & Json</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="ACT02 - Js & Json\assets\css\style.css">
-
+    <title>Capital1 Solar Spikers</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
 <body>
+    <header id="site-nav" class="site-nav">
+        <nav class="navbar navbar-expand-lg" aria-label="Main navigation">
+            <div class="container page-width">
+                <a class="navbar-brand brand" href="#home">
+                    <span class="brand-sun" aria-hidden="true">✳</span>
+                    <span><strong>CAPITAL1</strong><small>SOLAR SPIKERS</small></span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav-menu"
+                    aria-controls="nav-menu" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="nav-menu">
+                    <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-4">
+                        <li class="nav-item"><a class="nav-link" href="#matches">Matches</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#standings">Standings</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#team">Team</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#news">News</a></li>
+                    </ul>
+                    <a class="next-match btn rounded-pill" href="#matches">View next match <span>→</span></a>
+                </div>
+            </div>
+        </nav>
+    </header>
 
+    <main id="home">
+        <section class="hero-section">
+            <div class="container page-width">
+                <div class="row align-items-center g-5">
+                    <div class="col-12 col-lg-6">
+                        <p id="hero-season" class="kicker">PVL 2025 · ALL-FILIPINO CONFERENCE</p>
+                        <h1>RISE WITH<br>THE <span>SUN.</span></h1>
+                        <p class="hero-copy">Follow the Capital1 Solar Spikers through every match, challenge, and every point.</p>
+                        <div class="d-flex flex-wrap gap-3 hero-actions">
+                            <a class="btn primary-action rounded-pill" href="#matches">Explore matches <span>→</span></a>
+                            <a class="btn outline-action rounded-pill" href="#team">Meet the team</a>
+                        </div>
+                        <div id="hero-stats" class="row g-0 hero-stats"></div>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        <div class="hero-visual">
+                            <span class="visual-orbit orbit-one"></span><span class="visual-orbit orbit-two"></span>
+                            <span class="visual-sun"></span>
+                            <div class="hero-photo"><img src="" alt=""><span class="ball">●</span><strong>01</strong><span class="next-game">UP NEXT<br><b>SAT · 6:30 PM</b></span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
+        <section id="matches" class="game-section">
+            <div class="container page-width">
+                <div class="section-heading row align-items-end g-3">
+                    <div class="col-12 col-md-7"><p class="kicker">THIS WEEK</p><h2>Game of the week.</h2></div>
+                    <div class="col-12 col-md-5"><p>One court. Two contenders. The next chapter starts under the Saturday lights.</p></div>
+                </div>
+                <article id="featured-match" class="featured-match"></article>
+            </div>
+        </section>
 
+        <section id="standings" class="standings-section">
+            <div class="container page-width">
+                <div class="row align-items-center g-5">
+                    <div class="col-12 col-lg-4 standing-intro"><p class="kicker">LEAGUE TABLE</p><h2>Chasing<br>the top.</h2><p>Every set counts. See how the Solar Spikers stack up as the race for the semifinals heats up.</p><a href="#standings">Full standings →</a></div>
+                    <div class="col-12 col-lg-8"><div class="standing-card"><table class="table mb-0"><thead><tr><th>RANK</th><th>TEAM</th><th>PLD</th><th>W</th><th>L</th><th>PTS</th></tr></thead><tbody id="standings-body"></tbody></table></div></div>
+                </div>
+            </div>
+        </section>
 
+        <section id="team" class="players-section">
+            <div class="container page-width">
+                <div class="section-heading row align-items-end g-3"><div class="col-12 col-md-7"><p class="kicker">MEET THE SQUAD</p><h2>Powered by players.</h2></div><div class="col-12 col-md-5"><p>Meet the athletes bringing relentless energy, courage, and heart to every rally.</p></div></div>
+                <div id="player-grid" class="player-grid"></div>
+            </div>
+        </section>
 
+        <section id="news" class="numbers-section">
+            <div class="container page-width"><div class="row align-items-center g-5"><div class="col-12 col-lg-5"><p class="kicker">BY THE NUMBERS</p><h2>Built for the<br>long rally.</h2><p>Capital1's fast offense and disciplined floor defense are turning pressure into points this season.</p><span class="legend"><i></i> League avg. <i></i> League top.</span></div><div class="col-12 col-lg-7"><div id="team-stats" class="stats-card"></div></div></div></div>
+        </section>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-        crossorigin="anonymous"></script>
+        <section class="cta-section"><div class="container page-width"><div class="cta-box"><p class="kicker">STAY IN THE RALLY</p><div class="d-flex flex-wrap align-items-center justify-content-between gap-4"><h2>Bring the solar energy.</h2><a class="btn join-button rounded-pill" href="#home">Join the community <span>→</span></a></div><footer><div class="brand"><span class="brand-sun" aria-hidden="true">✳</span><span><strong>CAPITAL1</strong><small>SOLAR SPIKERS</small></span></div><small>© 2025 Capital1 Solar Spikers. All rights reserved.</small><small>Instagram &nbsp;&nbsp; Facebook &nbsp;&nbsp; TikTok</small></footer></div></div></section>
+    </main>
 
-    <script>
-
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/func.js"></script>
 </body>
 
 </html>
