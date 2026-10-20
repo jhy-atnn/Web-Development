@@ -1,23 +1,478 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Capital1 Solar Spikers | PVL 2026</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
-
+    <link rel="stylesheet" href="assets/css/hero.css">
+    <link rel="stylesheet" href="assets/css/lineup.css">
+    <link rel="stylesheet" href="assets/css/roster.css">
+    <link rel="stylesheet" href="assets/css/league.css">
 </head>
 
 <body>
-<h1>Player List</h1>
+    <header class="site-nav" id="siteNav">
+        <nav class="navbar navbar-expand-lg nav-shell" aria-label="Primary navigation">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="#home" aria-label="Capital1 home">
+                <img src="assets/img/capital1_logo.svg" alt="Capital1 Solar Spikers logo" class="team-logo">
+                <span><strong>CAPITAL1</strong><small>SOLAR SPIKERS</small></span>
+            </a>
+            <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse"
+                data-bs-target="#mainMenu" aria-controls="mainMenu" aria-expanded="false" aria-label="Open menu"><span
+                    class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="mainMenu">
+                <ul class="navbar-nav ms-lg-auto me-lg-3 align-items-lg-center">
+                    <li class="nav-item"><a class="nav-link" href="#lineup">Lineup</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#matches">Matches</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#standings">Standings</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#roster">Roster</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#stats">Stats</a></li>
+                </ul>
+                <a class="btn btn-sun mt-3 mt-lg-0" href="#matches">Get tickets <span aria-hidden="true">↗</span></a>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <section class="folder hero-folder" id="home">
+            <div class="hero-court" aria-hidden="true"></div>
+            <div class="container-fluid px-4 px-md-5 py-5 min-vh-100 d-flex align-items-center">
+                <div class="container-xxl">
+                    <div class="row align-items-center g-5">
+                        <div class="col-lg-6">
+                            <p class="eyebrow"><span></span><span id="conference">PVL 2026 · All-Filipino
+                                    Conference</span></p>
+                            <h1>RISE WITH<br>THE <em>SUN.</em></h1>
+                            <p class="hero-copy">Follow the Capital1 Solar Spikers through every serve, every dig, and
+                                every point of the All-Filipino Conference.</p>
+                            <div class="d-flex flex-wrap gap-3"><a class="btn btn-primary btn-lg rounded-pill px-4"
+                                    href="#lineup">Meet the squad <span aria-hidden="true">↓</span></a><a
+                                    class="btn btn-outline-primary btn-lg rounded-pill px-4" href="#matches">Match
+                                    schedule</a></div>
+                            <div class="hero-roster d-flex align-items-center gap-3 mt-5">
+                                <div class="avatar-stack" id="heroAvatars" aria-hidden="true"></div>
+                                <p><strong id="playerCount">20 players</strong><br><span>One solar squad, all
+                                        heart.</span></p>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="hero-visual mx-auto">
+                                <div class="sun-disc"></div>
+                                <div class="hero-image image-frame"><img src="assets/img/hero-pic.jpg"
+                                        alt="Capital1 player in action"></div>
+                                <div class="next-match shadow-sm"><span class="status-dot"></span><span><small>UP
+                                            NEXT</small><strong>vs Creamline · Sat 6:30 PM</strong></span><span
+                                        class="match-arrow" aria-hidden="true">↗</span></div>
+                                <div class="sun-seal" aria-hidden="true"><span>RISE WITH THE SUN · SOLAR SPIKERS
+                                        ·</span><img src="assets/img/capital1_logo.svg" alt=""></div>
+                                <div class="hero-rank shadow-sm">
+                                    <div><b id="teamRank">#2</b><span>LEAGUE RANK</span></div>
+                                    <div><b id="seasonWins">06</b><span>SEASON WINS</span></div>
+                                    <div><b>19</b><span>LEAGUE PTS</span></div>
+                                    <div><b>21</b><span>SETS WON</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <span class="folder-anchor" id="lineupAnchor" aria-hidden="true"></span>
+        <section class="folder lineup-folder" id="lineup">
+            <div class="folder-label"><b>SET 01</b><span>Starting group</span></div>
+            <div class="container-fluid px-4 px-md-5 py-5">
+                <div class="container-xxl">
+                    <div class="row justify-content-between align-items-end g-3">
+                        <div class="col-lg-6">
+                            <p class="eyebrow"><span></span>The lineup</p>
+                            <h2>The starting<br>six.</h2>
+                        </div>
+                        <p class="section-copy col-lg-5 mb-0">Pick a player to bring her into focus. Every detail below
+                            is read from the roster JSON file.</p>
+                    </div>
+                    <article class="lineup-feature mt-4" aria-live="polite">
+                        <div class="row g-0 align-items-stretch">
+                            <div class="col-lg-5">
+                                <div class="feature-photo image-frame">
+                                    <div class="feature-image-content" id="featureImage"></div>
+                                    <span class="feature-captain" id="featureCaptain"></span>
+                                    <div class="feature-vitals">
+                                        <div><b id="featureNumber"></b><small>Jersey</small></div>
+                                        <div><b id="featureHeight"></b><small>Height</small></div>
+                                        <div><b id="featureHometown"></b><small>Hometown</small></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-7">
+                                <div class="feature-details h-100">
+                                    <div class="d-flex justify-content-between align-items-center gap-3">
+                                        <span class="feature-tag" id="featureTag"></span>
+                                        <span class="feature-index"><b id="featureIndex"></b> / 06</span>
+                                    </div>
+                                    <p class="player-number mt-4 mb-1" id="featureRole"></p>
+                                    <h3 id="featureName"></h3>
+                                    <p class="feature-bio" id="featureBio"></p>
+                                    <div class="row row-cols-2 g-2" id="featureStats"></div>
+                                    <div class="feature-court mt-4">
+                                        <div class="court-heading"><span>Rotation</span><small>Starting position</small>
+                                        </div>
+                                        <div class="court-zones" id="courtZones"></div>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center gap-3 mt-4">
+                                        <button class="btn btn-outline-primary rounded-pill" id="previousLineup"
+                                            type="button">← Previous</button>
+                                        <button class="btn btn-primary rounded-pill" id="nextLineup" type="button">Next
+                                            player →</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                    <div class="d-flex flex-wrap justify-content-between align-items-end gap-2 mt-4 mb-3">
+                        <div>
+                            <p class="eyebrow mb-1"><span></span>Starting rotation</p>
+                            <p class="showing mb-0">Select any player to update the featured card.</p>
+                        </div>
+                        <span class="lineup-count">6 on court</span>
+                    </div>
+                    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3" id="lineupCards"></div>
+                </div>
+            </div>
+        </section>
+        <span class="folder-anchor" id="matchesAnchor" aria-hidden="true"></span>
+        <section class="folder match-folder" id="matches">
+            <div class="folder-label"><b>SET 02</b><span>Game of the week</span></div>
+            <div class="container-fluid px-4 px-md-5 py-5 min-vh-100 d-flex align-items-center">
+                <div class="container-xxl">
+                    <div class="row g-5 align-items-center">
+                        <div class="col-lg-5">
+                            <p class="eyebrow"><span></span>This week</p>
+                            <h2>GAME<br>OF THE<br><em>WEEK.</em></h2>
+                            <p class="section-copy mt-4">One court, two contenders, and a rematch that could decide who
+                                finishes the elimination round on top.</p>
+                        </div>
+                        <div class="col-lg-7">
+                            <article class="match-card">
+                                <div class="match-photo image-frame"><img src="assets/img/vscreamline.jpg"
+                                        alt="Volleyball rally"></div>
+                                <div class="match-details">
+                                    <p class="eyebrow mb-3"><span></span>Saturday · October 24 · 6:30 PM</p>
+                                    <div
+                                        class="d-flex justify-content-between align-items-center gap-3 text-center match-teams">
+                                        <div class="match-team"><span class="match-team-logo"><img
+                                                    src="assets/img/capital1_logo.svg"
+                                                    alt="Capital1 Solar Spikers logo"></span><strong>CAPITAL1</strong><small>Solar
+                                                Spikers</small></div>
+                                        <span>VS</span>
+                                        <div class="match-team"><span class="match-team-logo"><img
+                                                    src="assets/img/creamline-logo.png"
+                                                    alt="Creamline Cool Smashers logo"></span><strong>CREAMLINE</strong><small>Cool
+                                                Smashers</small></div>
+                                    </div>
+                                    <div class="match-footer"><span>PhilSports Arena, Pasig</span><a href="#home">Add to
+                                            calendar ↗</a></div>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <span class="folder-anchor" id="standingsAnchor" aria-hidden="true"></span>
+        <section class="folder standings-folder" id="standings">
+            <div class="folder-label"><b>SET 03</b><span>Standings</span></div>
+            <div class="container-fluid px-4 px-md-5 py-5 min-vh-100 d-flex align-items-center">
+                <div class="container-xxl">
+                    <div class="row g-5 align-items-center">
+                        <div class="col-lg-4">
+                            <p class="eyebrow"><span></span>League table</p>
+                            <h2>CHASING<br>THE TOP.</h2>
+                            <p class="section-copy mt-4">Every set counts. The top four advance to the semifinals, and
+                                Capital1 is in the hunt.</p>
+                            <div class="rank-stat"><span>Current rank</span><b id="standingRank">2nd</b></div>
+                            <div class="rank-stat"><span>Points earned</span><b>19</b></div>
+                            <p class="standings-caption mt-4 mb-0"><span></span>Top four teams advance to the
+                                semifinals.</p>
+                            <div class="rank-stat"><span>Season record</span><b id="standingRecord">6–2</b></div>
+                        </div>
+                        <div class="col-lg-8">
+                            <div class="table-responsive standings-table">
+                                <table class="table align-middle mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Team</th>
+                                            <th>P</th>
+                                            <th>W</th>
+                                            <th>L</th>
+                                            <th>Sets</th>
+                                            <th>Pts</th>
+                                            <th>Form</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td><span class="standings-team"><img src="assets/img/creamline-logo.png"
+                                                        alt="Creamline logo"><span>Creamline<small>Cool
+                                                            Smashers</small></span></span></td>
+                                            <td>8</td>
+                                            <td>7</td>
+                                            <td>1</td>
+                                            <td>22–5</td>
+                                            <td>21</td>
+                                            <td><span class="form-dots"><i></i><i></i><i></i><i></i><i
+                                                        class="loss"></i></span></td>
+                                        </tr>
+                                        <tr class="current-team">
+                                            <td>2</td>
+                                            <td><span class="standings-team"><img src="assets/img/capital1_logo.svg"
+                                                        alt="Capital1 logo"><span>Capital1<small>Solar
+                                                            Spikers</small></span></span></td>
+                                            <td>8</td>
+                                            <td>6</td>
+                                            <td>2</td>
+                                            <td>21–9</td>
+                                            <td>19</td>
+                                            <td><span class="form-dots"><i></i><i></i><i
+                                                        class="loss"></i><i></i><i></i></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td><span class="standings-team"><img src="assets/img/choco.png"
+                                                        alt="Choco Mucho logo"><span>Choco Mucho<small>Flying
+                                                            Titans</small></span></span></td>
+                                            <td>8</td>
+                                            <td>5</td>
+                                            <td>3</td>
+                                            <td>17–12</td>
+                                            <td>15</td>
+                                            <td><span class="form-dots"><i class="loss"></i><i></i><i></i><i
+                                                        class="loss"></i><i></i></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>4</td>
+                                            <td><span class="standings-team"><img src="assets/img/akari.png"
+                                                        alt="Akari Chargers logo"><span>Akari<small>Chargers</small></span></span>
+                                            </td>
+                                            <td>8</td>
+                                            <td>5</td>
+                                            <td>3</td>
+                                            <td>16–12</td>
+                                            <td>14</td>
+                                            <td><span class="form-dots"><i></i><i class="loss"></i><i></i><i></i><i
+                                                        class="loss"></i></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>5</td>
+                                            <td><span class="standings-team"><img src="assets/img/pldt.png"
+                                                        alt="PLDT High Speed Hitters logo"><span>PLDT<small>High Speed
+                                                            Hitters</small></span></span></td>
+                                            <td>8</td>
+                                            <td>4</td>
+                                            <td>4</td>
+                                            <td>14–14</td>
+                                            <td>12</td>
+                                            <td><span class="form-dots"><i class="loss"></i><i></i><i
+                                                        class="loss"></i><i></i><i class="loss"></i></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>6</td>
+                                            <td><span class="standings-team"><img src="assets/img/galeries.png"
+                                                        alt="Galeries Tower logo"><span>Galeries
+                                                        Tower<small>Highrisers</small></span></span></td>
+                                            <td>8</td>
+                                            <td>4</td>
+                                            <td>4</td>
+                                            <td>14–15</td>
+                                            <td>12</td>
+                                            <td><span class="form-dots"><i></i><i class="loss"></i><i></i><i
+                                                        class="loss"></i><i></i></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>7</td>
+                                            <td><span class="standings-team"><img src="assets/img/framfresh.png"
+                                                        alt="Farm Fresh logo"><span>Farm
+                                                        Fresh<small>Foxies</small></span></span></td>
+                                            <td>8</td>
+                                            <td>3</td>
+                                            <td>5</td>
+                                            <td>12–17</td>
+                                            <td>9</td>
+                                            <td><span class="form-dots"><i class="loss"></i><i></i><i
+                                                        class="loss"></i><i></i><i class="loss"></i></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>8</td>
+                                            <td><span class="standings-team"><img src="assets/img/nxled.png"
+                                                        alt="NXLED logo"><span>NXLED<small>Chameleons</small></span></span>
+                                            </td>
+                                            <td>8</td>
+                                            <td>2</td>
+                                            <td>6</td>
+                                            <td>10–19</td>
+                                            <td>6</td>
+                                            <td><span class="form-dots"><i class="loss"></i><i
+                                                        class="loss"></i><i></i><i class="loss"></i><i
+                                                        class="loss"></i></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>9</td>
+                                            <td><span class="standings-team"><img src="assets/img/zus.png"
+                                                        alt="ZUS Coffee logo"><span>ZUS
+                                                        Coffee<small>Thunderbelles</small></span></span></td>
+                                            <td>8</td>
+                                            <td>1</td>
+                                            <td>7</td>
+                                            <td>7–22</td>
+                                            <td>3</td>
+                                            <td><span class="form-dots"><i class="loss"></i><i class="loss"></i><i
+                                                        class="loss"></i><i></i><i class="loss"></i></span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <span class="folder-anchor" id="rosterAnchor" aria-hidden="true"></span>
+        <section class="folder roster-folder" id="roster">
+            <div class="folder-label"><b>SET 04</b><span>Full roster</span></div>
+            <div class="container-fluid px-4 px-md-5 py-5 min-vh-100">
+                <div class="container-xxl py-4">
+                    <div class="row justify-content-between align-items-end g-3 mb-4">
+                        <div class="col-lg-6">
+                            <p class="eyebrow"><span></span>Meet the squad</p>
+                            <h2>POWERED<br>BY PLAYERS.</h2>
+                        </div>
+                    </div>
+                    <div class="roster-filter d-flex flex-wrap gap-2 mb-3" id="filterButtons"
+                        aria-label="Filter roster by position"></div>
+                    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+                        <p class="showing mb-0" id="rosterStatus" aria-live="polite"></p><button
+                            class="btn btn-outline-primary rounded-pill" id="toggleRoster" type="button"
+                            aria-expanded="false"></button>
+                    </div>
+                    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-3" id="rosterCards"></div>
+                </div>
+            </div>
+        </section>
+        <span class="folder-anchor" id="statsAnchor" aria-hidden="true"></span>
+        <section class="folder stats-folder" id="stats">
+            <div class="folder-label"><b>SET 05</b><span>By the numbers</span></div>
+            <div class="container-fluid px-4 px-md-5 py-5 min-vh-100 d-flex align-items-center">
+                <div class="container-xxl">
+                    <div class="row justify-content-between align-items-end mb-4 g-3">
+                        <div class="col-lg-6">
+                            <p class="eyebrow"><span></span>By the numbers</p>
+                            <h2>BUILT FOR<br>THE RALLY.</h2>
+                        </div>
+                        <p class="section-copy col-lg-5 mb-0">A fast offense and disciplined floor defense are turning
+                            pressure into points.</p>
+                    </div>
+                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-3">
+                        <div class="col">
+                            <article class="number-card"><span>LEAGUE RANK</span><b id="statsRank">#2</b><small>In the
+                                    current table</small></article>
+                        </div>
+                        <div class="col">
+                            <article class="number-card"><span>SEASON WINS</span><b>06</b><small>Eight matches
+                                    played</small></article>
+                        </div>
+                        <div class="col">
+                            <article class="number-card"><span>SETS WON</span><b>21</b><small>70% set-win rate</small>
+                            </article>
+                        </div>
+                        <div class="col">
+                            <article class="number-card"><span>FASTEST SERVE</span><b>84</b><small>km/h · season
+                                    high</small></article>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <span class="folder-anchor" id="footerAnchor" aria-hidden="true"></span>
+    <footer class="footer folder" id="footer">
+        <div class="folder-label"><b>FINAL</b><span>Match point</span></div>
+        <div class="container-fluid px-4 px-md-5 py-5">
+            <div class="container-xxl">
+                <div class="row g-5 footer-top">
+                    <div class="col-lg-6">
+                        <p class="eyebrow"><span></span>Stay in the rally</p>
+                        <h2>BRING THE<br><em>SOLAR ENERGY.</em></h2>
+                        <p class="section-copy mt-3 mb-4">Get match reminders, team news, and the next big moment from
+                            the Solar Spikers.</p>
+                        <form class="newsletter-form" id="newsletterForm" novalidate>
+                            <label class="visually-hidden" for="newsletterEmail">Email address</label>
+                            <input class="form-control" id="newsletterEmail" type="email"
+                                placeholder="Your email address" required>
+                            <button class="btn btn-primary rounded-pill" type="submit">Join the rally</button>
+                        </form>
+                        <p class="newsletter-message mb-0 mt-2" id="newsletterMessage" aria-live="polite"></p>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="row row-cols-2 row-cols-sm-3 g-4 footer-links">
+                            <div class="col">
+                                <p class="footer-heading">Explore</p><a href="#lineup">Starting six</a><a
+                                    href="#roster">Full roster</a><a href="#stats">Team stats</a>
+                            </div>
+                            <div class="col">
+                                <p class="footer-heading">Follow</p><a href="#matches">Matches</a><a
+                                    href="#standings">Standings</a><a href="#home">Tickets</a>
+                            </div>
+                            <div class="col">
+                                <p class="footer-heading">Home court</p><span>Capital1 Solar
+                                    Spikers</span><span>PhilSports Arena</span><span>Pasig City</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom d-flex flex-wrap justify-content-between align-items-center gap-3 mt-5 pt-4">
+                    <a class="navbar-brand d-flex align-items-center gap-2" href="#home"><img
+                            src="assets/img/capital1_logo.svg" alt=""
+                            class="team-logo"><span><strong>CAPITAL1</strong><small>SOLAR SPIKERS</small></span></a>
+                    <p class="mb-0">© 2026 Capital1 Solar Spikers. All heart. All in.</p><a
+                        class="btn btn-sun rounded-pill" href="#home">Back to top ↑</a>
+                </div>
+            </div>
+        </div>
+        <div class="legacy-footer container-fluid px-4 px-md-5 py-5">
+            <div class="container-xxl d-flex flex-wrap justify-content-between align-items-center gap-4"><a
+                    class="navbar-brand d-flex align-items-center gap-2" href="#home"><img
+                        src="assets/img/capital1_logo.svg" alt=""
+                        class="team-logo"><span><strong>CAPITAL1</strong><small>SOLAR SPIKERS</small></span></a>
+                <p class="mb-0">© 2026 Capital1 Solar Spikers. All heart. All in.</p><a class="btn btn-sun rounded-pill"
+                    href="#home">Back to top ↑</a>
+            </div>
+        </div>
+    </footer>
+    <div class="modal fade" id="playerModal" tabindex="-1" aria-labelledby="playerModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0">
+                <div class="modal-header border-0">
+                    <p class="eyebrow mb-0"><span></span><span id="modalPosition"></span></p><button type="button"
+                        class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body pt-0">
+                    <div class="modal-player-image image-frame" id="modalImage"></div>
+                    <p class="player-number mt-3 mb-0" id="modalNumber"></p>
+                    <h3 id="playerModalTitle"></h3>
+                    <p id="modalBio"></p>
+                    <div class="row row-cols-2 g-2 mt-1" id="modalStats"></div>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"></script>
-    <script src="script.js"></script>
+    <script src="assets/js/script.js"></script>
 </body>
 
 </html>

@@ -1,0 +1,361 @@
+.match-folder {
+    z-index: 3;
+    --folder-tab: var(--sky);
+    --folder-surface: var(--sky);
+    background: var(--folder-surface);
+}
+
+.standings-folder {
+    z-index: 4;
+    --folder-tab: var(--white);
+    --folder-surface: var(--white);
+    background: var(--folder-surface);
+}
+
+.stats-folder {
+    z-index: 6;
+    --folder-tab: #e8f5ff;
+    --folder-surface: #e8f5ff;
+    background: var(--folder-surface);
+    color: var(--ink);
+}
+
+.stats-folder h2,
+.stats-folder .section-copy {
+    color: var(--navy);
+}
+
+.stats-folder .eyebrow {
+    color: var(--blue);
+}
+
+.stats-folder .folder-label {
+    color: var(--navy);
+}
+
+.stats-folder .folder-label b {
+    background: var(--navy);
+    color: var(--yellow);
+}
+
+.match-card {
+    overflow: hidden;
+    border-radius: 1.75rem;
+    background: var(--white);
+    box-shadow: 0 1.2rem 2.6rem rgba(9, 47, 93, .14);
+}
+
+.match-photo {
+    height: clamp(14rem, 30vw, 23rem);
+    overflow: hidden;
+    background: #c9e4f6;
+}
+
+.match-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.match-details {
+    padding: clamp(1.4rem, 4vw, 2.5rem);
+}
+
+.match-teams strong,
+.match-teams small {
+    display: block;
+}
+
+.match-team-logo {
+    display: grid;
+    width: 3.4rem;
+    height: 3.4rem;
+    margin: 0 auto .6rem;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--white);
+    box-shadow: 0 .35rem .8rem rgba(9, 47, 93, .1);
+}
+
+.match-team-logo img {
+    width: 2.65rem;
+    height: 2.65rem;
+    object-fit: contain;
+}
+
+.match-teams strong {
+    color: var(--navy);
+    font-size: clamp(.95rem, 2vw, 1.3rem);
+}
+
+.match-teams small {
+    color: var(--muted);
+    font-size: .78rem;
+}
+
+.match-teams>span {
+    color: var(--blue);
+    font-size: .8rem;
+    font-weight: 900;
+}
+
+.match-footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: .85rem;
+}
+
+.match-footer a {
+    color: var(--blue);
+    font-weight: 800;
+}
+
+.rank-stat {
+    display: flex;
+    max-width: 20rem;
+    justify-content: space-between;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--line);
+    color: var(--muted);
+}
+
+.rank-stat b {
+    color: var(--navy);
+    font-size: 1.2rem;
+}
+
+.standings-table {
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 1.35rem;
+    background: var(--white);
+    box-shadow: 0 1rem 2rem rgba(9, 47, 93, .08);
+}
+
+.standings-table .table {
+    min-width: 38rem;
+    color: var(--ink);
+}
+
+.standings-table th {
+    padding: 1rem;
+    border: 0;
+    background: var(--navy);
+    color: #dcecff;
+    font-size: .7rem;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.standings-table td {
+    padding: 1rem;
+    border-color: var(--line);
+    font-size: .9rem;
+}
+
+.standings-team {
+    display: flex;
+    min-width: 10rem;
+    align-items: center;
+    gap: .65rem;
+    color: var(--navy);
+    font-weight: 800;
+}
+
+.standings-team img {
+    width: 2.15rem;
+    height: 2.15rem;
+    flex: 0 0 auto;
+    object-fit: contain;
+}
+
+.standings-team>span {
+    display: grid;
+    gap: .1rem;
+}
+
+.standings-team small {
+    color: var(--muted);
+    font-size: .68rem;
+    font-weight: 700;
+}
+
+.standings-table .current-team td {
+    background: #fff4bf;
+    color: var(--navy);
+    font-weight: 800;
+}
+
+.standings-caption {
+    display: flex;
+    align-items: center;
+    gap: .55rem;
+    color: var(--muted);
+    font-size: .82rem;
+}
+
+.standings-caption span {
+    width: .5rem;
+    height: .5rem;
+    border-radius: 50%;
+    background: var(--yellow);
+}
+
+.form-dots {
+    display: inline-flex;
+    gap: .25rem;
+}
+
+.form-dots i {
+    width: .42rem;
+    height: .42rem;
+    border-radius: 50%;
+    background: #32b971;
+}
+
+.form-dots i.loss {
+    background: #e68091;
+}
+
+.number-card {
+    height: 100%;
+    padding: 1.5rem;
+    border: 1px solid var(--line);
+    border-radius: 1.35rem;
+    background: var(--white);
+    box-shadow: 0 .8rem 1.6rem rgba(9, 47, 93, .06);
+}
+
+.number-card span,
+.number-card small,
+.number-card b {
+    display: block;
+}
+
+.number-card span {
+    color: var(--blue);
+    font-size: .67rem;
+    font-weight: 800;
+    letter-spacing: .11em;
+}
+
+.number-card b {
+    margin: .5rem 0;
+    color: var(--navy);
+    font-size: clamp(2.8rem, 6vw, 4.5rem);
+    font-weight: 900;
+    letter-spacing: -.07em;
+    line-height: 1.05;
+}
+
+.number-card small {
+    color: var(--muted);
+}
+
+.footer {
+    z-index: 7;
+    --folder-tab: var(--white);
+    --folder-surface: var(--white);
+    --folder-offset: clamp(5rem, 6vw, 7rem);
+    position: sticky;
+    top: var(--folder-offset);
+    height: calc(100vh - var(--folder-offset));
+    min-height: 0;
+    margin-top: 0;
+    overflow: visible;
+    border-radius: 2.75rem 2.75rem 0 0;
+    background: linear-gradient(135deg, #f6fbff, #e7f5ff);
+    color: var(--ink);
+    box-shadow: 0 -1.1rem 2.5rem rgba(9, 47, 93, .11);
+}
+
+.footer>.container-fluid {
+    height: 100%;
+    min-height: 0 !important;
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+
+.footer>.container-fluid::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+.footer .section-copy,
+.footer p {
+    color: var(--muted);
+}
+
+.footer-top h2 {
+    font-size: clamp(2.7rem, 5.5vw, 5.5rem);
+}
+
+.newsletter-form {
+    display: flex;
+    max-width: 34rem;
+    gap: .65rem;
+}
+
+.newsletter-form .form-control {
+    min-height: 3rem;
+    border-color: var(--line);
+    border-radius: 999px;
+    background: var(--white);
+}
+
+.newsletter-form .btn {
+    flex: 0 0 auto;
+    padding-inline: 1.2rem;
+    font-weight: 800;
+}
+
+.newsletter-message {
+    min-height: 1.2rem;
+    color: var(--blue) !important;
+    font-size: .8rem !important;
+    font-weight: 700;
+}
+
+.footer-links {
+    padding-top: 1.5rem;
+}
+
+.footer-links .col {
+    display: grid;
+    align-content: start;
+    gap: .7rem;
+}
+
+.footer-heading {
+    margin: 0 0 .2rem;
+    color: var(--navy) !important;
+    font-size: .7rem !important;
+    font-weight: 900;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+}
+
+.footer-links a,
+.footer-links span {
+    color: var(--muted);
+    font-size: .9rem;
+}
+
+.footer-links a:hover,
+.footer-links a:focus {
+    color: var(--blue);
+}
+
+.footer-bottom {
+    border-top: 1px solid var(--line);
+}
+
+.legacy-footer {
+    display: none;
+}
