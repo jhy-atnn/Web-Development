@@ -12,6 +12,10 @@ const initials = (name) => name.split(" ").map((word) => word[0]).slice(0, 2).jo
 const playerIsCaptain = (player) => /captain/i.test(player.role);
 const positionLabel = (position) => ({ "Outside Hitter": "OUTSIDE", "Opposite Hitter": "OPPOSITE", "Middle Blocker": "MIDDLE", "Middle Blocker / Center": "MIDDLE" }[position] || position).toUpperCase();
 const playerByName = (name) => players.find((player) => player.name === name);
+const updateNavCapsule = () => $("#siteNav")?.classList.toggle("is-scrolled", window.scrollY > 20);
+
+updateNavCapsule();
+window.addEventListener("scroll", updateNavCapsule, { passive: true });
 
 function playerImage(player, className = "") {
     const image = imagePath(player);
@@ -137,6 +141,10 @@ function bindEvents() {
         message.textContent = "You are in - watch your inbox for the next match update.";
         email.value = "";
     });
+    const siteNav = $("#siteNav");
+    const mainMenu = $("#mainMenu");
+    mainMenu.addEventListener("show.bs.collapse", () => siteNav.classList.add("menu-open"));
+    mainMenu.addEventListener("hidden.bs.collapse", () => siteNav.classList.remove("menu-open"));
     const navigationFolders = [...document.querySelectorAll(".site-nav a[href^='#']")]
         .map((link) => document.querySelector(link.getAttribute("href")))
         .filter((folder, index, all) => folder && folder.classList.contains("folder") && all.indexOf(folder) === index);
@@ -211,10 +219,7 @@ function bindEvents() {
         });
         if (activeFolder) setActiveNavigation(activeFolder.id);
     };
-    const setNavigationState = () => {
-        $("#siteNav").classList.toggle("is-scrolled", window.scrollY > 20);
-        updateActiveNavigation();
-    };
+    const setNavigationState = () => updateActiveNavigation();
     setNavigationState();
     window.addEventListener("scroll", setNavigationState, { passive: true });
     window.addEventListener("wheel", keepScrollInFrontFolder, { passive: false });
@@ -235,11 +240,17 @@ function bindEvents() {
         const folder = selector && document.querySelector(selector);
         if (!folder || !folder.classList.contains("folder")) return;
         event.preventDefault();
-        scrollToFolder(folder);
         if (window.location.hash !== selector) window.history.pushState(null, "", selector);
         const menuToggle = document.querySelector(".navbar-toggler");
         const mobileMenuIsVisible = menuToggle && window.getComputedStyle(menuToggle).display !== "none";
-        if (link.closest("#mainMenu") && mobileMenuIsVisible) bootstrap.Collapse.getOrCreateInstance($("#mainMenu")).hide();
+        const menu = mainMenu;
+        const menuIsOpen = menu && menu.classList.contains("show");
+        if (link.closest("#mainMenu") && mobileMenuIsVisible && menuIsOpen) {
+            menu.addEventListener("hidden.bs.collapse", () => scrollToFolder(folder), { once: true });
+            bootstrap.Collapse.getOrCreateInstance(menu).hide();
+            return;
+        }
+        scrollToFolder(folder);
     }));
     window.addEventListener("hashchange", () => {
         const folder = document.querySelector(window.location.hash);

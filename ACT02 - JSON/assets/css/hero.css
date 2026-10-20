@@ -62,6 +62,15 @@
     color: var(--navy);
 }
 
+.hero-folder .btn-outline-primary {
+    display: inline-flex;
+    min-height: 3.75rem;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    text-align: center;
+}
+
 .hero-visual {
     position: relative;
     width: min(100%, 40rem);

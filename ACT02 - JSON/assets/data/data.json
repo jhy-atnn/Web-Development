@@ -18,7 +18,7 @@
       "reception": "42%",
       "services": "8",
       "bio": "UST standout middle blocker known for quick attacks and solid net defense.",
-      "profile": ""
+      "profile": "assets/img/players/abbu.jpg"
     },
     {
       "id": 2,
@@ -93,22 +93,7 @@
       "reception": "80%",
       "services": "1",
       "bio": "Team captain and defensive specialist providing stability in the back row.",
-      "profile": ""
-    },
-    {
-      "id": 7,
-      "number": "12",
-      "name": "Kecelyn Galdones",
-      "position": "Middle Blocker",
-      "role": "Roster player",
-      "height": "1.75 m",
-      "hometown": "Manila",
-      "points": "88",
-      "attack": "63",
-      "reception": "40%",
-      "services": "7",
-      "bio": "Reliable middle blocker with consistent net presence and timing.",
-      "profile": ""
+      "profile": "assets/img/players/doromal.jpg"
     },
     {
       "id": 8,
@@ -141,21 +126,6 @@
       "profile": "assets/img/players/gaston.jpg"
     },
     {
-      "id": 10,
-      "number": "21",
-      "name": "Ysabel Jamie Jimenez",
-      "position": "Outside Hitter",
-      "role": "Roster player",
-      "height": "1.75 m",
-      "hometown": "San Fernando, Pampanga",
-      "points": "122",
-      "attack": "97",
-      "reception": "68%",
-      "services": "14",
-      "bio": "Steady all-around outside hitter with reliable passing skills.",
-      "profile": ""
-    },
-    {
       "id": 11,
       "number": "3",
       "name": "Rachel Victoria Jorvina",
@@ -186,21 +156,6 @@
       "profile": "assets/img/players/madrigal.jpg"
     },
     {
-      "id": 13,
-      "number": "18",
-      "name": "Janel Maraguinot",
-      "position": "Setter",
-      "role": "Roster player",
-      "height": "1.60 m",
-      "hometown": "Quezon City",
-      "points": "18",
-      "attack": "12",
-      "reception": "54%",
-      "services": "8",
-      "bio": "Veteran setter recognized for tempo control and smart distribution.",
-      "profile": ""
-    },
-    {
       "id": 14,
       "number": "2",
       "name": "Jasmine Nabor",
@@ -229,21 +184,6 @@
       "services": "17",
       "bio": "Veteran opposite hitter providing scoring consistency and versatility.",
       "profile": "assets/img/players/niegos.jpg"
-    },
-    {
-      "id": 16,
-      "number": "20",
-      "name": "May Ann Nuique",
-      "position": "Opposite Hitter",
-      "role": "Roster player",
-      "height": "1.73 m",
-      "hometown": "Cagayan de Oro",
-      "points": "116",
-      "attack": "94",
-      "reception": "54%",
-      "services": "11",
-      "bio": "Athletic opposite hitter capable of generating offense from transition plays.",
-      "profile": ""
     },
     {
       "id": 17,
