@@ -222,7 +222,6 @@ function bindEvents() {
     const setNavigationState = () => updateActiveNavigation();
     setNavigationState();
     window.addEventListener("scroll", setNavigationState, { passive: true });
-    window.addEventListener("wheel", keepScrollInFrontFolder, { passive: false });
     const scrollToFolder = (folder, behavior = "smooth") => {
         const folderContent = folder.querySelector(".container-fluid");
         if (folderContent) folderContent.scrollTop = 0;
