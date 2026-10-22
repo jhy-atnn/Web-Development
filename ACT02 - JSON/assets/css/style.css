@@ -69,6 +69,11 @@ button {
     pointer-events: auto;
 }
 
+.site-nav.menu-open .nav-shell,
+.site-nav.is-scrolled.menu-open .nav-shell {
+    border-radius: 1.5rem;
+}
+
 .navbar-brand {
     color: var(--navy);
     letter-spacing: .02em;
