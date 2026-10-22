@@ -262,10 +262,10 @@
     z-index: 7;
     --folder-tab: var(--white);
     --folder-surface: var(--white);
-    --folder-offset: clamp(5rem, 6vw, 7rem);
+    --folder-offset: clamp(6.5rem, 15vh, 7rem);
     position: sticky;
     top: var(--folder-offset);
-    height: calc(100vh - var(--folder-offset));
+    height: calc(100dvh - var(--folder-offset));
     min-height: 0;
     margin-top: 0;
     overflow: visible;
