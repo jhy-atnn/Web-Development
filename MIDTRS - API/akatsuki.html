@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en" data-bs-theme="light">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Akatsuki · NaruSeeki</title>
+  <meta name="description"
+    content="NaruSeeki: a Naruto Shippuden encyclopedia of characters, villages, clans and powers.">
+  <link rel="icon" href="img/leaf-light.png">
+  <script>
+    try { document.documentElement.dataset.bsTheme = localStorage.getItem('naruseeki-theme') || 'light'; } catch (e) { }
+  </script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/global.css">
+</head>
+
+<body data-nav="akatsuki">
+  <a class="visually-hidden-focusable" href="#main">Skip to content</a>
+  <header id="site-header"></header>
+  <main id="main">
+    <section class="cloud-pattern position-relative overflow-hidden">
+      <div class="hero-watermark text-kanji text-kanji-watermark" aria-hidden="true">暁</div>
+      <div class="container position-relative py-4xl py-md-5xl d-flex flex-column gap-lg">
+        <span>
+          <h2 class="ribbon ribbon-red">S-rank criminals</h2>
+        </span>
+        <h1 class="text-display-xl text-ink-shadow">The Akatsuki</h1>
+        <p class="text-label tx-on-brand-soft measure-wide">Black cloaks. Red clouds. A band of missing-nin who hunt the
+          tailed beasts for a plan that spans the whole shinobi world.</p>
+      </div>
+    </section>
+    <div class="container py-3xl">
+      <div class="ns-card mb-3xl measure">
+        <label class="form-label" for="q">Find a member</label>
+        <div class="input-group"><span class="input-group-text"><svg class="icon" aria-hidden="true">
+              <use href="img/icons.svg#i-search"></use>
+            </svg></span><input class="form-control" id="q" type="search" placeholder="Itachi, Deidara…"
+            autocomplete="off"></div>
+      </div>
+      <div id="akatsuki-root"></div>
+    </div>
+  </main>
+  <footer id="site-footer"></footer>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous"></script>
+  <script src="js/data.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/akatsuki.js"></script>
+</body>
+
+</html>

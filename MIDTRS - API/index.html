@@ -1,26 +1,169 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" data-bs-theme="light">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NaruSeeki | Browse your Jutsu</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Home · NaruSeeki</title>
+    <meta name="description"
+        content="NaruSeeki: a Naruto Shippuden encyclopedia of characters, villages, clans and powers.">
+    <link rel="icon" href="img/leaf-dark.png">
+    <script>
+        try { document.documentElement.dataset.bsTheme = localStorage.getItem('naruseeki-theme') || 'light'; } catch (e) { }
+    </script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link rel="stylesheet" href="MIDTRS - API\assets\css\style.css">
-
+    <link rel="stylesheet" href="css/global.css">
 </head>
 
-<body>
+<body data-nav="home">
+    <a class="visually-hidden-focusable" href="#main">Skip to content</a>
+    <header id="site-header"></header>
+    <main id="main">
+        <section class="hero-sky">
+            <div class="container position-relative min-vh-100 d-flex align-items-center py-4xl py-lg-5xl">
+                <div class="row justify-content-center w-100 gutter-3xl">
+                    <div class="col-12 d-flex flex-column align-items-center gap-2xl text-center">
+                        <span><span class="badge badge-brand">Naruto Shippuden Encyclopedia</span></span>
+                        <h1 class="text-display-xl text-ink-shadow">Your guide to the <span
+                                class="tx-gold">Shinobi</span> world</h1>
+                        <p class="text-label tx-on-brand-soft measure-prose mx-auto">Explore characters, villages, clans, kekkei
+                            genkai and tailed beasts from the Hidden Leaf and beyond. Every shinobi has a scroll. Open
+                            it.</p>
+                        <form class="ns-search d-flex flex-column flex-sm-row gap-md measure-prose mx-auto" role="search"
+                            action="characters.html" method="get">
+                            <div class="input-group flex-grow-1"><span class="input-group-text"><svg class="icon"
+                                        aria-hidden="true">
+                                        <use href="img/icons.svg#i-search"></use>
+                                    </svg></span><input class="form-control" name="q" type="search"
+                                    placeholder="Search characters — try “Itachi”" aria-label="Search characters"
+                                    autocomplete="off"></div>
+                            <button class="btn btn-primary" type="submit">Seek</button>
+                        </form>
+                        <dl class="row row-cols-2 row-cols-sm-4 justify-content-center gutter-xl measure-wide m-0 text-center">
+                            <div class="col">
+                                <dt class="stat-label">Characters</dt>
+                                <dd class="stat-n" id="stat-characters">1,431+</dd>
+                            </div>
+                            <div class="col">
+                                <dt class="stat-label">Villages &amp; places</dt>
+                                <dd class="stat-n" id="stat-villages">39</dd>
+                            </div>
+                            <div class="col">
+                                <dt class="stat-label">Clans</dt>
+                                <dd class="stat-n" id="stat-clans">58</dd>
+                            </div>
+                            <div class="col">
+                                <dt class="stat-label">Tailed beasts</dt>
+                                <dd class="stat-n" id="stat-beasts">10</dd>
+                            </div>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </section>
 
+        <section class="container section" aria-labelledby="featured-title">
+            <div class="d-flex flex-column gap-xs section-title"><span class="text-kicker tx-brand">Featured
+                    scroll</span>
+                <h2 class="text-display" id="featured-title">Shinobi spotlight</h2>
+            </div>
+            <div id="featured"></div>
+        </section>
 
+        <section class="container section" aria-labelledby="roll-title">
+            <div class="d-flex flex-wrap align-items-end justify-content-between gap-lg section-title">
+                <div class="d-flex flex-column gap-xs"><span class="text-kicker tx-brand">Roll call</span>
+                    <h2 class="text-display" id="roll-title">Characters</h2>
+                </div>
+                <a class="btn btn-neutral btn-sm" href="characters.html">See all <svg class="icon" aria-hidden="true">
+                        <use href="img/icons.svg#i-arrow-right"></use>
+                    </svg></a>
+            </div>
+            <div class="ns-card" id="popular"></div>
+        </section>
 
+        <section class="container section" aria-labelledby="villages-title">
+            <div class="d-flex flex-wrap align-items-end justify-content-between gap-lg section-title">
+                <div class="d-flex flex-column gap-xs"><span class="text-kicker tx-brand">Five Great Nations &amp;
+                        more</span>
+                    <h2 class="text-display" id="villages-title">Hidden villages</h2>
+                </div>
+                <a class="btn btn-neutral btn-sm" href="villages.html">All villages <svg class="icon"
+                        aria-hidden="true">
+                        <use href="img/icons.svg#i-arrow-right"></use>
+                    </svg></a>
+            </div>
+            <div id="home-villages"></div>
+        </section>
 
+        <section class="container section" aria-labelledby="powers-title">
+            <div class="d-flex flex-wrap align-items-end justify-content-between gap-lg section-title">
+                <div class="d-flex flex-column gap-xs"><span class="text-kicker tx-brand">Techniques of the
+                        shinobi</span>
+                    <h2 class="text-display" id="powers-title">Powers</h2>
+                </div>
+                <a class="btn btn-neutral btn-sm" href="powers.html">Open the powers index <svg class="icon"
+                        aria-hidden="true">
+                        <use href="img/icons.svg#i-arrow-right"></use>
+                    </svg></a>
+            </div>
+            <ul class="list-reset row gutter-xl row-cols-1 row-cols-md-3">
+                <li class="col"><a class="ns-card-link d-flex flex-column gap-lg p-xl"
+                        href="powers.html?tab=kekkei-genkai"><span class="ns-dot ns-dot-ink"><svg class="icon icon-lg"
+                                aria-hidden="true">
+                                <use href="img/icons.svg#i-eye"></use>
+                            </svg></span>
+                        <h3 class="text-display">Kekkei Genkai</h3>
+                        <p class="text-label-sm tx-secondary">Bloodline limits from the Sharingan and Byakugan to Wood
+                            Release.</p>
+                    </a></li>
+                <li class="col"><a class="ns-card-link d-flex flex-column gap-lg p-xl"
+                        href="powers.html?tab=tailed-beasts"><span class="ns-dot ns-dot-ink"><svg class="icon icon-lg"
+                                aria-hidden="true">
+                                <use href="img/icons.svg#i-stars"></use>
+                            </svg></span>
+                        <h3 class="text-display">Tailed Beasts</h3>
+                        <p class="text-label-sm tx-secondary">The nine (and ten) colossal creatures of pure chakra.</p>
+                    </a></li>
+                <li class="col"><a class="ns-card-link d-flex flex-column gap-lg p-xl"
+                        href="powers.html?tab=jutsu"><span class="ns-dot ns-dot-ink"><svg class="icon icon-lg"
+                                aria-hidden="true">
+                                <use href="img/icons.svg#i-journal-text"></use>
+                            </svg></span>
+                        <h3 class="text-display">Jutsu &amp; Natures</h3>
+                        <p class="text-label-sm tx-secondary">Rasengan, Chidori, Fire and Water Release, and who uses
+                            them.</p>
+                    </a></li>
+            </ul>
+        </section>
 
+        <section class="cloud-pattern section-band" aria-labelledby="akatsuki-title">
+            <div class="container py-4xl">
+                <div class="d-flex flex-wrap align-items-end justify-content-between gap-lg mb-2xl">
+                    <div class="d-flex flex-column gap-md">
+                        <span>
+                            <h3 class="ribbon ribbon-red">Dark clouds</h3>
+                        </span>
+                        <h2 class="text-display text-ink-shadow" id="akatsuki-title">The Akatsuki</h2>
+                        <p class="text-label-sm tx-on-brand-soft measure-wide">S-rank criminals in black cloaks with red
+                            clouds, hunting the tailed beasts for a plan that would reshape the world.</p>
+                    </div>
+                    <a class="btn btn-primary" href="akatsuki.html"><svg class="icon" aria-hidden="true">
+                            <use href="img/icons.svg#i-exclamation-octagon"></use>
+                        </svg>Meet the organisation</a>
+                </div>
+                <div id="home-akatsuki"></div>
+            </div>
+        </section>
+    </main>
+    <footer id="site-footer"></footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"></script>
-    <script src=""></script>
+    <script src="js/data.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/home.js"></script>
 </body>
 
 </html>
