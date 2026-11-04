@@ -42,7 +42,7 @@
   --surface-hover: #f7ecd2;
   --surface-dark: #1e1e1e;
   --surface-dark-hover: #2c2a28;
-  --surface-darkest: #141210;
+  --surface-darkest: #241f1a;
 
   --text-primary: #1f1812f0;
   --text-secondary: #1f1812a6;
@@ -1356,14 +1356,14 @@ p {
   --bs-navbar-active-color: var(--brand-primary);
   font-size: var(--fs-label-sm);
   font-weight: 500;
-  padding: var(--space-md) var(--space-lg);
-  border-bottom: 2px solid transparent;
+  border-bottom: 3px solid transparent;
   border-radius: 0;
 }
 
 .ns-navbar .nav-link.active {
   color: var(--brand-primary);
   border-bottom-color: var(--brand-primary);
+  background: transparent;
 }
 
 .ns-navbar .navbar-toggler {
@@ -1371,18 +1371,6 @@ p {
   color: var(--on-brand);
   padding: var(--space-md);
   box-shadow: none;
-}
-
-@media (max-width: 991.98px) {
-  .ns-navbar .nav-link {
-    padding: var(--space-lg);
-    border-bottom: 0;
-    border-radius: var(--corner-md);
-  }
-
-  .ns-navbar .nav-link.active {
-    background: var(--surface-dark-hover);
-  }
 }
 
 .ns-card {
@@ -2128,28 +2116,76 @@ a.ns-chip:hover {
   pointer-events: auto;
 }
 
+.scroll-top {
+  position: fixed;
+  right: max(var(--space-xl), env(safe-area-inset-right));
+  bottom: max(var(--space-xl), env(safe-area-inset-bottom));
+  z-index: 1080;
+  display: grid;
+  place-items: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  padding: 0;
+  border: 1px solid var(--chakra-gold);
+  border-radius: var(--corner-full);
+  background: var(--surface-darkest);
+  color: var(--chakra-gold);
+  box-shadow: 0 0.75rem 2rem rgb(20 18 16 / 0.25);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(var(--space-xl)) scale(0.9);
+  transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+}
+
+.scroll-top.is-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+}
+
+.scroll-top:hover {
+  border-color: var(--surface-darkest);
+  background: var(--chakra-gold);
+  color: var(--surface-darkest);
+  transform: translateY(calc(var(--space-xs) * -1)) scale(1.04);
+}
+
+.scroll-top:focus-visible {
+  outline: 3px solid var(--brand-primary);
+  outline-offset: 3px;
+}
+
+.scroll-top-icon {
+  width: 1.35rem;
+  height: 1.35rem;
+  transform: rotate(-90deg);
+}
+
+[data-bs-theme='dark'] .scroll-top {
+  border-color: var(--surface-darkest);
+  background: var(--chakra-gold);
+  color: var(--surface-darkest);
+}
+
+[data-bs-theme='dark'] .scroll-top:hover {
+  border-color: var(--chakra-gold);
+  background: var(--surface-darkest);
+  color: var(--chakra-gold);
+}
+
 .back-link {
   color: var(--on-brand);
 }
 
-@media (min-width: 768px) {
-  #filters.collapse:not(.show) {
-    display: block;
-  }
+.reduce-motion .ns-card-link,
+.reduce-motion .scroll-top {
+  transition: none;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
-  .ns-card-link {
-    transition: none;
-  }
-
-  .skeleton {
-    animation: none;
-  }
+.reduce-motion .skeleton {
+  animation: none;
 }
 
 .brand-mark {

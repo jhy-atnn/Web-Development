@@ -119,7 +119,7 @@ NS.start(function () {
       }).join('') + '</ol></section>' : '';
 
     root.innerHTML = hero +
-      '<div class="container section"><div class="row gutter-3xl align-items-start">' +
+      '<div class="container section"><div class="row g-4 align-items-start">' +
       '<div class="col-lg-8 d-flex flex-column gap-4xl">' + about +
       '<section class="ns-card">' + NS.tabs('char-tabs', [
         { id: 'abilities', label: 'Abilities', html: abilities }, { id: 'relations', label: 'Relations', html: relations },

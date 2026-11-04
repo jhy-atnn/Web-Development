@@ -27,7 +27,7 @@ NS.start(function () {
       var chars = NS.knownCharacters().filter(function (c) { return j.users.some(function (u) { return u.id === c.id; }); });
       var similar = index.filter(function (x) { return x.name !== j.name && j.nature && x.nature === j.nature; }).slice(0, 8);
       root.innerHTML = hero('Jutsu', j.name, 'powers.html?tab=jutsu', (j.nature ? NS.badge(j.nature, 'light') : '') + NS.badge(j.users.length + (j.users.length === 1 ? ' user' : ' users'), 'secondary')) +
-        '<div class="container section"><div class="row gutter-3xl align-items-start"><div class="col-lg-8">' +
+        '<div class="container section"><div class="row g-4 align-items-start"><div class="col-lg-8">' +
         NS.scroll('<div class="d-flex flex-column gap-xl">' + NS.ribbon('Technique', 'brand') + '<p class="text-label" id="power-summary">' + esc(j.name) + ' is a technique ' + (j.nature ? 'of the ' + esc(j.nature) + ' nature ' : '') + 'listed in the live API records. It is known to be used by ' +
           esc(chars.slice(0, 3).map(function (c) { return c.name; }).join(', ')) + (chars.length > 3 ? ' and ' + (chars.length - 3) + ' more.' : '.') + '</p><div id="power-summary-source"></div></div>') + '</div>' +
         '<div class="col-lg-4"><div class="ns-card"><h3 class="ribbon">Overview</h3><dl class="facts mt-lg">' + NS.fact('Nature', esc(j.nature || 'Unclassified')) + NS.fact('Users', j.users.length) + '</dl></div></div></div></div>' +

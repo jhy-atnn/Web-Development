@@ -562,7 +562,7 @@
       '<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Open menu">' + NS.icon('list', 'icon-lg') + '</button></div>' +
       '<div class="collapse navbar-collapse order-lg-2" id="mainNav"><ul class="navbar-nav ms-lg-2xl gap-xs pb-xl pb-lg-0">' +
       NAV.map(function (n) {
-        return '<li class="nav-item"><a class="nav-link ' + (n.key === active ? 'active' : '') + '" ' + (n.key === active ? 'aria-current="page" ' : '') + 'href="' + n.href + '">' + n.label + '</a></li>';
+        return '<li class="nav-item"><a class="nav-link px-3 py-2 px-lg-2 rounded-2 ' + (n.key === active ? 'active' : '') + '" ' + (n.key === active ? 'aria-current="page" ' : '') + 'href="' + n.href + '">' + n.label + '</a></li>';
       }).join('') + '</ul></div></nav></div>';
     NS.$('#theme-toggle').addEventListener('click', function () {
       var next = document.documentElement.dataset.bsTheme === 'dark' ? 'light' : 'dark';
@@ -577,33 +577,46 @@
     if (!host) return;
     host.className = 'bg-ink mt-6xl';
     host.innerHTML =
-      '<div class="container py-4xl"><div class="row gutter-3xl">' +
-      '<div class="col-md-4 d-flex flex-column gap-lg"><img class="footer-wordmark" src="img/naruseeki-wordmark.png" alt="NaruSeeki">' +
+      '<div class="container py-4xl"><div class="row g-4">' +
+      '<div class="col-md-4 d-flex flex-column gap-lg"><img class="footer-wordmark" src="img/naruseeki-wordmark.png" href="index.html" alt="NaruSeeki">' +
       '<p class="text-label-sm tx-on-brand-soft">A Naruto Shippuden encyclopedia: characters, villages, clans and the powers of the shinobi world.</p></div>' +
       '<div class="col-md-4 d-flex flex-column gap-md"><h2 class="text-brush-sm tx-brand">Explore</h2><ul class="list-reset row row-cols-2 gap-y-md">' +
       NAV.slice(1).map(function (n) { return '<li class="col"><a class="text-label-sm tx-on-brand-soft footer-link" href="' + n.href + '">' + n.label + '</a></li>'; }).join('') + '</ul></div>' +
-      '<div class="col-md-4 d-flex flex-column align-items-start gap-md"><h2 class="text-brush-sm tx-brand">Data</h2>' +
-      '<p class="text-label-sm tx-on-brand-soft">Structured records load from Dattebayo. Narrative summaries load from the Naruto Wiki API.</p>' +
-      '<button class="btn btn-neutral btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#aboutModal">' + NS.icon('info-circle') + 'About the data</button></div>' +
+      '<div class="col-md-4 d-flex flex-column align-items-start gap-md"><h2 class="text-brush-sm tx-brand">API sources</h2>' +
+      '<ul class="list-reset d-flex flex-column gap-sm">' +
+      '<li><a class="text-label-sm tx-on-brand-soft footer-link text-decoration-underline" href="https://dattebayo-api.onrender.com" target="_blank" rel="noreferrer noopener">Dattebayo Naruto API</a></li>' +
+      '<li><a class="text-label-sm tx-on-brand-soft footer-link text-decoration-underline" href="https://naruto.fandom.com/api.php" target="_blank" rel="noreferrer noopener">Naruto Wiki MediaWiki API</a></li>' +
+      '<li><a class="text-label-sm tx-on-brand-soft footer-link text-decoration-underline" href="https://www.fandom.com/licensing" target="_blank" rel="noreferrer noopener">Fandom CC BY-SA licensing</a></li></ul></div>' +
       '</div></div><div class="bg-ink-deep py-lg"><div class="container"><p class="text-meta tx-on-brand-faint">NaruSeeki is a fan-made prototype. Naruto and all related characters are property of Masashi Kishimoto, Shueisha and TV Tokyo. Headline lettering uses the Ninja Naruto typeface.</p></div></div>';
   }
 
   function renderExtras() {
     var el = document.createElement('div');
     el.innerHTML =
-      '<div class="modal fade" id="aboutModal" tabindex="-1" aria-labelledby="aboutTitle" aria-hidden="true"><div class="modal-dialog modal-dialog-centered"><div class="modal-content">' +
-      '<div class="modal-header"><h2 class="text-title" id="aboutTitle">About the data</h2><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div>' +
-      '<div class="modal-body d-flex flex-column gap-lg text-label-sm tx-secondary">' +
-      '<p>Character records follow the NaruSeeki schema: identity, physical traits, village and rank, jutsu and nature types, relations, voice actors and media debut.</p>' +
-      '<p>Character and group records load directly from the open Dattebayo Naruto API. Narrative summaries, eye-colour lookups and supplementary page information load from the Naruto Wiki MediaWiki API. Pictures may come from an API or local presentation assets.</p>' +
-      '<p>No local JSON file supplies Naruto facts or descriptions. If a Wiki summary is unavailable, the page keeps a summary assembled only from Dattebayo fields.</p>' +
-      '<div class="d-flex flex-column gap-sm"><a class="tx-brand text-decoration-underline" href="https://dattebayo-api.onrender.com" target="_blank" rel="noreferrer noopener">Dattebayo Naruto API</a>' +
-      '<a class="tx-brand text-decoration-underline" href="https://naruto.fandom.com/wiki/Narutopedia" target="_blank" rel="noreferrer noopener">Naruto Wiki API source</a></div></div>' +
-      '<div class="modal-footer"><button type="button" class="btn btn-primary" data-bs-dismiss="modal">Understood</button></div></div></div></div>' +
+      '<button class="scroll-top" id="scroll-top" type="button" aria-label="Back to top" title="Back to top" aria-hidden="true" tabindex="-1">' + NS.icon('chevron-right', 'scroll-top-icon') + '</button>' +
       '<div class="toast-zone"><div class="toast align-items-center" id="apiToast" role="status" aria-live="polite" aria-atomic="true"><div class="d-flex">' +
       '<div class="toast-body">The live Naruto API is unavailable. Check your connection or try again later.</div>' +
       '<button type="button" class="btn-close me-lg m-auto" data-bs-dismiss="toast" aria-label="Close"></button></div></div></div>';
     document.body.appendChild(el);
+    var scrollTop = NS.$('#scroll-top');
+    var updateScrollTop = function () {
+      var visible = window.scrollY > 400 && document.documentElement.scrollHeight > window.innerHeight;
+      scrollTop.classList.toggle('is-visible', visible);
+      scrollTop.setAttribute('aria-hidden', String(!visible));
+      scrollTop.tabIndex = visible ? 0 : -1;
+    };
+    scrollTop.addEventListener('click', function () {
+      var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      window.scrollTo({ top: 0, behavior: reducedMotion ? 'auto' : 'smooth' });
+    });
+    window.addEventListener('scroll', updateScrollTop, { passive: true });
+    window.addEventListener('resize', updateScrollTop);
+    updateScrollTop();
+    var motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    var updateMotionPreference = function (event) { document.documentElement.classList.toggle('reduce-motion', event.matches); };
+    updateMotionPreference(motionPreference);
+    if (motionPreference.addEventListener) motionPreference.addEventListener('change', updateMotionPreference);
+    else motionPreference.addListener(updateMotionPreference);
     var show = function () { bootstrap.Toast.getOrCreateInstance(NS.$('#apiToast'), { autohide: false }).show(); };
     if (NS.status() === 'unavailable') show();
     document.addEventListener('naruseeki:status', function (e) { if (e.detail === 'unavailable') show(); });

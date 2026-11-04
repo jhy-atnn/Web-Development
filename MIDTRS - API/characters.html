@@ -33,14 +33,14 @@
     <div class="container py-3xl">
       <div class="ns-card mb-2xl">
         <div class="row gutter-xl align-items-end">
-          <div class="col">
+          <div class="col-12 col-md">
             <label class="form-label" for="q">Search by name</label>
             <div class="input-group"><span class="input-group-text"><svg class="icon" aria-hidden="true">
                   <use href="img/icons.svg#i-search"></use>
                 </svg></span><input class="form-control" id="q" type="search" placeholder="Naruto, Itachi, Hinata…"
                 autocomplete="off"></div>
           </div>
-          <div class="col-auto d-flex align-items-center gap-md">
+          <div class="col-12 col-md-auto d-flex flex-wrap align-items-center justify-content-between justify-content-md-end gap-md">
             <button class="btn btn-neutral d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#filters"
               aria-expanded="false" aria-controls="filters"><svg class="icon" aria-hidden="true">
                 <use href="img/icons.svg#i-sliders"></use>
@@ -57,7 +57,7 @@
             </div>
           </div>
         </div>
-        <div class="collapse" id="filters">
+        <div class="collapse d-md-block" id="filters">
           <div class="row gutter-xl pt-lg">
             <div class="col-sm-6 col-lg-4"><label class="form-label" for="f-village">Village</label><select
                 class="form-select" id="f-village">

@@ -28,7 +28,7 @@ NS.start(function () {
       '<div class="d-flex flex-column gap-lg mt-xl"><div class="d-flex flex-wrap gap-sm">' + NS.badge(meta.label, 'brand') + NS.badge(g.total.toLocaleString() + ' known ' + (g.total === 1 ? 'member' : 'members'), 'light') + '</div>' +
       (kind === 'clans' ? '<div class="d-flex align-items-center gap-lg"><h1 class="text-display-xl text-ink-shadow m-0">' + esc(g.name) + '</h1>' + NS.clanDetailSymbol(g.name) + '</div>' :
         '<h1 class="text-display-xl text-ink-shadow">' + esc(g.name) + '</h1>') + '</div></div></section>' +
-      '<div class="container section"><div class="row gutter-3xl align-items-start">' +
+      '<div class="container section"><div class="row g-4 align-items-start">' +
       '<div class="col-lg-8">' + NS.scroll('<div class="d-flex flex-column gap-xl">' + NS.ribbon('About', 'brand') + '<p class="text-label" id="group-summary">' + esc(blurb) + '</p><div id="group-summary-source"></div></div>') + '</div>' +
       '<div class="col-lg-4"><div class="ns-card"><h3 class="ribbon">Overview</h3><dl class="facts mt-lg">' + NS.fact('Type', meta.label) + NS.fact('Known members', g.total.toLocaleString()) + '</dl></div></div></div></div>' +
       '<section class="container section"><div class="d-flex flex-column gap-xs section-title"><span class="text-kicker tx-brand">Roster</span><h2 class="text-display">Members of ' + esc(g.name) + '</h2></div>' +
