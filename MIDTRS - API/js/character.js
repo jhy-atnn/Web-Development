@@ -82,9 +82,9 @@ NS.start(function () {
 
     var relations = c.relations.length
       ? '<ul class="list-reset row gutter-lg row-cols-1 row-cols-sm-2 pt-xl">' + c.relations.map(function (r) {
-          return '<li class="col"><a class="ns-card-link d-flex align-items-center gap-lg p-lg" href="' + (r.characterId ? 'character.html?id=' + r.characterId : 'characters.html?q=' + NS.enc(r.name)) + '">' +
-            '<span class="ns-dot ns-dot-soft text-label">' + esc(r.name.charAt(0)) + '</span><span class="d-flex flex-column min-w-0"><span class="text-label fw-semibold">' + esc(r.name) + '</span><span class="text-label-sm tx-secondary">' + esc(r.relationship) + '</span></span></a></li>';
-        }).join('') + '</ul>'
+        return '<li class="col"><a class="ns-card-link d-flex align-items-center gap-lg p-lg" href="' + (r.characterId ? 'character.html?id=' + r.characterId : 'characters.html?q=' + NS.enc(r.name)) + '">' +
+          '<span class="ns-dot ns-dot-soft text-label">' + esc(r.name.charAt(0)) + '</span><span class="d-flex flex-column min-w-0"><span class="text-label fw-semibold">' + esc(r.name) + '</span><span class="text-label-sm tx-secondary">' + esc(r.relationship) + '</span></span></a></li>';
+      }).join('') + '</ul>'
       : '<p class="text-label-sm tx-secondary pt-xl">No relations are recorded for this character.</p>';
 
     function voice(label, names) {
@@ -113,9 +113,9 @@ NS.start(function () {
 
     var journey = c.debut.length
       ? '<section class="container section"><div class="d-flex flex-column gap-xs section-title"><span class="text-kicker tx-brand">Across the media</span><h2 class="text-display">Journey highlights</h2></div>' +
-        '<ol class="list-reset journey">' + c.debut.map(function (d) {
-          return '<li><span class="ns-dot ns-dot-ink">' + NS.icon(MEDIA_ICON[d.label] || 'film', 'icon-lg') + '</span><span class="text-label fw-semibold">' + d.label + '</span><span class="text-label-sm tx-secondary">' + esc(d.value) + '</span></li>';
-        }).join('') + '</ol></section>' : '';
+      '<ol class="list-reset journey">' + c.debut.map(function (d) {
+        return '<li><span class="ns-dot ns-dot-ink">' + NS.icon(MEDIA_ICON[d.label] || 'film', 'icon-lg') + '</span><span class="text-label fw-semibold">' + d.label + '</span><span class="text-label-sm tx-secondary">' + esc(d.value) + '</span></li>';
+      }).join('') + '</ol></section>' : '';
 
     root.innerHTML = hero +
       '<div class="container section"><div class="row gutter-3xl align-items-start">' +

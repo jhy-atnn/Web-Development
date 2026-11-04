@@ -25,9 +25,178 @@
   };
 
   NS.art = function (src, alt, cls) {
-    if (!src) return '<div class="art-fallback ' + (cls || '') + '" role="img" aria-label="' + esc(alt) + '">' + esc(String(alt).charAt(0)) + '</div>';
+    if (!src) return '<div data-art-placeholder data-art-name="' + esc(alt) + '" class="art-fallback ' + (cls || '') + '" role="img" aria-label="' + esc(alt) + '">' + esc(String(alt).charAt(0)) + '</div>';
     return '<img data-art src="' + esc(src) + '" alt="' + esc(alt) + '" loading="lazy" referrerpolicy="no-referrer" class="' + (cls || '') + '">';
   };
+  var wikiImageRequests = {};
+  function getWikiImage(name) {
+    var key = String(name || '').toLowerCase();
+    if (wikiImageRequests[key]) return wikiImageRequests[key];
+    var url = 'https://naruto.fandom.com/api.php?action=query&titles=' + encodeURIComponent(name) +
+      '&prop=pageimages&format=json&pithumbsize=600&origin=*';
+    wikiImageRequests[key] = fetch(url).then(function (response) {
+      if (!response.ok) throw new Error('HTTP ' + response.status);
+      return response.json();
+    }).then(function (data) {
+      var pages = data.query && data.query.pages;
+      var page = pages && pages[Object.keys(pages)[0]];
+      return page && page.thumbnail && page.thumbnail.source || null;
+    }).catch(function (error) {
+      delete wikiImageRequests[key];
+      throw error;
+    });
+    return wikiImageRequests[key];
+  }
+  var villageImageRequests = {}, villageImageQueue = [], villageImageTimer = null;
+  function flushVillageImageQueue() {
+    villageImageTimer = null;
+    var batch = villageImageQueue;
+    villageImageQueue = [];
+    if (!batch.length) return;
+    var names = batch.map(function (item) { return item.name; });
+    var url = 'https://naruto.fandom.com/api.php?action=query&titles=' + encodeURIComponent(names.join('|')) +
+      '&prop=pageimages&format=json&pithumbsize=900&origin=*';
+    fetch(url).then(function (response) {
+      if (!response.ok) throw new Error('HTTP ' + response.status);
+      return response.json();
+    }).then(function (data) {
+      var pages = data.query && data.query.pages || {};
+      batch.forEach(function (item) {
+        var page = Object.keys(pages).map(function (id) { return pages[id]; }).filter(function (candidate) {
+          return candidate.title.toLowerCase() === item.name.toLowerCase();
+        })[0];
+        item.resolve(page && page.thumbnail && page.thumbnail.source || null);
+      });
+    }).catch(function () {
+      batch.forEach(function (item) { item.resolve(null); });
+    });
+  }
+  function getVillageFallbackImage(name) {
+    var searchUrl = 'https://naruto.fandom.com/api.php?action=query&generator=search&gsrsearch=' +
+      encodeURIComponent('"' + name + '"') + '&gsrlimit=10&prop=pageimages&format=json&pithumbsize=900&origin=*';
+    return fetch(searchUrl).then(function (response) {
+      if (!response.ok) throw new Error('HTTP ' + response.status);
+      return response.json();
+    }).then(function (data) {
+      var pages = data.query && data.query.pages;
+      var nameKey = name.toLowerCase().replace(/[^a-z0-9]/g, '');
+      var page = pages && Object.keys(pages).map(function (id) { return pages[id]; }).filter(function (item) {
+        return item.title.toLowerCase().replace(/[^a-z0-9]/g, '') === nameKey && item.thumbnail;
+      })[0];
+      return page && page.thumbnail.source || null;
+    }).catch(function () {
+      return null;
+    }).then(function (url) {
+      if (url) return url;
+      var api = 'https://naruto.fandom.com/api.php?action=query&titles=' + encodeURIComponent(name) +
+        '&prop=images&imlimit=50&format=json&origin=*';
+      return fetch(api).then(function (response) {
+        if (!response.ok) throw new Error('HTTP ' + response.status);
+        return response.json();
+      }).then(function (data) {
+        var pages = data.query && data.query.pages;
+        var page = pages && pages[Object.keys(pages)[0]];
+        var nameKey = name.toLowerCase().replace(/[^a-z0-9]/g, '');
+        var files = (page && page.images || []).map(function (image) { return image.title; }).filter(function (title) {
+          var file = title.replace(/^File:/i, '');
+          var fileKey = file.replace(/\.[^.]+$/, '').toLowerCase().replace(/[^a-z0-9]/g, '');
+          return /\.(?:png|jpe?g|webp)$/i.test(file) && fileKey.indexOf(nameKey) >= 0 &&
+            !/(?:symbol|logo|icon|flag|map)/i.test(file);
+        });
+        if (!files.length) return null;
+        var infoUrl = 'https://naruto.fandom.com/api.php?action=query&titles=' + encodeURIComponent(files.join('|')) +
+          '&prop=imageinfo&iiprop=url&iiurlwidth=900&format=json&origin=*';
+        return fetch(infoUrl).then(function (response) {
+          if (!response.ok) throw new Error('HTTP ' + response.status);
+          return response.json();
+        }).then(function (result) {
+          var imagePages = result.query && result.query.pages;
+          var imagePage = imagePages && imagePages[Object.keys(imagePages)[0]];
+          var info = imagePage && imagePage.imageinfo && imagePage.imageinfo[0];
+          return info && (info.thumburl || info.url) || null;
+        });
+      });
+    });
+  }
+  function getVillageImage(name) {
+    var key = String(name || '').toLowerCase();
+    if (villageImageRequests[key]) return villageImageRequests[key];
+    villageImageRequests[key] = new Promise(function (resolve) {
+      villageImageQueue.push({ name: name, resolve: resolve });
+      if (!villageImageTimer) villageImageTimer = setTimeout(flushVillageImageQueue, 0);
+    }).then(function (url) {
+      return url || getVillageFallbackImage(name);
+    }).catch(function (error) {
+      delete villageImageRequests[key];
+      console.error('Could not load a village image for ' + name + '.', error);
+      return null;
+    });
+    return villageImageRequests[key];
+  }
+  function loadMissingWikiImage(placeholder) {
+    if (placeholder.dataset.artFallback) return;
+    placeholder.dataset.artFallback = 'requested';
+    getWikiImage(placeholder.dataset.artName).then(function (url) {
+      if (!url) {
+        placeholder.dataset.artFallback = 'unavailable';
+        return;
+      }
+      if (!placeholder.parentNode) return;
+      var image = document.createElement('img');
+      image.setAttribute('data-art', '');
+      image.alt = placeholder.getAttribute('aria-label') || placeholder.dataset.artName;
+      image.loading = 'lazy';
+      image.referrerPolicy = 'no-referrer';
+      image.className = placeholder.className.replace(/\bart-fallback\b/g, '').trim();
+      image.dataset.wikiFallback = 'loaded';
+      image.src = url;
+      placeholder.replaceWith(image);
+    }).catch(function (error) {
+      console.error('Could not load a character image for ' + placeholder.dataset.artName + '.', error);
+      placeholder.dataset.artFallback = 'failed';
+    });
+  }
+  function loadVillageImage(card) {
+    if (card.dataset.villageImage) return;
+    card.dataset.villageImage = 'requested';
+    getVillageImage(card.dataset.villageName).then(function (url) {
+      if (!url) {
+        card.dataset.villageImage = 'unavailable';
+        return;
+      }
+      if (!card.parentNode) return;
+      var image = document.createElement('img');
+      image.src = url;
+      image.alt = '';
+      image.loading = 'lazy';
+      image.decoding = 'async';
+      image.referrerPolicy = 'no-referrer';
+      image.addEventListener('error', function () {
+        image.remove();
+        card.dataset.villageImage = 'failed';
+        console.error('Could not display a village image for ' + card.dataset.villageName + '.');
+      }, { once: true });
+      card.appendChild(image);
+      card.dataset.villageImage = 'loaded';
+    }).catch(function (error) {
+      console.error('Could not load a village image for ' + card.dataset.villageName + '.', error);
+      card.dataset.villageImage = 'failed';
+    });
+  }
+  function findMissingWikiImages(node) {
+    if (node.nodeType !== 1) return;
+    if (node.matches('[data-art-placeholder]')) loadMissingWikiImage(node);
+    Array.prototype.forEach.call(node.querySelectorAll('[data-art-placeholder]'), loadMissingWikiImage);
+    if (node.matches('[data-village-art]')) loadVillageImage(node);
+    Array.prototype.forEach.call(node.querySelectorAll('[data-village-art]'), loadVillageImage);
+  }
+  var artObserver = new MutationObserver(function (mutations) {
+    mutations.forEach(function (mutation) {
+      Array.prototype.forEach.call(mutation.addedNodes, findMissingWikiImages);
+    });
+  });
+  artObserver.observe(document.documentElement, { childList: true, subtree: true });
+  findMissingWikiImages(document.documentElement);
   function showArtFallback(image) {
     var d = document.createElement('div');
     d.className = 'art-fallback ' + (image.className || '');
@@ -43,15 +212,7 @@
       return;
     }
     image.dataset.wikiFallback = 'requested';
-    var url = 'https://naruto.fandom.com/api.php?action=query&titles=' + encodeURIComponent(image.alt) +
-      '&prop=pageimages&format=json&pithumbsize=600&origin=*';
-    fetch(url).then(function (response) {
-      if (!response.ok) throw new Error('HTTP ' + response.status);
-      return response.json();
-    }).then(function (data) {
-      var pages = data.query && data.query.pages;
-      var page = pages && pages[Object.keys(pages)[0]];
-      var imageUrl = page && page.thumbnail && page.thumbnail.source;
+    getWikiImage(image.alt).then(function (imageUrl) {
       if (!imageUrl) {
         showArtFallback(image);
         return;
@@ -66,7 +227,7 @@
   document.addEventListener('load', function (e) {
     var image = e.target;
     if (image && image.tagName === 'IMG' && image.hasAttribute('data-art') &&
-        image.naturalWidth === 300 && image.naturalHeight === 171) {
+      image.naturalWidth === 300 && image.naturalHeight === 171) {
       loadWikiImage(image);
     }
   }, true);
@@ -121,13 +282,11 @@
   NS.villageCard = function (g) {
     var lore = NS.lore.villages[g.name.toLowerCase()];
     return '<a class="ns-card-link village-card ' + NS.toneClass(g.name) + '" href="group.html?kind=villages&id=' + g.id + '" aria-label="Open ' + esc(g.name) + '">' +
-      '<span class="d-block tone-solid hero-bar-sm"></span>' +
-      '<span class="watermark" aria-hidden="true">' + esc(lore ? lore.kanji.charAt(0) : g.name.charAt(0)) + '</span>' +
-      '<div class="position-relative d-flex flex-column gap-md p-xl">' +
-      '<div class="d-flex flex-column gap-xs">' + (lore ? '<span class="text-kanji text-label tx-secondary">' + esc(lore.kanji) + '</span>' : '') +
-      '<h3 class="text-display">' + esc(g.name) + '</h3></div>' +
-      '<p class="text-label-sm tx-secondary">' + esc(lore ? lore.country + ' · led by the ' + lore.leader : 'A place in the shinobi world') + '</p>' +
-      (lore ? '<p class="text-label-sm tx-secondary clamp-3">' + esc(lore.blurb) + '</p>' : '') +
+      '<span class="village-card-background" data-village-art data-village-name="' + esc(g.name) + '" aria-hidden="true"></span>' +
+      '<div class="village-card-content d-flex flex-column gap-md p-xl">' +
+      '<div class="d-flex flex-column gap-xs"><h3 class="text-display">' + esc(g.name) + '</h3></div>' +
+      '<p class="text-label-sm village-card-meta">' + esc(lore ? lore.country + ' · led by the ' + lore.leader : 'A place in the shinobi world') + '</p>' +
+      (lore ? '<p class="text-label-sm village-card-blurb clamp-3">' + esc(lore.blurb) + '</p>' : '') +
       '<div class="mt-sm">' + NS.badge(g.total.toLocaleString() + ' known ninja', 'secondary') + '</div></div></a>';
   };
   NS.groupCard = function (g, href, blurb, icon) {

@@ -1732,6 +1732,38 @@ a.ns-chip:hover {
   background-size: cover;
 }
 
+.hero-sky.village-detail-hero {
+  isolation: isolate;
+  background-color: var(--surface-darkest);
+  background-image: none;
+}
+
+.village-detail-hero::before {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  background: linear-gradient(90deg, rgb(8 13 22 / 0.82), rgb(8 13 22 / 0.54) 58%, rgb(8 13 22 / 0.3)),
+    linear-gradient(0deg, rgb(8 13 22 / 0.52), transparent 70%);
+  content: '';
+}
+
+.village-detail-background {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+}
+
+.village-detail-background img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 45%;
+}
+
+.village-detail-hero > .container {
+  z-index: 2;
+}
+
 .hero-sky h1,
 .hero-sky h2 {
   color: var(--on-brand);
@@ -1832,21 +1864,59 @@ a.ns-chip:hover {
   margin-bottom: var(--space-2xl);
 }
 
-.village-card .watermark {
-  position: absolute;
-  right: calc(var(--space-sm) * -1);
-  top: var(--space-lg);
-  font-family: var(--font-kanji);
-  font-size: var(--fs-display-xl);
-  color: var(--tone);
-  opacity: 0.15;
-  pointer-events: none;
-  user-select: none;
-  line-height: 1;
-}
-
 .village-card {
   position: relative;
+  min-height: 22rem;
+  isolation: isolate;
+  background: var(--surface-dark);
+}
+
+.village-card::before {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  background: linear-gradient(180deg, rgb(8 13 22 / 0.12) 0%, rgb(8 13 22 / 0.52) 42%, rgb(8 13 22 / 0.96) 100%);
+  content: '';
+}
+
+.village-card-background {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--tone, var(--village-default)) 48%, var(--surface-dark));
+}
+
+.village-card-background img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.35s ease;
+}
+
+.village-card:hover .village-card-background img {
+  transform: scale(1.04);
+}
+
+.village-card-content {
+  position: relative;
+  z-index: 2;
+  min-height: 22rem;
+  justify-content: flex-end;
+  color: #fff;
+}
+
+.village-card .village-card-meta,
+.village-card .village-card-blurb,
+.village-card .text-display {
+  color: #fff;
+}
+
+.village-card .badge-secondary {
+  border: 1px solid rgb(255 255 255 / 0.35);
+  background: rgb(255 255 255 / 0.14);
+  color: #fff;
 }
 
 .journey {

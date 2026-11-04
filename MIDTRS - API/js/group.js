@@ -23,7 +23,9 @@ NS.start(function () {
     blurb = blurb || g.name + ' is a ' + meta.singular + ' of the shinobi world with ' + g.total + ' known ' + (g.total === 1 ? 'member' : 'members') + ' in the encyclopedia.';
 
     root.innerHTML =
-      '<section class="hero-sky ' + tone + '">' + (lore ? '<div class="hero-watermark text-kanji text-kanji-watermark" aria-hidden="true">' + esc(lore.kanji) + '</div>' : '') +
+      '<section class="hero-sky ' + tone + (kind === 'villages' ? ' village-detail-hero' : '') + '">' +
+      (kind === 'villages' ? '<span class="village-detail-background" data-village-art data-village-name="' + esc(g.name) + '" aria-hidden="true"></span>' : '') +
+      (lore && kind !== 'villages' ? '<div class="hero-watermark text-kanji text-kanji-watermark" aria-hidden="true">' + esc(lore.kanji) + '</div>' : '') +
       (tone ? '<span class="hero-bar"></span>' : '') +
       '<div class="container position-relative py-4xl py-md-5xl"><a class="btn btn-subtle btn-sm btn-on-dark" href="' + meta.back + '">' + NS.icon('arrow-left') + 'All ' + meta.plural + '</a>' +
       '<div class="d-flex flex-column gap-lg mt-xl"><div class="d-flex flex-wrap gap-sm">' + NS.badge(meta.label, 'brand') + NS.badge(g.total.toLocaleString() + ' known ' + (g.total === 1 ? 'member' : 'members'), 'light') + '</div>' +

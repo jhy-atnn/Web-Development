@@ -59,6 +59,7 @@
 
   function clean(s) {
     return String(s == null ? '' : s)
+      .replace(/"[^"]*" is not in the list \([\s\S]*$/i, '')
       .replace(/\s*\((?:anime|manga|novel|movie|game|video game|ova|part [^)]*)[^)]*only\)/gi, '')
       .replace(/\s*\((?:affinity|forms)\)/gi, '')
       .replace(/\s{2,}/g, ' ')
@@ -111,7 +112,7 @@
     var p = raw.personal || {};
     var titles = arr(p.titles);
     var affiliations = arr(p.affiliation);
-    var village = affiliations.filter(function (a) { return /gakure$/i.test(a); })[0] || affiliations[0] || null;
+    var village = affiliations.filter(function (a) { return /gakure$/i.test(a); })[0] || null;
     var clan = arr(p.clan)[0] || null;
     var age = pickPart(p.age);
     var rank = pickPart(raw.rank && raw.rank.ninjaRank);
