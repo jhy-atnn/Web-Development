@@ -16,27 +16,31 @@ NS.start(function () {
   NS.getGroup(kind, id).then(function (g) {
     if (!g) return notFound();
     document.title = g.name + ' · NaruSeeki';
-    var key = g.name.toLowerCase();
-    var lore = kind === 'villages' ? NS.lore.villages[key] : null;
     var tone = kind === 'villages' ? NS.toneClass(g.name) : '';
-    var blurb = kind === 'villages' ? (lore && lore.blurb) : kind === 'clans' ? NS.lore.clans[key] : kind === 'kekkei-genkai' ? NS.lore.kekkeiGenkai[key] : null;
-    blurb = blurb || g.name + ' is a ' + meta.singular + ' of the shinobi world with ' + g.total + ' known ' + (g.total === 1 ? 'member' : 'members') + ' in the encyclopedia.';
+    var wikiTitle = kind === 'clans' && !/\bclan$/i.test(g.name) ? g.name + ' Clan' : g.name;
+    var blurb = g.name + ' has ' + g.total + ' known ' + (g.total === 1 ? 'member' : 'members') + ' in the live Dattebayo API records.';
 
     root.innerHTML =
       '<section class="hero-sky ' + tone + (kind === 'villages' ? ' village-detail-hero' : '') + '">' +
       (kind === 'villages' ? '<span class="village-detail-background" data-village-art data-village-name="' + esc(g.name) + '" aria-hidden="true"></span>' : '') +
-      (lore && kind !== 'villages' ? '<div class="hero-watermark text-kanji text-kanji-watermark" aria-hidden="true">' + esc(lore.kanji) + '</div>' : '') +
       (tone ? '<span class="hero-bar"></span>' : '') +
       '<div class="container position-relative py-4xl py-md-5xl"><a class="btn btn-subtle btn-sm btn-on-dark" href="' + meta.back + '">' + NS.icon('arrow-left') + 'All ' + meta.plural + '</a>' +
       '<div class="d-flex flex-column gap-lg mt-xl"><div class="d-flex flex-wrap gap-sm">' + NS.badge(meta.label, 'brand') + NS.badge(g.total.toLocaleString() + ' known ' + (g.total === 1 ? 'member' : 'members'), 'light') + '</div>' +
-      (lore ? '<span class="text-kanji text-title tx-gold">' + esc(lore.kanji) + '</span>' : '') +
       (kind === 'clans' ? '<div class="d-flex align-items-center gap-lg"><h1 class="text-display-xl text-ink-shadow m-0">' + esc(g.name) + '</h1>' + NS.clanDetailSymbol(g.name) + '</div>' :
         '<h1 class="text-display-xl text-ink-shadow">' + esc(g.name) + '</h1>') + '</div></div></section>' +
       '<div class="container section"><div class="row gutter-3xl align-items-start">' +
-      '<div class="col-lg-8">' + NS.scroll('<div class="d-flex flex-column gap-xl">' + NS.ribbon('About', 'brand') + '<p class="text-label">' + esc(blurb) + '</p></div>') + '</div>' +
-      '<div class="col-lg-4"><div class="ns-card"><h3 class="ribbon">Overview</h3><dl class="facts mt-lg">' + NS.fact('Type', meta.label) + NS.fact('Country', lore && esc(lore.country)) + NS.fact('Leader', lore && esc(lore.leader)) + NS.fact('Known members', g.total.toLocaleString()) + '</dl></div></div></div></div>' +
+      '<div class="col-lg-8">' + NS.scroll('<div class="d-flex flex-column gap-xl">' + NS.ribbon('About', 'brand') + '<p class="text-label" id="group-summary">' + esc(blurb) + '</p><div id="group-summary-source"></div></div>') + '</div>' +
+      '<div class="col-lg-4"><div class="ns-card"><h3 class="ribbon">Overview</h3><dl class="facts mt-lg">' + NS.fact('Type', meta.label) + NS.fact('Known members', g.total.toLocaleString()) + '</dl></div></div></div></div>' +
       '<section class="container section"><div class="d-flex flex-column gap-xs section-title"><span class="text-kicker tx-brand">Roster</span><h2 class="text-display">Members of ' + esc(g.name) + '</h2></div>' +
       '<div id="members">' + NS.skeletonGrid(5) + '</div><div class="text-center mt-3xl" id="more"></div></section>';
+
+    NS.wikiSummary(wikiTitle).then(function (page) {
+      var summary = NS.$('#group-summary'), source = NS.$('#group-summary-source');
+      if (summary) summary.textContent = page.text;
+      if (source) source.innerHTML = NS.wikiSource(page);
+    }).catch(function (error) {
+      console.error('Could not load the live Wiki summary for ' + wikiTitle + '.', error);
+    });
 
     var page = 1, members = [], busy = true;
     function render() {

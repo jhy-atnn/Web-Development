@@ -26,15 +26,13 @@ NS.start(function () {
     document.title = c.name + ' · NaruSeeki';
 
     var words = c.name.split(' '), first = words[0], rest = words.slice(1).join(' ');
-    var tails = NS.lore.beastTails[c.name];
-    var tone = NS.toneClass(c.village);
     var back = kind === 'beast' ? 'powers.html?tab=tailed-beasts' : 'characters.html';
 
     var hero =
       '<section class="hero-sky"><div class="container position-relative py-3xl py-md-4xl"><div class="row align-items-center gutter-2xl">' +
       '<div class="col-lg-7 d-flex flex-column gap-lg">' +
       '<div><a class="btn btn-subtle btn-sm btn-on-dark" href="' + back + '">' + NS.icon('arrow-left') + (kind === 'beast' ? 'All tailed beasts' : 'All characters') + '</a></div>' +
-      '<div class="d-flex flex-wrap gap-sm">' + NS.badge(tails ? tails + '-Tailed Beast' : c.role, 'brand') + NS.badge(c.primarySeries, 'light') +
+      '<div class="d-flex flex-wrap gap-sm">' + NS.badge(c.classification[0] || c.rank || (kind === 'beast' ? 'Tailed Beast' : 'Shinobi'), 'brand') + NS.badge(c.primarySeries, 'light') +
       (c.status ? NS.badge(c.status, /deceased/i.test(c.status) ? 'danger' : 'success') : '') + '</div>' +
       '<h1 class="d-flex flex-column"><span class="text-display-xl tx-brand text-ink-shadow">' + esc(first) + '</span>' +
       (rest ? '<span class="text-display-lg text-ink-shadow">' + esc(rest) + '</span>' : '') + '</h1>' +
@@ -48,7 +46,7 @@ NS.start(function () {
       '</div></div></section>';
 
     var about = NS.scroll('<div class="d-flex flex-column gap-xl">' + NS.ribbon('About ' + first, 'brand') +
-      '<p class="text-label">' + esc(c.biography) + '</p>' +
+      '<p class="text-label" id="character-biography">' + esc(c.biography) + '</p><div id="character-biography-source"></div>' +
       (c.aliases.length ? '<div class="d-flex flex-column gap-md"><span class="text-kicker tx-brand-dark">Also known as</span><div class="d-flex flex-wrap gap-md">' + c.aliases.map(function (a) { return NS.badge(a, 'secondary'); }).join('') + '</div></div>' : '') +
       (c.tags.length ? '<div class="d-flex flex-wrap gap-md">' + c.tags.map(function (t) { return NS.badge('#' + t, 'default'); }).join('') + '</div>' : '') + '</div>');
 
@@ -59,8 +57,7 @@ NS.start(function () {
     if (c.natureTypes.length) {
       abilities += block('Nature types', pills(c.natureTypes.map(function (n) {
         var clean = n.replace(/\s+\(.*\)/, ''), stem = clean.replace(/ Release.*/, '');
-        var lore = NS.lore.natures[clean] || NS.lore.natures[stem + ' Release'];
-        return '<a class="ns-pill tone-' + (lore ? lore.tone : 'brand-primary') + '" href="nature.html?name=' + NS.enc(clean) + '"><span class="ns-dot ns-dot-sm">' + NS.icon(NATURE_ICON[stem] || 'stars') + '</span>' + esc(n) + '</a>';
+        return '<a class="ns-pill tone-brand-primary" href="nature.html?name=' + NS.enc(clean) + '"><span class="ns-dot ns-dot-sm">' + NS.icon(NATURE_ICON[stem] || 'stars') + '</span>' + esc(n) + '</a>';
       })));
     }
     if (c.kekkeiGenkai.length) {
@@ -129,6 +126,14 @@ NS.start(function () {
         { id: 'voice', label: 'Voice', html: voiceTab }, { id: 'gallery', label: 'Gallery', html: gallery }]) + '</section></div>' +
       '<aside class="col-lg-4"><div class="sticky-aside">' + overview + '</div></aside></div></div>' + journey +
       '<div id="related"></div>';
+
+    NS.wikiSummary(c.name).then(function (page) {
+      var biography = NS.$('#character-biography'), source = NS.$('#character-biography-source');
+      if (biography) biography.textContent = page.text;
+      if (source) source.innerHTML = NS.wikiSource(page);
+    }).catch(function (error) {
+      console.error('Could not load the live Wiki summary for ' + c.name + '.', error);
+    });
 
     if (kind === 'character') {
       NS.wikiEyeColor(c.name).then(function (color) {

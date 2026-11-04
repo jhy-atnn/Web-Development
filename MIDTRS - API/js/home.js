@@ -1,7 +1,6 @@
 NS.start(function () {
   var POPULAR = [1344, 1307, 374, 376, 1293, 259, 515, 1280, 928, 865, 437, 878, 1299, 861, 636, 739];
   var SPOTLIGHT = [1344, 1307, 376, 1293, 259, 515, 865, 1299];
-  var MAJOR = ['konohagakure', 'sunagakure', 'kirigakure', 'kumogakure', 'iwagakure', 'amegakure'];
 
   NS.$('#stat-characters').textContent = '—';
   NS.listCharacters({ page: 1, limit: 1 }).then(function (result) {
@@ -45,14 +44,14 @@ NS.start(function () {
       { id: 'all', label: 'All', html: pane(items) },
       { id: 'leaf', label: 'Leaf', html: pane(by(function (c) { return c.village === 'Konohagakure'; })) },
       { id: 'sand', label: 'Sand', html: pane(by(function (c) { return c.village === 'Sunagakure'; })) },
-      { id: 'akatsuki', label: 'Akatsuki', html: pane(by(function (c) { return c.role === 'antagonist'; })) },
+      { id: 'akatsuki', label: 'Akatsuki', html: pane(by(function (c) { return c.affiliations.some(function (name) { return /akatsuki/i.test(name); }); })) },
       { id: 'sound', label: 'Sound', html: pane(by(function (c) { return c.village === 'Otogakure'; })) },
       { id: 'cloud', label: 'Cloud', html: pane(by(function (c) { return c.village === 'Kumogakure'; })) },
     ]);
   });
 
   NS.listGroups('villages').then(function (groups) {
-    var picks = MAJOR.map(function (n) { return groups.filter(function (g) { return g.name.toLowerCase() === n; })[0]; }).filter(Boolean);
+    var picks = groups.filter(function (g) { return /gakure$/i.test(g.name); }).slice(0, 6);
     NS.$('#home-villages').innerHTML = NS.grid(picks, NS.villageCard, 'row-cols-1 row-cols-sm-2 row-cols-lg-3');
   });
 

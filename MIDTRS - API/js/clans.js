@@ -9,7 +9,7 @@ NS.start(function () {
     var items = data[kind].filter(function (g) { return g.name.toLowerCase().indexOf(term) >= 0; });
     if (!items.length) return '<div class="pt-xl">' + NS.empty('Nothing found', 'Try a different search.') + '</div>';
     var html = NS.grid(items.slice(0, limit[kind]), function (g) {
-      var blurb = kind === 'clans' ? (NS.lore.clans[g.name.toLowerCase()] || 'A clan of the shinobi world with ' + g.total + ' known members.') : 'A squad of shinobi: ' + g.total + ' known members.';
+      var blurb = g.total + (g.total === 1 ? ' known member' : ' known members') + ' in the live API records.';
       var href = 'group.html?kind=' + (kind === 'clans' ? 'clans' : 'teams') + '&id=' + g.id;
       return kind === 'clans' ? NS.clanCard(g, href, blurb) : NS.groupCard(g, href, blurb, 'people');
     }, 'row-cols-1 row-cols-sm-2 row-cols-lg-3');

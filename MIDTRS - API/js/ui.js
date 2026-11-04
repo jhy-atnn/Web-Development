@@ -18,11 +18,7 @@
   NS.debounce = function (fn, ms) { var t; return function () { var a = arguments, s = this; clearTimeout(t); t = setTimeout(function () { fn.apply(s, a); }, ms || 350); }; };
   NS.capital = function (s) { return String(s).replace(/^./, function (c) { return c.toUpperCase(); }); };
 
-  var VILLAGE_TONES = {};
-  NS.toneClass = function (village) {
-    var lore = NS.lore && NS.lore.villages[String(village || '').toLowerCase()];
-    return 'tone-' + (lore ? lore.tone : 'default');
-  };
+  NS.toneClass = function () { return 'tone-default'; };
 
   NS.art = function (src, alt, cls) {
     if (!src) return '<div data-art-placeholder data-art-name="' + esc(alt) + '" class="art-fallback ' + (cls || '') + '" role="img" aria-label="' + esc(alt) + '">' + esc(String(alt).charAt(0)) + '</div>';
@@ -47,6 +43,47 @@
     });
     return wikiImageRequests[key];
   }
+  var wikiSummaryRequests = {};
+  function wikiParagraphText(node) {
+    var copy = node.cloneNode(true);
+    Array.prototype.forEach.call(copy.querySelectorAll('sup, style, script, .reference, .mw-editsection'), function (item) { item.remove(); });
+    return copy.textContent.replace(/\[[0-9]+\]/g, '').replace(/\s+/g, ' ').trim();
+  }
+  NS.wikiSummary = function (name) {
+    var key = String(name || '').toLowerCase();
+    if (wikiSummaryRequests[key]) return wikiSummaryRequests[key];
+    var url = 'https://naruto.fandom.com/api.php?action=parse&page=' + encodeURIComponent(name) +
+      '&section=0&prop=text%7Cdisplaytitle&redirects=1&format=json&formatversion=2&origin=*';
+    wikiSummaryRequests[key] = fetch(url).then(function (response) {
+      if (!response.ok) throw new Error('HTTP ' + response.status);
+      return response.json();
+    }).then(function (data) {
+      if (!data.parse || !data.parse.text) throw new Error('Wiki page not found');
+      var documentFragment = new DOMParser().parseFromString(data.parse.text, 'text/html');
+      var paragraphs = Array.prototype.map.call(documentFragment.querySelectorAll('.mw-parser-output p'), wikiParagraphText);
+      var text = paragraphs.filter(function (paragraph) {
+        return paragraph.length >= 80 && !/^This article\b/i.test(paragraph) && !/^For other uses\b/i.test(paragraph);
+      })[0];
+      if (!text) throw new Error('Wiki summary not found');
+      if (text.length > 1200) {
+        var shortened = text.slice(0, 1200), lastSentence = shortened.lastIndexOf('. ');
+        text = shortened.slice(0, lastSentence > 500 ? lastSentence + 1 : 1200).trim();
+      }
+      var title = data.parse.title || name;
+      return {
+        text: text,
+        title: title,
+        url: 'https://naruto.fandom.com/wiki/' + encodeURIComponent(title.replace(/ /g, '_')),
+      };
+    }).catch(function (error) {
+      delete wikiSummaryRequests[key];
+      throw error;
+    });
+    return wikiSummaryRequests[key];
+  };
+  NS.wikiSource = function (page) {
+    return '<span class="text-meta tx-secondary">Source: <a class="tx-brand text-decoration-underline" href="' + esc(page.url) + '" target="_blank" rel="noreferrer noopener">' + esc(page.title) + ' on Naruto Wiki</a></span>';
+  };
   var wikiCardImageRequests = {}, wikiCardImageQueue = [], wikiCardImageTimer = null;
   function flushWikiCardImageQueue() {
     wikiCardImageTimer = null;
@@ -403,17 +440,17 @@
     if (image && image.tagName === 'IMG' && image.hasAttribute('data-art')) loadWikiImage(image);
   }, true);
 
-  var ROLE_BADGE = { main: 'badge-brand', antagonist: 'badge-danger', supporting: 'badge-secondary', background: 'badge-default' };
   NS.badge = function (label, variant) { return '<span class="badge badge-' + (variant || 'default') + '">' + esc(label) + '</span>'; };
 
   NS.characterCard = function (c, compact) {
+    var category = c.classification[0] || c.rank || 'Shinobi';
     return '<a class="ns-card-link char-card ' + (compact ? 'compact ' : '') + NS.toneClass(c.village) + '" href="character.html?id=' + c.id + '" aria-label="Open ' + esc(c.name) + '">' +
       '<div class="portrait">' + NS.art(c.imageUrl || c.thumbnailUrl, c.name) +
       (c.nameJapanese ? '<span class="kanji-tag text-kanji">' + esc(c.nameJapanese) + '</span>' : '') + '</div>' +
       '<div class="p-xl d-flex flex-column gap-md">' +
       '<span class="text-label fw-semibold">' + esc(c.name) + '</span>' +
       '<span class="text-label-sm tx-secondary">' + esc([c.rank, c.village].filter(Boolean).join(' · ') || 'Shinobi') + '</span>' +
-      '<div class="d-flex flex-wrap gap-xs"><span class="badge ' + ROLE_BADGE[c.role] + '">' + esc(c.role) + '</span>' +
+      '<div class="d-flex flex-wrap gap-xs">' + NS.badge(category, 'secondary') +
       (c.clan ? NS.badge(c.clan, 'default') : '') + '</div></div></a>';
   };
 
@@ -447,13 +484,11 @@
   NS.loading = function (text) { return '<p class="text-label-sm tx-secondary">' + esc(text || 'Unrolling the scroll…') + '</p>'; };
 
   NS.villageCard = function (g) {
-    var lore = NS.lore.villages[g.name.toLowerCase()];
     return '<a class="ns-card-link village-card ' + NS.toneClass(g.name) + '" href="group.html?kind=villages&id=' + g.id + '" aria-label="Open ' + esc(g.name) + '">' +
       '<span class="village-card-background" data-village-art data-village-name="' + esc(g.name) + '" aria-hidden="true"></span>' +
       '<div class="village-card-content d-flex flex-column gap-md p-xl">' +
       '<div class="d-flex flex-column gap-xs"><h3 class="text-display">' + esc(g.name) + '</h3></div>' +
-      '<p class="text-label-sm village-card-meta">' + esc(lore ? lore.country + ' · led by the ' + lore.leader : 'A place in the shinobi world') + '</p>' +
-      (lore ? '<p class="text-label-sm village-card-blurb clamp-3">' + esc(lore.blurb) + '</p>' : '') +
+      '<p class="text-label-sm village-card-meta">Village record from the live API</p>' +
       '<div class="mt-sm">' + NS.badge(g.total.toLocaleString() + ' known ninja', 'secondary') + '</div></div></a>';
   };
   NS.imageCard = function (name, href, content, imageUrl) {
@@ -478,9 +513,9 @@
     return '<span class="clan-detail-symbol" data-clan-art data-clan-name="' + esc(name) + '" aria-hidden="true">' + NS.icon('flag') + '</span>';
   };
   NS.beastCard = function (c) {
-    var tails = NS.lore.beastTails[c.name];
+    var category = c.classification[0] || 'Tailed Beast';
     return NS.imageCard(c.name, 'character.html?id=' + c.id + '&type=beast',
-      '<div class="d-flex justify-content-end">' + (tails ? NS.badge(tails + '-Tailed', 'secondary') : '') + '</div>' +
+      '<div class="d-flex justify-content-end">' + NS.badge(category, 'secondary') + '</div>' +
       '<div class="d-flex flex-column gap-xs mt-auto"><h3 class="text-brush">' + esc(c.name) + '</h3>' +
       '<span class="text-label-sm">Tailed Beast</span></div>', c.imageUrl || c.thumbnailUrl);
   };
@@ -548,7 +583,7 @@
       '<div class="col-md-4 d-flex flex-column gap-md"><h2 class="text-brush-sm tx-brand">Explore</h2><ul class="list-reset row row-cols-2 gap-y-md">' +
       NAV.slice(1).map(function (n) { return '<li class="col"><a class="text-label-sm tx-on-brand-soft footer-link" href="' + n.href + '">' + n.label + '</a></li>'; }).join('') + '</ul></div>' +
       '<div class="col-md-4 d-flex flex-column align-items-start gap-md"><h2 class="text-brush-sm tx-brand">Data</h2>' +
-      '<p class="text-label-sm tx-on-brand-soft">Character and group data loads directly from the live Dattebayo Naruto API.</p>' +
+      '<p class="text-label-sm tx-on-brand-soft">Structured records load from Dattebayo. Narrative summaries load from the Naruto Wiki API.</p>' +
       '<button class="btn btn-neutral btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#aboutModal">' + NS.icon('info-circle') + 'About the data</button></div>' +
       '</div></div><div class="bg-ink-deep py-lg"><div class="container"><p class="text-meta tx-on-brand-faint">NaruSeeki is a fan-made prototype. Naruto and all related characters are property of Masashi Kishimoto, Shueisha and TV Tokyo. Headline lettering uses the Ninja Naruto typeface.</p></div></div>';
   }
@@ -560,9 +595,10 @@
       '<div class="modal-header"><h2 class="text-title" id="aboutTitle">About the data</h2><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div>' +
       '<div class="modal-body d-flex flex-column gap-lg text-label-sm tx-secondary">' +
       '<p>Character records follow the NaruSeeki schema: identity, physical traits, village and rank, jutsu and nature types, relations, voice actors and media debut.</p>' +
-      '<p>Character and group records load directly from the open Dattebayo Naruto API. Eye colour is looked up from the Naruto Wiki appearance text when it is explicitly stated, and clan symbols are loaded from clan-page image files when available; these supplementary fields can be incomplete. Hair colour, hair length, animal ears and filler flags are not included. Biographies and descriptive lore are hand-written additions; roles and tags are derived from API data.</p>' +
-      '<p>This site does not bundle an offline copy of API records. If the API is unreachable, API-powered pages and features cannot load until it is available again.</p>' +
-      '<a class="tx-brand text-decoration-underline" href="https://dattebayo-api.onrender.com" target="_blank" rel="noreferrer noopener">dattebayo-api.onrender.com</a></div>' +
+      '<p>Character and group records load directly from the open Dattebayo Naruto API. Narrative summaries, eye-colour lookups and supplementary page information load from the Naruto Wiki MediaWiki API. Pictures may come from an API or local presentation assets.</p>' +
+      '<p>No local JSON file supplies Naruto facts or descriptions. If a Wiki summary is unavailable, the page keeps a summary assembled only from Dattebayo fields.</p>' +
+      '<div class="d-flex flex-column gap-sm"><a class="tx-brand text-decoration-underline" href="https://dattebayo-api.onrender.com" target="_blank" rel="noreferrer noopener">Dattebayo Naruto API</a>' +
+      '<a class="tx-brand text-decoration-underline" href="https://naruto.fandom.com/wiki/Narutopedia" target="_blank" rel="noreferrer noopener">Naruto Wiki API source</a></div></div>' +
       '<div class="modal-footer"><button type="button" class="btn btn-primary" data-bs-dismiss="modal">Understood</button></div></div></div></div>' +
       '<div class="toast-zone"><div class="toast align-items-center" id="apiToast" role="status" aria-live="polite" aria-atomic="true"><div class="d-flex">' +
       '<div class="toast-body">The live Naruto API is unavailable. Check your connection or try again later.</div>' +
@@ -580,7 +616,7 @@
     NS.ready().then(main).catch(function (err) {
       console.error(err);
       var m = NS.$('#main');
-      if (m) m.innerHTML = '<div class="container py-5xl">' + NS.empty('Could not load site descriptions', 'Open this site through a local web server (for example: python -m http.server) so the hand-written lore file can be fetched.') + '</div>';
+      if (m) m.innerHTML = '<div class="container py-5xl">' + NS.empty('Could not start this page', 'Reload the page and try the live APIs again.') + '</div>';
     });
   };
 })();

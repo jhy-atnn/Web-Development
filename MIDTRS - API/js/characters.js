@@ -1,8 +1,8 @@
 NS.start(function () {
   var PAGE = 20;
   var params = NS.params();
-  var state = { q: params.get('q') || '', village: params.get('village') || '', role: '', gender: '', nature: '', view: 'grid', items: [], page: 1, total: 0, group: null, token: 0, loading: true };
-  var $q = NS.$('#q'), $v = NS.$('#f-village'), $role = NS.$('#f-role'), $gender = NS.$('#f-gender'), $nature = NS.$('#f-nature');
+  var state = { q: params.get('q') || '', village: params.get('village') || '', gender: '', nature: '', view: 'grid', items: [], page: 1, total: 0, group: null, token: 0, loading: true };
+  var $q = NS.$('#q'), $v = NS.$('#f-village'), $gender = NS.$('#f-gender'), $nature = NS.$('#f-nature');
   $q.value = state.q;
   if (params.get('focus') === '1') $q.focus();
 
@@ -18,7 +18,7 @@ NS.start(function () {
 
   function filtered() {
     return state.items.filter(function (c) {
-      return (!state.role || c.role === state.role) && (!state.gender || c.gender === state.gender) &&
+      return (!state.gender || c.gender === state.gender) &&
         (!state.nature || c.natureTypes.some(function (n) { return n.indexOf(state.nature.split(' ')[0]) === 0; }));
     });
   }
@@ -27,13 +27,13 @@ NS.start(function () {
     var out = [];
     if (state.q) out.push(['q', '“' + state.q + '”', 'badge-brand']);
     if (state.village) out.push(['village', $v.options[$v.selectedIndex] ? $v.options[$v.selectedIndex].text : 'Village', 'badge-secondary']);
-    ['role', 'gender', 'nature'].forEach(function (k) { if (state[k]) out.push([k, state[k], 'badge-secondary']); });
+    ['gender', 'nature'].forEach(function (k) { if (state[k]) out.push([k, state[k], 'badge-secondary']); });
     var host = NS.$('#active-filters');
     host.innerHTML = out.length
       ? out.map(function (o) { return '<span class="badge ' + o[2] + ' d-inline-flex align-items-center gap-xs">' + NS.esc(o[1]) + '<button type="button" class="btn-close chip-close" data-clear="' + o[0] + '" aria-label="Remove filter"></button></span>'; }).join('') +
       '<button class="btn btn-subtle btn-sm" type="button" data-clear="all">Clear all</button>'
       : '';
-    NS.$('#filters-label').textContent = 'Filters' + (['village', 'role', 'gender', 'nature'].filter(function (k) { return state[k]; }).length ? ' (' + ['village', 'role', 'gender', 'nature'].filter(function (k) { return state[k]; }).length + ')' : '');
+    NS.$('#filters-label').textContent = 'Filters' + (['village', 'gender', 'nature'].filter(function (k) { return state[k]; }).length ? ' (' + ['village', 'gender', 'nature'].filter(function (k) { return state[k]; }).length + ')' : '');
   }
 
   function render() {
@@ -57,7 +57,7 @@ NS.start(function () {
           '<div class="list-thumb tone-soft">' + NS.art(c.thumbnailUrl, c.name) + '</div>' +
           '<div class="flex-grow-1 min-w-0 d-flex flex-column gap-xs"><span class="text-label fw-semibold">' + NS.esc(c.name) + '</span>' +
           '<span class="text-label-sm tx-secondary text-truncate">' + NS.esc([c.rank, c.village, c.clan].filter(Boolean).join(' · ') || 'Shinobi') + '</span></div>' +
-          NS.badge(c.role, c.role === 'main' ? 'brand' : c.role === 'antagonist' ? 'danger' : 'secondary') + '</a>';
+          NS.badge(c.classification[0] || c.rank || 'Shinobi', 'secondary') + '</a>';
       }, 'row-cols-1 row-cols-md-2');
     }
     var hasMore = state.group ? state.page * PAGE < state.group.characters.length : state.page * PAGE < state.total;
@@ -101,7 +101,6 @@ NS.start(function () {
 
   $q.addEventListener('input', NS.debounce(function () { state.q = $q.value.trim(); reload(); }, 350));
   $v.addEventListener('change', function () { state.village = $v.value; reload(); });
-  $role.addEventListener('change', function () { state.role = $role.value; render(); });
   $gender.addEventListener('change', function () { state.gender = $gender.value; render(); });
   $nature.addEventListener('change', function () { state.nature = $nature.value; render(); });
   NS.$$('[data-view]').forEach(function (b) {
@@ -116,9 +115,9 @@ NS.start(function () {
     if (!t) return;
     if (t.id === 'load-more') return loadMore();
     var k = t.dataset.clear, refetch = false;
-    var all = k === 'all' ? ['q', 'village', 'role', 'gender', 'nature'] : [k];
+    var all = k === 'all' ? ['q', 'village', 'gender', 'nature'] : [k];
     all.forEach(function (key) { if (key === 'q' || key === 'village') refetch = true; state[key] = ''; });
-    $q.value = state.q; $v.value = state.village; $role.value = state.role; $gender.value = state.gender; $nature.value = state.nature;
+    $q.value = state.q; $v.value = state.village; $gender.value = state.gender; $nature.value = state.nature;
     refetch ? reload() : render();
   });
 });

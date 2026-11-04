@@ -3,21 +3,13 @@
   var NS = (window.NS = window.NS || {});
   var BASE = 'https://dattebayo-api.onrender.com';
 
-  var lore = null;
   var status = 'live';
   var memo = {};
   var charCache = new Map();
   var byName = new Map();
   var allCharactersPromise = null;
 
-  var readyPromise = fetch('data/lore.json').then(function (response) {
-    if (!response.ok) throw new Error('Could not load site descriptions (HTTP ' + response.status + ')');
-    return response.json();
-  }).then(function (data) {
-    lore = data;
-    NS.lore = lore;
-    return true;
-  });
+  var readyPromise = Promise.resolve(true);
   NS.ready = function () { return readyPromise; };
 
   function setStatus(next) {
@@ -137,23 +129,21 @@
     var images = (raw.images || []).filter(Boolean);
     var birthday = p.birthdate ? clean(p.birthdate) : null;
     var isAkatsuki = affiliations.some(function (a) { return /akatsuki/i.test(a); });
-    var role = lore.mainIds.indexOf(raw.id) >= 0 ? 'main'
-      : lore.antagonistIds.indexOf(raw.id) >= 0 || isAkatsuki ? 'antagonist'
-        : jutsu.length >= 6 || team.length > 0 ? 'supporting' : 'background';
+    var classifications = arr(p.classification);
     var tools = arr(raw.tools);
-    var tags = ['ninja'].concat(rank.primary ? [rank.primary.toLowerCase()] : [], arr(p.classification).map(function (c) { return c.toLowerCase(); }),
+    var tags = ['ninja'].concat(rank.primary ? [rank.primary.toLowerCase()] : [], classifications.map(function (c) { return c.toLowerCase(); }),
       isAkatsuki ? ['akatsuki'] : [], clan ? [clan.toLowerCase() + ' clan'] : [],
       tools.some(function (t) { return /sword|blade/i.test(t); }) ? ['swordsman'] : [])
       .filter(function (x, i, a) { return a.indexOf(x) === i; }).slice(0, 7);
 
     var c = {
-      id: raw.id, name: clean(raw.name), nameJapanese: japaneseName(titles), aliases: epithets(titles), role: role,
+      id: raw.id, name: clean(raw.name), nameJapanese: japaneseName(titles), aliases: epithets(titles),
       mediaType: 'anime', primarySeries: /shipp/i.test(String(d.anime)) ? 'Naruto Shippuden' : 'Naruto', tags: tags,
       gender: p.sex ? String(p.sex).toLowerCase() : null, apparentAge: apparentAge(age.primary, rank.primary),
       ageExact: age.primary, birthday: birthday, zodiac: zodiac(birthday), bloodType: p.bloodType ? clean(p.bloodType) : null,
       height: pickPart(p.height).primary, weight: pickPart(p.weight).primary, status: p.status ? clean(p.status) : null,
       village: village, clan: clan, rank: rank.primary, registration: (raw.rank && raw.rank.ninjaRegistration) || null,
-      team: team, occupation: arr(p.occupation), classification: arr(p.classification), species: p.species ? clean(p.species) : null,
+      team: team, occupation: arr(p.occupation), classification: classifications, species: p.species ? clean(p.species) : null,
       kekkeiGenkai: arr(p.kekkeiGenkai).concat(arr(p['kekkeiMōra']), arr(p['kekkeiTōta'])),
       natureTypes: arr(raw.natureType), jutsu: jutsu, weapons: tools, affiliations: affiliations,
       tailedBeast: p.tailedBeast ? clean(p.tailedBeast) : null, jinchuriki: arr(p['jinchūriki']),
@@ -162,13 +152,15 @@
       voiceJp: arr(raw.voiceActors && raw.voiceActors.japanese).slice(0, 3), voiceEn: arr(raw.voiceActors && raw.voiceActors.english).slice(0, 3),
       debut: debut, firstAppearanceEpisode: epMatch ? Number(epMatch[1]) : null,
     };
-    c.biography = lore.bios[c.id] || generateBio(c);
+    c.biography = generateBio(c);
     return c;
   }
   function generateBio(c) {
     var skills = c.jutsu.slice(0, 3);
     var debut = c.debut.filter(function (x) { return x.label === 'Anime'; })[0];
-    return c.name + ' is ' + (c.rank ? 'a ' + c.rank : 'a shinobi') + (c.village ? ' of ' + c.village : '') + (c.clan ? ', belonging to the ' + c.clan + ' clan' : '') + '.' +
+    var descriptor = c.classification[0] || c.rank || c.species || 'shinobi';
+    var article = /^[aeiou]/i.test(descriptor) ? 'an ' : 'a ';
+    return c.name + ' is ' + article + descriptor + (c.village ? ' of ' + c.village : '') + (c.clan ? ', belonging to the ' + c.clan + ' clan' : '') + '.' +
       (skills.length ? ' Known techniques include ' + skills.join(', ') + '.' : '') + (debut ? ' First seen in ' + debut.value + '.' : '');
   }
 
