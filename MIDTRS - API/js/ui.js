@@ -47,11 +47,11 @@
     });
     return wikiImageRequests[key];
   }
-  var villageImageRequests = {}, villageImageQueue = [], villageImageTimer = null;
-  function flushVillageImageQueue() {
-    villageImageTimer = null;
-    var batch = villageImageQueue;
-    villageImageQueue = [];
+  var wikiCardImageRequests = {}, wikiCardImageQueue = [], wikiCardImageTimer = null;
+  function flushWikiCardImageQueue() {
+    wikiCardImageTimer = null;
+    var batch = wikiCardImageQueue.splice(0, 10);
+    if (wikiCardImageQueue.length) wikiCardImageTimer = setTimeout(flushWikiCardImageQueue, 0);
     if (!batch.length) return;
     var names = batch.map(function (item) { return item.name; });
     var url = 'https://naruto.fandom.com/api.php?action=query&titles=' + encodeURIComponent(names.join('|')) +
@@ -71,7 +71,7 @@
       batch.forEach(function (item) { item.resolve(null); });
     });
   }
-  function getVillageFallbackImage(name) {
+  function getWikiCardFallbackImage(name) {
     var searchUrl = 'https://naruto.fandom.com/api.php?action=query&generator=search&gsrsearch=' +
       encodeURIComponent('"' + name + '"') + '&gsrlimit=10&prop=pageimages&format=json&pithumbsize=900&origin=*';
     return fetch(searchUrl).then(function (response) {
@@ -118,20 +118,137 @@
       });
     });
   }
-  function getVillageImage(name) {
+  function getWikiCardImage(name) {
     var key = String(name || '').toLowerCase();
-    if (villageImageRequests[key]) return villageImageRequests[key];
-    villageImageRequests[key] = new Promise(function (resolve) {
-      villageImageQueue.push({ name: name, resolve: resolve });
-      if (!villageImageTimer) villageImageTimer = setTimeout(flushVillageImageQueue, 0);
+    if (wikiCardImageRequests[key]) return wikiCardImageRequests[key];
+    wikiCardImageRequests[key] = new Promise(function (resolve) {
+      wikiCardImageQueue.push({ name: name, resolve: resolve });
+      if (!wikiCardImageTimer) wikiCardImageTimer = setTimeout(flushWikiCardImageQueue, 0);
     }).then(function (url) {
-      return url || getVillageFallbackImage(name);
+      return url || getWikiCardFallbackImage(name);
     }).catch(function (error) {
-      delete villageImageRequests[key];
-      console.error('Could not load a village image for ' + name + '.', error);
+      delete wikiCardImageRequests[key];
+      console.error('Could not load an image for ' + name + '.', error);
       return null;
     });
-    return villageImageRequests[key];
+    return wikiCardImageRequests[key];
+  }
+  var clanSymbolRequests = {}, clanSymbolQueue = [], clanSymbolTimer = null;
+  function normalizedWikiTitle(title) {
+    return String(title || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]/g, '');
+  }
+  function flushClanSymbolQueue() {
+    clanSymbolTimer = null;
+    var batch = clanSymbolQueue;
+    clanSymbolQueue = [];
+    if (!batch.length) return;
+    var titles = batch.map(function (item) { return /\bclan$/i.test(item.name) ? item.name : item.name + ' Clan'; });
+    var url = 'https://naruto.fandom.com/api.php?action=query&titles=' + encodeURIComponent(titles.join('|')) +
+      '&prop=images&imlimit=100&format=json&origin=*';
+    fetch(url).then(function (response) {
+      if (!response.ok) throw new Error('HTTP ' + response.status);
+      return response.json();
+    }).then(function (data) {
+      var pages = data.query && data.query.pages || {};
+      var matches = [];
+      batch.forEach(function (item, index) {
+        var target = normalizedWikiTitle(titles[index]);
+        var page = Object.keys(pages).map(function (id) { return pages[id]; }).filter(function (candidate) {
+          return normalizedWikiTitle(candidate.title) === target;
+        })[0];
+        var clanKey = normalizedWikiTitle(item.name.replace(/\s+clan$/i, ''));
+        var symbol = (page && page.images || []).map(function (image) { return image.title; }).filter(function (file) {
+          var key = normalizedWikiTitle(file.replace(/^File:/i, '').replace(/\.[^.]+$/, ''));
+          return /symbol|crest|emblem/i.test(file) && key.indexOf(clanKey) >= 0;
+        })[0];
+        if (symbol) matches.push({ item: item, title: symbol });
+        else item.resolve(null);
+      });
+      if (!matches.length) return;
+      var imageUrl = 'https://naruto.fandom.com/api.php?action=query&titles=' +
+        encodeURIComponent(matches.map(function (match) { return match.title; }).join('|')) +
+        '&prop=imageinfo&iiprop=url&iiurlwidth=240&format=json&origin=*';
+      return fetch(imageUrl).then(function (response) {
+        if (!response.ok) throw new Error('HTTP ' + response.status);
+        return response.json();
+      }).then(function (result) {
+        var imagePages = result.query && result.query.pages || {};
+        matches.forEach(function (match) {
+          var page = Object.keys(imagePages).map(function (id) { return imagePages[id]; }).filter(function (candidate) {
+            return normalizedWikiTitle(candidate.title) === normalizedWikiTitle(match.title);
+          })[0];
+          var info = page && page.imageinfo && page.imageinfo[0];
+          match.item.resolve(info && (info.thumburl || info.url) || null);
+        });
+      });
+    }).catch(function (error) {
+      console.error('Could not load clan symbols from the Naruto Wiki.', error);
+      batch.forEach(function (item) { item.resolve(null); });
+    });
+  }
+  function getClanSymbol(name) {
+    var key = String(name || '').toLowerCase();
+    if (clanSymbolRequests[key]) return clanSymbolRequests[key];
+    clanSymbolRequests[key] = new Promise(function (resolve) {
+      clanSymbolQueue.push({ name: name, resolve: resolve });
+      if (!clanSymbolTimer) clanSymbolTimer = setTimeout(flushClanSymbolQueue, 0);
+    });
+    return clanSymbolRequests[key];
+  }
+  function getWikiEyeColor(name) {
+    var pageUrl = 'https://naruto.fandom.com/api.php?action=parse&page=' + encodeURIComponent(name) +
+      '&prop=sections&format=json&origin=*';
+    return fetch(pageUrl).then(function (response) {
+      if (!response.ok) throw new Error('HTTP ' + response.status);
+      return response.json();
+    }).then(function (data) {
+      var sections = data.parse && data.parse.sections || [];
+      var appearance = sections.filter(function (section) {
+        return section.line && section.line.replace(/<[^>]+>/g, '').trim().toLowerCase() === 'appearance';
+      })[0];
+      if (!appearance) return null;
+      var url = 'https://naruto.fandom.com/api.php?action=parse&page=' + encodeURIComponent(name) +
+        '&prop=wikitext&section=' + encodeURIComponent(appearance.index) + '&format=json&origin=*';
+      return fetch(url).then(function (response) {
+        if (!response.ok) throw new Error('HTTP ' + response.status);
+        return response.json();
+      }).then(function (result) {
+        var text = result.parse && result.parse.wikitext && result.parse.wikitext['*'] || '';
+        text = text.replace(/<ref\b[^>]*>[\s\S]*?<\/ref>/gi, '').replace(/<ref\b[^>]*\/>/gi, '').replace(/\{\{[\s\S]*?\}\}/g, ' ');
+        var colors = 'blue|black|brown|green|grey|gray|red|purple|violet|yellow|amber|white|hazel|orange|lavender|silver|gold';
+        var match = text.match(new RegExp('\\b((?:(?:pale|light|dark|deep)\\s+)?(?:' + colors + '))(?:[- ]colou?red)?\\s+eyes?\\b', 'i')) ||
+          text.match(new RegExp('\\beyes?\\s+(?:are|were)\\s+((?:(?:pale|light|dark|deep)\\s+)?(?:' + colors + '))\\b', 'i'));
+        return match ? match[1].replace(/\b\w/g, function (letter) { return letter.toUpperCase(); }) : null;
+      });
+    });
+  }
+  NS.wikiEyeColor = function (name) { return getWikiEyeColor(name); };
+  function loadClanSymbol(target) {
+    if (target.dataset.clanSymbol) return;
+    target.dataset.clanSymbol = 'requested';
+    getClanSymbol(target.dataset.clanName).then(function (url) {
+      if (!url) {
+        target.dataset.clanSymbol = 'unavailable';
+        return;
+      }
+      if (!target.parentNode) return;
+      var image = document.createElement('img');
+      image.src = url;
+      image.alt = '';
+      image.loading = 'lazy';
+      image.decoding = 'async';
+      image.referrerPolicy = 'no-referrer';
+      image.addEventListener('error', function () {
+        image.remove();
+        target.dataset.clanSymbol = 'failed';
+        console.error('Could not display the clan symbol for ' + target.dataset.clanName + '.');
+      }, { once: true });
+      target.appendChild(image);
+      target.dataset.clanSymbol = 'loaded';
+    }).catch(function (error) {
+      console.error('Could not load the clan symbol for ' + target.dataset.clanName + '.', error);
+      target.dataset.clanSymbol = 'failed';
+    });
   }
   function loadMissingWikiImage(placeholder) {
     if (placeholder.dataset.artFallback) return;
@@ -159,7 +276,7 @@
   function loadVillageImage(card) {
     if (card.dataset.villageImage) return;
     card.dataset.villageImage = 'requested';
-    getVillageImage(card.dataset.villageName).then(function (url) {
+    getWikiCardImage(card.dataset.villageName).then(function (url) {
       if (!url) {
         card.dataset.villageImage = 'unavailable';
         return;
@@ -183,12 +300,62 @@
       card.dataset.villageImage = 'failed';
     });
   }
+  function loadPowerCardImage(card) {
+    if (card.dataset.wikiCardImage) return;
+    card.dataset.wikiCardImage = 'requested';
+    function showImage(url) {
+      if (!url || !card.parentNode) {
+        card.dataset.wikiCardImage = url ? 'detached' : 'unavailable';
+        return;
+      }
+      var image = document.createElement('img');
+      image.src = url;
+      image.alt = '';
+      image.loading = 'lazy';
+      image.decoding = 'async';
+      image.referrerPolicy = 'no-referrer';
+      image.addEventListener('load', function () { card.dataset.wikiCardImage = 'loaded'; }, { once: true });
+      image.addEventListener('error', function () {
+        image.remove();
+        if (card.dataset.wikiCardSource && card.dataset.wikiCardImage !== 'fallback-requested') {
+          card.dataset.wikiCardImage = 'fallback-requested';
+          getWikiCardFallbackImage(card.dataset.wikiCardName).then(showImage).catch(function (error) {
+            console.error('Could not load a fallback image for ' + card.dataset.wikiCardName + '.', error);
+            showImage(null);
+          });
+          return;
+        }
+        card.dataset.wikiCardImage = 'failed';
+        console.error('Could not display an image for ' + card.dataset.wikiCardName + '.');
+      }, { once: true });
+      card.appendChild(image);
+    }
+    if (card.dataset.wikiCardSource) showImage(card.dataset.wikiCardSource);
+    else getWikiCardImage(card.dataset.wikiCardName).then(showImage);
+  }
+  var powerCardObserver = typeof IntersectionObserver === 'function' ? new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+      powerCardObserver.unobserve(entry.target);
+      loadPowerCardImage(entry.target);
+    });
+  }, { rootMargin: '250px' }) : null;
+  function observePowerCardImage(card) {
+    if (card.dataset.wikiCardImage || card.dataset.wikiCardObserved) return;
+    card.dataset.wikiCardObserved = 'true';
+    if (powerCardObserver) powerCardObserver.observe(card);
+    else loadPowerCardImage(card);
+  }
   function findMissingWikiImages(node) {
     if (node.nodeType !== 1) return;
     if (node.matches('[data-art-placeholder]')) loadMissingWikiImage(node);
     Array.prototype.forEach.call(node.querySelectorAll('[data-art-placeholder]'), loadMissingWikiImage);
     if (node.matches('[data-village-art]')) loadVillageImage(node);
     Array.prototype.forEach.call(node.querySelectorAll('[data-village-art]'), loadVillageImage);
+    if (node.matches('[data-wiki-card-art]')) observePowerCardImage(node);
+    Array.prototype.forEach.call(node.querySelectorAll('[data-wiki-card-art]'), observePowerCardImage);
+    if (node.matches('[data-clan-art]')) loadClanSymbol(node);
+    Array.prototype.forEach.call(node.querySelectorAll('[data-clan-art]'), loadClanSymbol);
   }
   var artObserver = new MutationObserver(function (mutations) {
     mutations.forEach(function (mutation) {
@@ -289,19 +456,33 @@
       (lore ? '<p class="text-label-sm village-card-blurb clamp-3">' + esc(lore.blurb) + '</p>' : '') +
       '<div class="mt-sm">' + NS.badge(g.total.toLocaleString() + ' known ninja', 'secondary') + '</div></div></a>';
   };
+  NS.imageCard = function (name, href, content, imageUrl) {
+    return '<a class="ns-card-link power-image-card" href="' + href + '" aria-label="Open ' + esc(name) + '">' +
+      '<span class="power-card-background" data-wiki-card-art data-wiki-card-name="' + esc(name) + '"' +
+      (imageUrl ? ' data-wiki-card-source="' + esc(imageUrl) + '"' : '') + ' aria-hidden="true"></span>' +
+      '<div class="power-card-content d-flex flex-column gap-md p-xl">' + content + '</div></a>';
+  };
   NS.groupCard = function (g, href, blurb, icon) {
     return '<a class="ns-card-link d-flex flex-column gap-md p-xl" href="' + href + '" aria-label="Open ' + esc(g.name) + '">' +
       '<div class="d-flex align-items-center justify-content-between gap-md"><span class="ns-dot ns-dot-soft">' + NS.icon(icon || 'people') + '</span>' +
       NS.badge(g.total + (g.total === 1 ? ' member' : ' members'), 'secondary') + '</div>' +
       '<h3 class="text-brush">' + esc(g.name) + '</h3>' + (blurb ? '<p class="text-label-sm tx-secondary clamp-3">' + esc(blurb) + '</p>' : '') + '</a>';
   };
+  NS.clanCard = function (g, href, blurb) {
+    return '<a class="ns-card-link clan-card d-flex flex-column gap-md p-xl" href="' + href + '" aria-label="Open ' + esc(g.name) + '">' +
+      '<div class="d-flex align-items-center justify-content-between gap-md"><span class="clan-symbol" data-clan-art data-clan-name="' + esc(g.name) + '" aria-hidden="true">' + NS.icon('flag') + '</span>' +
+      NS.badge(g.total + (g.total === 1 ? ' member' : ' members'), 'secondary') + '</div>' +
+      '<h3 class="text-brush">' + esc(g.name) + '</h3>' + (blurb ? '<p class="text-label-sm tx-secondary clamp-3">' + esc(blurb) + '</p>' : '') + '</a>';
+  };
+  NS.clanDetailSymbol = function (name) {
+    return '<span class="clan-detail-symbol" data-clan-art data-clan-name="' + esc(name) + '" aria-hidden="true">' + NS.icon('flag') + '</span>';
+  };
   NS.beastCard = function (c) {
     var tails = NS.lore.beastTails[c.name];
-    return '<a class="ns-card-link d-flex flex-column" href="character.html?id=' + c.id + '&type=beast" aria-label="Open ' + esc(c.name) + '">' +
-      '<div class="position-relative ratio ratio-1x1 bg-brand-soft-faint">' + NS.art(c.imageUrl, c.name, 'p-lg') +
-      (tails ? '<span class="text-brush ns-dot ns-dot-ink beast-tails">' + tails + '</span>' : '') + '</div>' +
-      '<div class="p-lg d-flex flex-column gap-xs"><span class="text-label fw-semibold">' + esc(c.name) + '</span>' +
-      '<span class="text-label-sm tx-secondary">' + (tails ? tails + '-Tailed Beast' : 'Tailed Beast') + '</span></div></a>';
+    return NS.imageCard(c.name, 'character.html?id=' + c.id + '&type=beast',
+      '<div class="d-flex justify-content-end">' + (tails ? NS.badge(tails + '-Tailed', 'secondary') : '') + '</div>' +
+      '<div class="d-flex flex-column gap-xs mt-auto"><h3 class="text-brush">' + esc(c.name) + '</h3>' +
+      '<span class="text-label-sm">Tailed Beast</span></div>', c.imageUrl || c.thumbnailUrl);
   };
 
   NS.tabs = function (id, tabs, active) {
@@ -379,7 +560,7 @@
       '<div class="modal-header"><h2 class="text-title" id="aboutTitle">About the data</h2><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div>' +
       '<div class="modal-body d-flex flex-column gap-lg text-label-sm tx-secondary">' +
       '<p>Character records follow the NaruSeeki schema: identity, physical traits, village and rank, jutsu and nature types, relations, voice actors and media debut.</p>' +
-      '<p>Character and group records load directly from the open Dattebayo Naruto API (same fields as the NarutoDB reference). Fields the API does not track (eye and hair colour, hair length, animal ears, filler flag) are intentionally left out. Biographies and descriptive lore are hand-written additions; roles and tags are derived from API data.</p>' +
+      '<p>Character and group records load directly from the open Dattebayo Naruto API. Eye colour is looked up from the Naruto Wiki appearance text when it is explicitly stated, and clan symbols are loaded from clan-page image files when available; these supplementary fields can be incomplete. Hair colour, hair length, animal ears and filler flags are not included. Biographies and descriptive lore are hand-written additions; roles and tags are derived from API data.</p>' +
       '<p>This site does not bundle an offline copy of API records. If the API is unreachable, API-powered pages and features cannot load until it is available again.</p>' +
       '<a class="tx-brand text-decoration-underline" href="https://dattebayo-api.onrender.com" target="_blank" rel="noreferrer noopener">dattebayo-api.onrender.com</a></div>' +
       '<div class="modal-footer"><button type="button" class="btn btn-primary" data-bs-dismiss="modal">Understood</button></div></div></div></div>' +

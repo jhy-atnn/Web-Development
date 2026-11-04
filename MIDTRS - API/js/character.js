@@ -101,12 +101,16 @@ NS.start(function () {
 
     var vId = c.village ? villageMap.get(c.village.toLowerCase()) : undefined;
     var cId = c.clan ? clanMap.get(c.clan.toLowerCase()) : undefined;
+    var eyeColorFact = kind === 'character'
+      ? NS.fact('Eye color', '<span id="wiki-eye-color">Looking up…</span>').replace('<div class="fact">', '<div class="fact" id="wiki-eye-color-fact">')
+      : '';
     var overview = '<div class="ns-card"><h3 class="ribbon">Overview</h3><dl class="facts mt-lg">' +
       NS.fact('Village', c.village && (vId !== undefined ? '<a class="tx-brand" href="group.html?kind=villages&id=' + vId + '">' + esc(c.village) + '</a>' : esc(c.village))) +
       NS.fact('Clan', c.clan && (cId !== undefined ? '<a class="tx-brand" href="group.html?kind=clans&id=' + cId + '">' + esc(c.clan) + '</a>' : esc(c.clan))) +
       NS.fact('Affiliations', esc(c.affiliations.join(', '))) + NS.fact('Team', esc(c.team.slice(0, 4).join(', '))) + NS.fact('Rank', esc(c.rank)) +
       NS.fact('Occupation', esc(c.occupation.join(', '))) + NS.fact('Class', esc(c.classification.join(', '))) + NS.fact('Species', esc(c.species)) +
       NS.fact('Jinchuriki', esc(c.jinchuriki.join(', '))) + NS.fact('Gender', esc(c.gender && NS.capital(c.gender))) +
+      eyeColorFact +
       NS.fact('Age', esc(c.ageExact ? c.ageExact + (c.apparentAge ? ' (' + c.apparentAge + ')' : '') : c.apparentAge)) +
       NS.fact('Birthday', esc(c.birthday ? c.birthday + (c.zodiac ? ' · ' + c.zodiac : '') : '')) + NS.fact('Height', esc(c.height)) + NS.fact('Weight', esc(c.weight)) +
       NS.fact('Blood type', esc(c.bloodType)) + NS.fact('Registration', esc(c.registration)) + '</dl></div>';
@@ -125,6 +129,19 @@ NS.start(function () {
         { id: 'voice', label: 'Voice', html: voiceTab }, { id: 'gallery', label: 'Gallery', html: gallery }]) + '</section></div>' +
       '<aside class="col-lg-4"><div class="sticky-aside">' + overview + '</div></aside></div></div>' + journey +
       '<div id="related"></div>';
+
+    if (kind === 'character') {
+      NS.wikiEyeColor(c.name).then(function (color) {
+        var fact = NS.$('#wiki-eye-color-fact');
+        if (!fact) return;
+        if (color) NS.$('#wiki-eye-color').textContent = color;
+        else fact.remove();
+      }).catch(function (error) {
+        console.error('Could not load eye color for ' + c.name + '.', error);
+        var fact = NS.$('#wiki-eye-color-fact');
+        if (fact) fact.remove();
+      });
+    }
 
     var toggle = NS.$('#jutsu-toggle');
     if (toggle) {

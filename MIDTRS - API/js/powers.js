@@ -8,14 +8,19 @@ NS.start(function () {
     var jutsu = NS.jutsuIndex(), limit = 30;
 
     var kgHtml = '<div class="pt-xl">' + NS.grid(kgs, function (g) {
-      return NS.groupCard(g, 'group.html?kind=kekkei-genkai&id=' + g.id, NS.lore.kekkeiGenkai[g.name.toLowerCase()] || 'A rare bloodline ability of the shinobi world.', 'eye');
+      return NS.imageCard(g.name, 'group.html?kind=kekkei-genkai&id=' + g.id,
+        '<div class="d-flex justify-content-end">' + NS.badge(g.total + (g.total === 1 ? ' member' : ' members'), 'secondary') + '</div>' +
+        '<div class="d-flex flex-column gap-md mt-auto"><h3 class="text-brush">' + NS.esc(g.name) + '</h3>' +
+        '<p class="text-label-sm clamp-3">' + NS.esc(NS.lore.kekkeiGenkai[g.name.toLowerCase()] || 'A rare bloodline ability of the shinobi world.') + '</p></div>');
     }, 'row-cols-1 row-cols-sm-2 row-cols-lg-3') + '</div>';
 
     var beastHtml = '<div class="pt-xl">' + NS.grid(beasts, NS.beastCard, 'row-cols-2 row-cols-sm-3 row-cols-lg-5') + '</div>';
 
     var natureHtml = '<div class="pt-xl">' + NS.grid(Object.keys(NS.lore.natures), function (name) {
       var n = NS.lore.natures[name];
-      return '<a class="ns-card-link d-flex flex-column gap-md p-xl tone-' + n.tone + '" href="nature.html?name=' + NS.enc(name) + '"><span class="ns-dot ns-dot-sm">' + NS.icon('stars') + '</span><h3 class="text-brush">' + NS.esc(name) + '</h3><p class="text-label-sm tx-secondary">' + NS.esc(n.blurb) + '</p></a>';
+      return NS.imageCard(name, 'nature.html?name=' + NS.enc(name),
+        '<div class="d-flex flex-column gap-md mt-auto"><span class="text-kicker">Nature Release</span>' +
+        '<h3 class="text-brush">' + NS.esc(name) + '</h3><p class="text-label-sm clamp-3">' + NS.esc(n.blurb) + '</p></div>');
     }, 'row-cols-1 row-cols-sm-2 row-cols-lg-4') + '</div>';
 
     var jutsuHtml = '<div class="d-flex flex-column gap-xl pt-xl"><div class="measure"><label class="form-label" for="jutsu-q">Search jutsu</label>' +
@@ -30,8 +35,10 @@ NS.start(function () {
       var term = NS.$('#jutsu-q').value.trim().toLowerCase();
       var list = jutsu.filter(function (j) { return j.name.toLowerCase().indexOf(term) >= 0; });
       NS.$('#jutsu-list').innerHTML = NS.grid(list.slice(0, limit), function (j) {
-        return '<a class="ns-card-link d-flex align-items-center gap-lg p-lg" href="jutsu.html?name=' + NS.enc(j.name) + '"><span class="ns-dot ns-dot-ink">' + NS.icon('journal-text') + '</span>' +
-          '<span class="flex-grow-1 min-w-0 d-flex flex-column gap-xs"><span class="text-label fw-semibold">' + NS.esc(j.name) + '</span><span class="text-label-sm tx-secondary">' + (j.nature || 'Technique') + ' · ' + j.users.length + (j.users.length === 1 ? ' user' : ' users') + '</span></span>' + NS.icon('chevron-right', 'tx-tertiary') + '</a>';
+        return NS.imageCard(j.name, 'jutsu.html?name=' + NS.enc(j.name),
+          '<div class="d-flex flex-column gap-md mt-auto"><span class="text-kicker">' + NS.esc(j.nature || 'Technique') + '</span>' +
+          '<h3 class="text-brush">' + NS.esc(j.name) + '</h3><span class="text-label-sm">' + j.users.length +
+          (j.users.length === 1 ? ' known user' : ' known users') + '</span></div>');
       }, 'row-cols-1 row-cols-md-2');
       NS.$('#jutsu-more').innerHTML = limit < list.length ? '<button class="btn btn-primary" type="button" id="jutsu-more-btn">Show more</button>' : '';
       var b = NS.$('#jutsu-more-btn');

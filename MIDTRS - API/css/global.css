@@ -1408,6 +1408,58 @@ p {
   color: var(--text-primary);
 }
 
+.clan-symbol,
+.clan-detail-symbol {
+  position: relative;
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px solid var(--border-primary);
+  border-radius: var(--corner-full);
+  background: var(--surface-bg);
+  color: var(--brand-primary);
+}
+
+.clan-symbol {
+  width: 3rem;
+  height: 3rem;
+}
+
+.clan-detail-symbol {
+  width: 5rem;
+  height: 5rem;
+  border-color: rgb(255 255 255 / 0.4);
+  background: rgb(255 255 255 / 0.92);
+  color: var(--brand-primary);
+}
+
+.clan-symbol .icon {
+  width: 1.35rem;
+  height: 1.35rem;
+}
+
+.clan-detail-symbol .icon {
+  width: 2rem;
+  height: 2rem;
+}
+
+.clan-symbol img,
+.clan-detail-symbol img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: var(--space-xs);
+  background: #fff;
+  object-fit: contain;
+}
+
+.clan-card h3 {
+  margin: 0;
+}
+
 .ns-pill {
   display: inline-flex;
   align-items: center;
@@ -1667,15 +1719,19 @@ a.ns-chip:hover {
 
 
 .ribbon {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   font-family: var(--font-brush);
   font-size: var(--fs-brush);
   letter-spacing: 0.04em;
   font-weight: 400;
   background: var(--surface-darkest);
   color: var(--on-brand);
-  padding: var(--space-md) var(--space-3xl) var(--space-md) var(--space-xl);
-  clip-path: polygon(0 18%, 2% 0, 60% 8%, 100% 0, 97% 52%, 100% 100%, 40% 90%, 3% 100%, 0 70%);
+  padding: var(--space-md) var(--space-3xl);
+  text-align: center;
+  clip-path: polygon(0 0, 100% 0, 96% 50%, 100% 100%, 0 100%, 4% 50%);
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.35);
 }
 
 .ribbon-brand {
@@ -1684,6 +1740,12 @@ a.ns-chip:hover {
 
 .ribbon-red {
   background: var(--sharingan);
+}
+
+.ns-card > .ribbon {
+  display: flex;
+  width: min(100%, 24rem);
+  margin-inline: auto;
 }
 
 
@@ -1914,6 +1976,102 @@ a.ns-chip:hover {
 }
 
 .village-card .badge-secondary {
+  border: 1px solid rgb(255 255 255 / 0.35);
+  background: rgb(255 255 255 / 0.14);
+  color: #fff;
+}
+
+.home-power-card {
+  position: relative;
+  min-height: 16rem;
+  justify-content: flex-end;
+  isolation: isolate;
+  background-position: center;
+  background-size: cover;
+  color: #fff;
+}
+
+.home-power-kekkei {
+  background-image: linear-gradient(180deg, rgb(8 13 22 / 0.12), rgb(8 13 22 / 0.9)),
+    url('../img/kekei%20genkai.jpg');
+}
+
+.home-power-beasts {
+  background-image: linear-gradient(180deg, rgb(8 13 22 / 0.12), rgb(8 13 22 / 0.9)),
+    url('../img/tailed_beasts.jpg');
+}
+
+.home-power-jutsu {
+  background-image: linear-gradient(180deg, rgb(8 13 22 / 0.12), rgb(8 13 22 / 0.9)),
+    url('../img/jutsu_natures.jpg');
+}
+
+.ns-card-link.home-power-card:hover {
+  color: #fff;
+}
+
+.home-power-card h3,
+.home-power-card p {
+  position: relative;
+  z-index: 1;
+  color: #fff;
+}
+
+.home-power-card .ns-dot {
+  position: relative;
+  z-index: 1;
+}
+
+.power-image-card {
+  position: relative;
+  min-height: 18rem;
+  isolation: isolate;
+  background: var(--surface-dark);
+}
+
+.power-image-card::before {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  background: linear-gradient(180deg, rgb(8 13 22 / 0.12) 0%, rgb(8 13 22 / 0.48) 38%, rgb(8 13 22 / 0.96) 100%);
+  content: '';
+}
+
+.power-card-background {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--brand-primary) 32%, var(--surface-dark));
+}
+
+.power-card-background img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.35s ease;
+}
+
+.power-image-card:hover .power-card-background img {
+  transform: scale(1.04);
+}
+
+.power-card-content {
+  position: relative;
+  z-index: 2;
+  min-height: 18rem;
+  justify-content: flex-end;
+  color: #fff;
+}
+
+.power-image-card h3,
+.power-image-card p,
+.power-image-card .text-kicker {
+  color: #fff;
+}
+
+.power-image-card .badge-secondary {
   border: 1px solid rgb(255 255 255 / 0.35);
   background: rgb(255 255 255 / 0.14);
   color: #fff;
