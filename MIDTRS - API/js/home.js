@@ -10,21 +10,21 @@ NS.start(function () {
   NS.listGroups('clans').then(function (g) { NS.$('#stat-clans').textContent = g.length; });
   NS.listBeasts().then(function (g) { NS.$('#stat-beasts').textContent = g.length; });
 
-  var index = 0, host = NS.$('#featured');
+  var index = 0, host = NS.$('#featured-record');
   function featured() {
     var id = SPOTLIGHT[index % SPOTLIGHT.length];
     host.innerHTML = NS.scroll('<div class="skeleton character-skeleton"></div>');
     NS.getCharacter(id).then(function (c) {
       if (!c) return;
       host.innerHTML = NS.scroll(
-        '<div class="row gutter-2xl align-items-center ' + NS.toneClass(c.village) + '">' +
+        '<div class="row gutter-2xl align-items-center featured-record ' + NS.toneClass(c.village) + '">' +
         '<div class="col-md-4"><div class="card-art featured-art">' +
         NS.art(c.id === 1344 ? 'img/narutoprofile.jpg' : c.imageUrl, c.name) + '</div></div>' +
         '<div class="col-md-8 d-flex flex-column gap-lg">' +
         (c.nameJapanese ? '<span class="text-kanji text-heading tx-secondary">' + NS.esc(c.nameJapanese) + '</span>' : '') +
         '<h3 class="text-display-lg tx-brand">' + NS.esc(c.name) + '</h3>' +
         (c.aliases[0] ? '<span class="text-label fw-semibold tx-brand-dark">' + NS.esc(c.aliases[0]) + '</span>' : '') +
-        '<p class="text-label">' + NS.esc(c.biography) + '</p>' +
+        '<p class="text-label featured-biography">' + NS.esc(c.biography) + '</p>' +
         '<div class="d-flex flex-wrap gap-xs">' + [c.rank, c.village, c.clan].filter(Boolean).map(function (t) { return NS.badge(t, 'secondary'); }).join('') +
         c.jutsu.slice(0, 3).map(function (j) { return NS.badge(j, 'default'); }).join('') + '</div>' +
         '<div class="d-flex flex-wrap gap-md"><a class="btn btn-primary" href="character.html?id=' + c.id + '">Read the full scroll' + NS.icon('arrow-right') + '</a>' +

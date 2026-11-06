@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Home · NaruSeeki</title>
     <meta name="description"
-        content="NaruSeeki: a Naruto Shippuden encyclopedia of characters, villages, clans and powers.">
+        content="NaruSeeki: an immersive Naruto Shippuden encyclopedia of characters, villages, clans and powers.">
     <link rel="icon" href="img/leaf-dark.png">
     <script>
         try { document.documentElement.dataset.bsTheme = localStorage.getItem('naruseeki-theme') || 'light'; } catch (e) { }
@@ -16,81 +16,157 @@
     <link rel="stylesheet" href="css/global.css">
 </head>
 
-<body data-nav="home">
+<body data-nav="home" class="home-page">
     <a class="visually-hidden-focusable" href="#main">Skip to content</a>
     <header id="site-header"></header>
     <main id="main">
-        <section class="hero-sky">
-            <div class="container position-relative min-vh-100 d-flex align-items-center py-4xl py-lg-5xl">
-                <div class="row justify-content-center w-100 gutter-3xl">
-                    <div class="col-12 d-flex flex-column align-items-center gap-2xl text-center">
-                        <span><span class="badge badge-brand">Naruto Shippuden Encyclopedia</span></span>
-                        <h1 class="text-display-xl text-ink-shadow">Your guide to the <span
-                                class="tx-gold">Shinobi</span> world</h1>
-                        <p class="text-label tx-on-brand-soft measure-prose mx-auto">Explore characters, villages,
-                            clans, kekkei
-                            genkai and tailed beasts from the Hidden Leaf and beyond. Every shinobi has a scroll. Open
-                            it.</p>
-                        <form class="ns-search d-flex flex-column flex-sm-row gap-md measure-prose mx-auto"
-                            role="search" action="characters.html" method="get">
-                            <div class="input-group flex-grow-1"><span class="input-group-text"><svg class="icon"
+        <section class="hero-sky home-hero" aria-labelledby="home-hero-title">
+            <div class="home-hero-art" aria-hidden="true"></div>
+            <div class="hero-grid" aria-hidden="true"></div>
+            <div class="chakra-ambient" aria-hidden="true">
+                <span class="chakra-mote mote-one"></span>
+                <span class="chakra-mote mote-two"></span>
+                <span class="chakra-mote mote-three"></span>
+                <span class="hero-shuriken shuriken-one"></span>
+                <span class="hero-shuriken shuriken-two d-none d-md-block"></span>
+            </div>
+
+            <div class="container position-relative home-hero-container py-4xl py-lg-5xl">
+                <div class="row align-items-center gutter-3xl hero-main-row">
+                    <div class="col-lg-7 col-xl-6">
+                        <div class="hero-briefing">
+                            <div class="mission-code">
+                                <span class="mission-rank" aria-label="A rank mission">A</span>
+                                <span><strong>MISSION 001</strong><small>Shinobi archive access</small></span>
+                                <span class="mission-live d-none d-md-inline-flex"><i aria-hidden="true"></i>LIVE API</span>
+                            </div>
+
+                            <span class="hero-kicker">Naruto Shippuden Encyclopedia</span>
+                            <h1 class="text-display-xl text-ink-shadow" id="home-hero-title">Enter the<br><span
+                                    class="tx-gold">Shinobi Archive.</span></h1>
+                            <p class="hero-intro text-label tx-on-brand-soft measure-prose">Track legendary ninja,
+                                hidden villages, bloodline abilities and tailed beasts. Every record is a sealed scroll.
+                                Choose your path and unroll the story.</p>
+
+                            <form class="ns-search hero-search d-flex flex-column flex-sm-row gap-md measure-prose"
+                                role="search" action="characters.html" method="get">
+                                <div class="input-group flex-grow-1"><span class="input-group-text"><svg class="icon"
+                                            aria-hidden="true">
+                                            <use href="img/icons.svg#i-search"></use>
+                                        </svg></span><input class="form-control" name="q" type="search"
+                                        placeholder="Search a shinobi — try “Itachi”" aria-label="Search characters"
+                                        autocomplete="off"></div>
+                                <button class="btn btn-primary hero-seek" type="submit">Begin search <svg class="icon"
                                         aria-hidden="true">
-                                        <use href="img/icons.svg#i-search"></use>
-                                    </svg></span><input class="form-control" name="q" type="search"
-                                    placeholder="Search characters — try “Itachi”" aria-label="Search characters"
-                                    autocomplete="off"></div>
-                            <button class="btn btn-primary" type="submit">Seek</button>
-                        </form>
-                        <dl class="row row-cols-2 row-cols-sm-4 justify-content-center g-4 g-md-4 w-50 m-0 text-center">
-                            <div class="col">
-                                <dt class="stat-label p-1">Characters</dt>
-                                <dd class="stat-n" id="stat-characters">1,431+</dd>
+                                        <use href="img/icons.svg#i-arrow-right"></use>
+                                    </svg></button>
+                            </form>
+
+                            <div class="hero-quick-actions" aria-label="Quick missions">
+                                <a href="#featured"><span>01</span>Featured scroll</a>
+                                <a href="characters.html"><span>02</span>Shinobi roster</a>
+                                <a href="powers.html"><span>03</span>Jutsu index</a>
                             </div>
-                            <div class="col">
-                                <dt class="stat-label p-1">Villages &amp; places</dt>
-                                <dd class="stat-n" id="stat-villages">39</dd>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-5 col-xl-6 d-none d-lg-block">
+                        <div class="hero-dossier" data-parallax-art>
+                            <span class="chakra-ring ring-one" aria-hidden="true"></span>
+                            <span class="chakra-ring ring-two" aria-hidden="true"></span>
+                            <div class="collectible-card-scene">
+                                <div class="hero-dossier-card" aria-label="Legendary Naruto Uzumaki collectible card">
+                                    <div class="dossier-face dossier-back" aria-hidden="true">
+                                        <span class="card-corner corner-top-left"></span>
+                                        <span class="card-corner corner-top-right"></span>
+                                        <span class="card-corner corner-bottom-left"></span>
+                                        <span class="card-corner corner-bottom-right"></span>
+                                        <div class="card-back-seal">
+                                            <span class="seal-orbit"></span>
+                                            <img src="img/leaf-dark.png" alt="">
+                                            <span class="text-kanji">封</span>
+                                        </div>
+                                        <div class="card-back-copy">
+                                            <small>CLASSIFIED SHINOBI ARCHIVE</small>
+                                            <strong>NARUSEEKI</strong>
+                                            <span>LEAF FILE · NO. 1344</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="dossier-face dossier-front">
+                                        <div class="dossier-topline"><span>LEAF / 07</span><span
+                                                class="dossier-rarity">S</span><span>火の意志</span></div>
+                                        <div class="dossier-image">
+                                            <img src="img/narutoprofile.jpg"
+                                                alt="Naruto Uzumaki in front of the Hidden Leaf Village">
+                                            <span class="dossier-scan" aria-hidden="true"></span>
+                                            <span class="dossier-kanji text-kanji" aria-hidden="true">忍</span>
+                                        </div>
+                                        <div class="dossier-caption">
+                                            <div><small>LEGENDARY HOKAGE</small><strong>Naruto Uzumaki</strong></div>
+                                            <span class="dossier-level">NO. 1344</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="hero-status-card"><span class="status-pulse" aria-hidden="true"></span>
+                                    Card summoned · Chakra linked</div>
                             </div>
-                            <div class="col">
-                                <dt class="stat-label p-1">Clans</dt>
-                                <dd class="stat-n" id="stat-clans">58</dd>
-                            </div>
-                            <div class="col">
-                                <dt class="stat-label p-1">Tailed beasts</dt>
-                                <dd class="stat-n" id="stat-beasts">10</dd>
-                            </div>
-                        </dl>
+                        </div>
                     </div>
                 </div>
+
+                <dl class="hero-intel row row-cols-2 row-cols-lg-4 g-0 m-0" aria-label="Archive intelligence">
+                    <div class="col">
+                        <dt><span>01</span>Characters</dt>
+                        <dd class="stat-n" id="stat-characters">1,431+</dd>
+                    </div>
+                    <div class="col">
+                        <dt><span>02</span>Villages &amp; places</dt>
+                        <dd class="stat-n" id="stat-villages">39</dd>
+                    </div>
+                    <div class="col">
+                        <dt><span>03</span>Clans</dt>
+                        <dd class="stat-n" id="stat-clans">58</dd>
+                    </div>
+                    <div class="col">
+                        <dt><span>04</span>Tailed beasts</dt>
+                        <dd class="stat-n" id="stat-beasts">10</dd>
+                    </div>
+                </dl>
+
+                <a class="hero-scroll-cue d-none d-lg-flex" href="#featured"><span>Scroll to unseal</span><i aria-hidden="true"></i></a>
             </div>
         </section>
 
-        <section class="container section" aria-labelledby="featured-title">
-            <div class="d-flex flex-column gap-xs section-title"><span class="text-kicker tx-brand">Featured
-                    scroll</span>
-                <h2 class="text-display" id="featured-title">Shinobi spotlight</h2>
-            </div>
-            <div id="featured"></div>
-        </section>
-
-        <section class="container section" aria-labelledby="roll-title">
-            <div class="d-flex flex-wrap align-items-end justify-content-between gap-lg section-title">
-                <div class="d-flex flex-column gap-xs"><span class="text-kicker tx-brand">Roll call</span>
-                    <h2 class="text-display" id="roll-title">Characters</h2>
+        <section class="container section story-section" id="featured" aria-labelledby="featured-title">
+            <div class="section-title mission-heading flex-column flex-md-row align-items-start align-items-md-end">
+                <div><span class="text-kicker tx-brand">Featured scroll · 01</span>
+                    <h2 class="text-display" id="featured-title">Shinobi spotlight</h2>
                 </div>
-                <a class="btn btn-neutral btn-sm" href="characters.html">See all <svg class="icon" aria-hidden="true">
+                <p class="section-note">A new classified record is waiting to be unsealed.</p>
+            </div>
+            <div id="featured-record"></div>
+        </section>
+
+        <section class="container section story-section" aria-labelledby="roll-title">
+            <div class="section-title mission-heading flex-column flex-md-row align-items-start align-items-md-end">
+                <div><span class="text-kicker tx-brand">Roll call · 02</span>
+                    <h2 class="text-display" id="roll-title">Choose your shinobi</h2>
+                </div>
+                <a class="btn btn-neutral btn-sm" href="characters.html">Open full roster <svg class="icon"
+                        aria-hidden="true">
                         <use href="img/icons.svg#i-arrow-right"></use>
                     </svg></a>
             </div>
-            <div class="ns-card" id="popular"></div>
+            <div class="ns-card mission-panel" id="popular"></div>
         </section>
 
-        <section class="container section" aria-labelledby="villages-title">
-            <div class="d-flex flex-wrap align-items-end justify-content-between gap-lg section-title">
-                <div class="d-flex flex-column gap-xs"><span class="text-kicker tx-brand">Five Great Nations &amp;
-                        more</span>
+        <section class="container section story-section" aria-labelledby="villages-title">
+            <div class="section-title mission-heading flex-column flex-md-row align-items-start align-items-md-end">
+                <div><span class="text-kicker tx-brand">World map · 03</span>
                     <h2 class="text-display" id="villages-title">Hidden villages</h2>
                 </div>
-                <a class="btn btn-neutral btn-sm" href="villages.html">All villages <svg class="icon"
+                <a class="btn btn-neutral btn-sm" href="villages.html">Explore all villages <svg class="icon"
                         aria-hidden="true">
                         <use href="img/icons.svg#i-arrow-right"></use>
                     </svg></a>
@@ -98,57 +174,74 @@
             <div id="home-villages"></div>
         </section>
 
-        <section class="container section" aria-labelledby="powers-title">
-            <div class="d-flex flex-wrap align-items-end justify-content-between gap-lg section-title">
-                <div class="d-flex flex-column gap-xs"><span class="text-kicker tx-brand">Techniques of the
-                        shinobi</span>
-                    <h2 class="text-display" id="powers-title">Powers</h2>
+        <section class="container section story-section" aria-labelledby="powers-title">
+            <div class="section-title mission-heading flex-column flex-md-row align-items-start align-items-md-end">
+                <div><span class="text-kicker tx-brand">Chakra systems · 04</span>
+                    <h2 class="text-display" id="powers-title">Master a power</h2>
                 </div>
-                <a class="btn btn-neutral btn-sm" href="powers.html">Open the powers index <svg class="icon"
+                <a class="btn btn-neutral btn-sm" href="powers.html">Open the jutsu index <svg class="icon"
                         aria-hidden="true">
                         <use href="img/icons.svg#i-arrow-right"></use>
                     </svg></a>
             </div>
-            <ul class="list-reset row gutter-xl row-cols-1 row-cols-md-3">
+            <ul class="list-reset row gutter-xl row-cols-1 row-cols-md-3 power-missions">
                 <li class="col"><a class="ns-card-link home-power-card home-power-kekkei d-flex flex-column gap-lg p-xl"
                         href="powers.html?tab=kekkei-genkai">
-                        <use href="img/icons.svg#i-eye"></use>
-                        </svg></span>
-                        <h3 class="text-display">Kekkei Genkai</h3>
-                        <p class="text-label-sm tx-secondary">Browse kekkei genkai records returned by the live API.</p>
+                        <span class="power-card-index">01 / BLOODLINE</span>
+                        <span class="power-symbol"><svg class="icon" aria-hidden="true">
+                                <use href="img/icons.svg#i-eye"></use>
+                            </svg></span>
+                        <div class="mt-auto">
+                            <h3 class="text-display">Kekkei Genkai</h3>
+                            <p class="text-label-sm">Browse inherited abilities recorded by the live API.</p>
+                        </div>
+                        <span class="power-card-cta">Enter archive <svg class="icon" aria-hidden="true">
+                                <use href="img/icons.svg#i-arrow-right"></use>
+                            </svg></span>
                     </a></li>
                 <li class="col"><a class="ns-card-link home-power-card home-power-beasts d-flex flex-column gap-lg p-xl"
                         href="powers.html?tab=tailed-beasts">
-                        <use href="img/icons.svg#i-stars"></use>
-                        </svg></span>
-                        <h3 class="text-display">Tailed Beasts</h3>
-                        <p class="text-label-sm tx-secondary">Browse tailed-beast records returned by the live API.</p>
+                        <span class="power-card-index">02 / ENTITY</span>
+                        <span class="power-symbol"><svg class="icon" aria-hidden="true">
+                                <use href="img/icons.svg#i-stars"></use>
+                            </svg></span>
+                        <div class="mt-auto">
+                            <h3 class="text-display">Tailed Beasts</h3>
+                            <p class="text-label-sm">Meet the immense chakra beings and their jinchūriki.</p>
+                        </div>
+                        <span class="power-card-cta">Enter archive <svg class="icon" aria-hidden="true">
+                                <use href="img/icons.svg#i-arrow-right"></use>
+                            </svg></span>
                     </a></li>
                 <li class="col"><a class="ns-card-link home-power-card home-power-jutsu d-flex flex-column gap-lg p-xl"
                         href="powers.html?tab=jutsu">
-                        <use href="img/icons.svg#i-journal-text"></use>
-                        </svg></span>
-                        <h3 class="text-display">Jutsu &amp; Natures</h3>
-                        <p class="text-label-sm tx-secondary">Explore techniques and nature types found in live
-                            character records.</p>
+                        <span class="power-card-index">03 / TECHNIQUE</span>
+                        <span class="power-symbol"><svg class="icon" aria-hidden="true">
+                                <use href="img/icons.svg#i-journal-text"></use>
+                            </svg></span>
+                        <div class="mt-auto">
+                            <h3 class="text-display">Jutsu &amp; Natures</h3>
+                            <p class="text-label-sm">Decode techniques, chakra natures and known users.</p>
+                        </div>
+                        <span class="power-card-cta">Enter archive <svg class="icon" aria-hidden="true">
+                                <use href="img/icons.svg#i-arrow-right"></use>
+                            </svg></span>
                     </a></li>
             </ul>
         </section>
 
-        <section class="cloud-pattern section-band" aria-labelledby="akatsuki-title">
-            <div class="container py-4xl">
-                <div class="d-flex flex-wrap align-items-end justify-content-between gap-lg mb-2xl">
-                    <div class="d-flex flex-column gap-md">
-                        <span>
-                            <h3 class="ribbon ribbon-red">Dark clouds</h3>
-                        </span>
-                        <h2 class="text-display text-ink-shadow" id="akatsuki-title">The Akatsuki</h2>
-                        <p class="text-label-sm tx-on-brand-soft measure-wide">Browse members returned by the live
-                            Akatsuki API endpoint.</p>
+        <section class="cloud-pattern section-band akatsuki-band story-section" aria-labelledby="akatsuki-title">
+            <div class="akatsuki-seal text-kanji" aria-hidden="true">暁</div>
+            <div class="container py-5xl position-relative">
+                <div class="section-title mission-heading mission-heading-dark flex-column flex-md-row align-items-start align-items-md-end">
+                    <div><span class="text-kicker">S-rank threat · 05</span>
+                        <h2 class="text-display text-ink-shadow" id="akatsuki-title">The Akatsuki files</h2>
+                        <p class="text-label-sm tx-on-brand-soft measure-wide">Track the rogue shinobi behind the red
+                            clouds. Profiles are drawn from the live Akatsuki archive.</p>
                     </div>
                     <a class="btn btn-primary" href="akatsuki.html"><svg class="icon" aria-hidden="true">
                             <use href="img/icons.svg#i-exclamation-octagon"></use>
-                        </svg>Meet the organisation</a>
+                        </svg>Open classified files</a>
                 </div>
                 <div id="home-akatsuki"></div>
             </div>

@@ -565,7 +565,10 @@
       '<div class="collapse navbar-collapse order-lg-2" id="mainNav"><ul class="navbar-nav ms-lg-2xl gap-xs pb-xl pb-lg-0">' +
       NAV.map(function (n) {
         return '<li class="nav-item"><a class="nav-link px-3 py-2 px-lg-2 rounded-2 ' + (n.key === active ? 'active' : '') + '" ' + (n.key === active ? 'aria-current="page" ' : '') + 'href="' + n.href + '">' + n.label + '</a></li>';
-      }).join('') + '</ul></div></nav></div>';
+      }).join('') + '</ul></div></nav></div>' +
+      '<div class="chakra-progress" id="chakra-progress" role="progressbar" aria-label="Mission scroll progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">' +
+      '<span class="chakra-progress-label d-none d-md-inline">MISSION PROGRESS</span><span class="chakra-progress-track"><span id="chakra-progress-fill"></span></span>' +
+      '<span class="chakra-progress-value" id="chakra-progress-value">0%</span></div>';
     NS.$('#theme-toggle').addEventListener('click', function () {
       var next = document.documentElement.dataset.bsTheme === 'dark' ? 'light' : 'dark';
       var root = document.documentElement;
@@ -609,10 +612,56 @@
       Array.prototype.forEach.call(node.querySelectorAll('.scroll'), prepareScroll);
     }
 
+    var motionObserver = !reduceMotion && typeof IntersectionObserver === 'function' ? new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        motionObserver.unobserve(entry.target);
+        window.requestAnimationFrame(function () { entry.target.classList.add('is-revealed'); });
+      });
+    }, { rootMargin: '0px 0px -7% 0px', threshold: 0.08 }) : null;
+
+    function prepareMotion(target, delay) {
+      if (target.dataset.motionReveal || target.closest('.scroll')) return;
+      target.dataset.motionReveal = 'true';
+      target.classList.add('motion-reveal');
+      target.style.setProperty('--reveal-delay', (delay || 0) + 'ms');
+      if (motionObserver) motionObserver.observe(target);
+      else target.classList.add('is-revealed');
+    }
+
+    function findMotion(node) {
+      if (node.nodeType !== 1) return;
+      var scope = node.matches('main') ? node : node.closest('main') || node.querySelector('main');
+      if (!scope) return;
+
+      var descriptions = [];
+      if (node.matches('main p.text-label, main p.text-label-sm, main .section-note')) descriptions.push(node);
+      Array.prototype.push.apply(descriptions, node.querySelectorAll('main p.text-label, main p.text-label-sm, main .section-note'));
+      descriptions.forEach(function (description) {
+        if (description.closest('.home-hero, .scroll, .toast-zone')) return;
+        description.classList.add('description-scroll');
+        prepareMotion(description, 70);
+      });
+
+      var headings = [];
+      if (node.matches('main .section-title')) headings.push(node);
+      Array.prototype.push.apply(headings, node.querySelectorAll('main .section-title'));
+      headings.forEach(function (heading) { prepareMotion(heading, 0); });
+
+      var cards = [];
+      if (node.matches('main .ns-card-link')) cards.push(node);
+      Array.prototype.push.apply(cards, node.querySelectorAll('main .ns-card-link'));
+      cards.forEach(function (card, index) { prepareMotion(card, Math.min(index % 5, 4) * 55); });
+    }
+
     findScrolls(document.documentElement);
+    findMotion(document.documentElement);
     new MutationObserver(function (mutations) {
       mutations.forEach(function (mutation) {
-        Array.prototype.forEach.call(mutation.addedNodes, findScrolls);
+        Array.prototype.forEach.call(mutation.addedNodes, function (node) {
+          findScrolls(node);
+          findMotion(node);
+        });
       });
     }).observe(document.body, { childList: true, subtree: true });
   }
@@ -644,11 +693,19 @@
       '<button type="button" class="btn-close me-lg m-auto" data-bs-dismiss="toast" aria-label="Close"></button></div></div></div>';
     document.body.appendChild(el);
     var scrollTop = NS.$('#scroll-top');
+    var progress = NS.$('#chakra-progress');
+    var progressFill = NS.$('#chakra-progress-fill');
+    var progressValue = NS.$('#chakra-progress-value');
     var updateScrollTop = function () {
       var visible = window.scrollY > 400 && document.documentElement.scrollHeight > window.innerHeight;
       scrollTop.classList.toggle('is-visible', visible);
       scrollTop.setAttribute('aria-hidden', String(!visible));
       scrollTop.tabIndex = visible ? 0 : -1;
+      var scrollable = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
+      var percent = Math.min(100, Math.max(0, Math.round((window.scrollY / scrollable) * 100)));
+      if (progressFill) progressFill.style.transform = 'scaleX(' + (percent / 100) + ')';
+      if (progressValue) progressValue.textContent = percent + '%';
+      if (progress) progress.setAttribute('aria-valuenow', String(percent));
     };
     scrollTop.addEventListener('click', function () {
       var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -663,6 +720,23 @@
     if (motionPreference.addEventListener) motionPreference.addEventListener('change', updateMotionPreference);
     else motionPreference.addListener(updateMotionPreference);
     initScrollReveals();
+    var parallaxArt = NS.$('[data-parallax-art]');
+    var hero = NS.$('.home-hero');
+    if (parallaxArt && hero && !motionPreference.matches) {
+      hero.addEventListener('pointermove', function (event) {
+        if (event.pointerType === 'touch') return;
+        var bounds = hero.getBoundingClientRect();
+        var x = ((event.clientX - bounds.left) / bounds.width - 0.5) * 2;
+        var y = ((event.clientY - bounds.top) / bounds.height - 0.5) * 2;
+        parallaxArt.style.setProperty('--parallax-x', (x * 10).toFixed(2) + 'px');
+        parallaxArt.style.setProperty('--parallax-y', (y * 8).toFixed(2) + 'px');
+      });
+      hero.addEventListener('pointerleave', function () {
+        parallaxArt.style.setProperty('--parallax-x', '0px');
+        parallaxArt.style.setProperty('--parallax-y', '0px');
+      });
+    }
+    window.requestAnimationFrame(function () { document.body.classList.add('ui-ready'); });
     var show = function () { bootstrap.Toast.getOrCreateInstance(NS.$('#apiToast'), { autohide: false }).show(); };
     if (NS.status() === 'unavailable') show();
     document.addEventListener('naruseeki:status', function (e) { if (e.detail === 'unavailable') show(); });

@@ -42,7 +42,19 @@ NS.start(function () {
       [['Village', c.village], ['Clan', c.clan], ['Rank', c.rank], ['Birthday', c.birthday]].map(function (x) {
         return '<div class="col"><dt class="text-meta text-uppercase tx-on-brand-faint hero-dt">' + x[0] + '</dt><dd class="text-label-sm m-0">' + esc(x[1] || '—') + '</dd></div>';
       }).join('') + '</dl></div>' +
-      '<div class="col-lg-5"><div class="hero-scroll">' + NS.art(c.imageUrl, c.name) + '</div></div>' +
+      '<div class="col-lg-5"><div class="profile-card-scene"><div class="profile-playing-card ' + NS.toneClass(c.village) + '" aria-label="' + esc(c.name) + ' collectible shinobi card">' +
+      '<div class="profile-card-face profile-card-back" aria-hidden="true">' +
+      '<span class="card-corner corner-top-left"></span><span class="card-corner corner-top-right"></span>' +
+      '<span class="card-corner corner-bottom-left"></span><span class="card-corner corner-bottom-right"></span>' +
+      '<div class="card-back-seal"><span class="seal-orbit"></span><img src="img/leaf-dark.png" alt=""><span class="text-kanji">封</span></div>' +
+      '<div class="card-back-copy"><small>CLASSIFIED SHINOBI ARCHIVE</small><strong>NARUSEEKI</strong><span>IDENTITY SEALED</span></div></div>' +
+      '<div class="profile-card-face profile-card-front"><div class="profile-card-topline"><span>' + esc((c.rank || 'Shinobi').toUpperCase()) + '</span>' +
+      '<span>' + esc((c.village || 'Independent').toUpperCase()) + '</span></div>' +
+      '<div class="profile-card-art">' + NS.art(c.id === 1344 ? 'img/narutoprofile.jpg' : c.imageUrl, c.name) +
+      '<span class="profile-card-kanji text-kanji" aria-hidden="true">' + esc(c.nameJapanese || '忍') + '</span></div>' +
+      '<div class="profile-card-caption"><div><small>SHINOBI RECORD</small><strong>' + esc(c.name) + '</strong></div>' +
+      '<span class="profile-card-rarity">' + esc(c.rank && /kage|s-rank/i.test(c.rank) ? 'S' : 'N') + '</span></div>' +
+      '<div class="profile-card-number">NO. ' + esc(c.id) + '</div></div></div></div></div>' +
       '</div></div></section>';
 
     var about = NS.scroll('<div class="d-flex flex-column gap-xl">' + NS.ribbon('About ' + first, 'brand') +
